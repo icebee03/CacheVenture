@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://ebuchchuxp85"]
+
+[ext_resource type="Script" path="res://v_box_container.gd" id="1_ga8jx"]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+offset_left = 813.0
+offset_top = 187.0
+offset_right = 1581.0
+offset_bottom = 755.0
+scale = Vector2(1.3, 1.3)
+size_flags_vertical = 4
+script = ExtResource("1_ga8jx")
+blockNumber = 32
+associativityDegree = 4
+metadata/_edit_group_ = true
+
+[node name="Header" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.13
+theme_override_font_sizes/font_size = 16
+auto_height = true
+item_count = 5
+max_columns = 5
+fixed_column_width = 120
+item_0/text = "Block"
+item_1/text = "Set"
+item_2/text = "Tag"
+item_3/text = "Offset"
+item_4/text = "Info (LRU, LFU)"
+
+[node name="Cache" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+max_columns = 5
+fixed_column_width = 120

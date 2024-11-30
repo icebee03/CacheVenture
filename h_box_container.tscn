@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://wmiqul837r87"]
+
+[ext_resource type="Script" path="res://h_box_container.gd" id="1_fp6gm"]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+offset_right = 480.0
+offset_bottom = 412.0
+alignment = 1
+script = ExtResource("1_fp6gm")
+blockNumber = 16
+associativityDegree = 2
+
+[node name="Blocks" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Sets" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Tags" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Offsets" type="ItemList" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3

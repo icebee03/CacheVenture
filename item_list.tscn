@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bapjglv3bqlm8"]
+
+[ext_resource type="Script" path="res://item_list.gd" id="1_mksp0"]
+
+[node name="ItemList" type="ItemList"]
+offset_left = 55.0
+offset_top = 42.0
+offset_right = 733.0
+offset_bottom = 372.0
+size_flags_horizontal = 6
+tooltip_text = "hover text"
+max_columns = 5
+same_column_width = true
+script = ExtResource("1_mksp0")
+blockNumber = 32
+associativityDegree = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 680.0
+offset_bottom = 333.0
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer"]
+layout_mode = 2
