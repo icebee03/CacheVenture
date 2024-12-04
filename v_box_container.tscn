@@ -33,5 +33,6 @@ item_4/text = "Info (LRU, LFU)"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
+select_mode = 1
 max_columns = 5
 fixed_column_width = 120

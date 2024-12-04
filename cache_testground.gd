@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 	pass
 
 
-# signal handler for when the button was pressed
+# signal handler for when the button was pressed: sort the address from the text field into the cache
 func _on_button_pressed() -> void:
 	var text :String = input.get_text()
 	if text == "": return
@@ -34,7 +34,7 @@ func sort_address_into_cache(addressString:String) -> void:
 	
 	# cache parameter calculations:
 	var setNumber :int = cache.blockNumber / cache.associativityDegree
-	var blockSize :int = 16 # in [Byte]
+	var blockSize :int = 16 # in [Byte], maybe *8 if we want to access individual bits
 	var offsetBits :int = log(cache.blockNumber * blockSize) / log(2)			# equivalent to log2(blockNo*blockSize)
 	var indexBits :int = log(setNumber) / log(2)
 	var tagBits :int = 32 - (indexBits + offsetBits)							# 32-bit address
@@ -66,20 +66,20 @@ func sort_address_into_cache(addressString:String) -> void:
 	var tag :int = results["tag"]
 	var index :int = results["index"]
 	var offset :int = results["offset"]
-	var possibleLines :Array[int] = get_line_indices_for_set(index)
 	
-	# place line in one of the 'possibleLines'
+	# place address (tag) in one of the 'possibleLines'
+	var possibleLines :Array[int] = get_line_indices_for_set(index)
 	var wasLinePlaced :bool = false
 	for lineIdx in possibleLines:
 		var line :Dictionary = cache.get_cache_line(lineIdx)
-		if line["tag"] == "":
+		if line["tag"] == "" or line["tag"] == str(tag):
 			cache.modify_cache_line(lineIdx,"keep","keep",str(tag), str(offset), timestamp)
 			wasLinePlaced = true
 			break
 			
 	if wasLinePlaced == false:
 		# TODO: implement replacement policy
-		# => choose which of the existing lines must be replaced (use "info" field of cache.get_cache_line(idx)
+		# => choose which of the existing lines must be replaced (use "info" field of cache.get_cache_line(idx))
 		pass
 		
 	
