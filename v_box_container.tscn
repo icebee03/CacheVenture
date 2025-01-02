@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://v_box_container.gd" id="1_ga8jx"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="Cache" type="VBoxContainer"]
 offset_left = 813.0
 offset_top = 187.0
 offset_right = 1581.0
@@ -20,19 +20,18 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.13
 theme_override_font_sizes/font_size = 16
 auto_height = true
-item_count = 5
-max_columns = 5
+item_count = 4
+max_columns = 4
 fixed_column_width = 120
 item_0/text = "Block"
 item_1/text = "Set"
 item_2/text = "Tag"
-item_3/text = "Offset"
-item_4/text = "Info (LRU, LFU)"
+item_3/text = "Info (LRU, LFU)"
 
-[node name="Cache" type="ItemList" parent="."]
+[node name="CacheBody" type="ItemList" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
 select_mode = 1
-max_columns = 5
+max_columns = 4
 fixed_column_width = 120

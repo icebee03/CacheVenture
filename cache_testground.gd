@@ -1,6 +1,6 @@
 extends Node
 
-@onready var cache :VBoxContainer = $VBoxContainer		# TODO change the node name from "VBoxContainer" to "Cache"
+@onready var cache :VBoxContainer = $Cache		
 @onready var button :Button = $Button
 @onready var input :LineEdit = $LineEdit
 
@@ -74,7 +74,7 @@ func sort_address_into_cache(addressString:String) -> void:
 	for lineIdx in possibleLines:
 		var line :Dictionary = cache.get_cache_line(lineIdx)
 		if line["tag"] == "" or line["tag"] == str(tag):
-			cache.modify_cache_line(lineIdx,"keep","keep",str(tag), str(offset), timestamp)		
+			cache.modify_cache_line(lineIdx,"keep","keep",str(tag), timestamp)		
 			wasLinePlaced = true
 			break
 	#TODO: implement cache hit procedure that updates the info field according to the chosen replacement policy (eg. a hit count for LFU, ...)
@@ -86,7 +86,7 @@ func sort_address_into_cache(addressString:String) -> void:
 		var lineToReplace :int = choose_line_to_replace(possibleLines, "Random")
 		if lineToReplace == -1: return
 		replacedLine = cache.get_cache_line(lineToReplace)				#TODO: do something with it (show it in the world)
-		cache.modify_cache_line(lineToReplace,"keep","keep",str(tag),str(offset),"replaced at random")		#TODO: change 'info' message depending on replacement policy
+		cache.modify_cache_line(lineToReplace,"keep","keep",str(tag),"replaced at random")		#TODO: change 'info' message depending on replacement policy
 		wasLinePlaced = true
 			
 	#TODO: implement cache conflict/replaced procedure that puts replaced lines into a list or so
