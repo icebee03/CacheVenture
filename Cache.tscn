@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ebuchchuxp85"]
+[gd_scene load_steps=2 format=3 uid="uid://b6ldy6xgaj1c2"]
 
-[ext_resource type="Script" path="res://cache.gd" id="1_6iuxk"]
+[ext_resource type="Script" path="res://cache.gd" id="1_5k55u"]
 
 [node name="Cache" type="VBoxContainer"]
 offset_left = 813.0
@@ -9,7 +9,7 @@ offset_right = 1581.0
 offset_bottom = 755.0
 scale = Vector2(1.3, 1.3)
 size_flags_vertical = 4
-script = ExtResource("1_6iuxk")
+script = ExtResource("1_5k55u")
 blockNumber = 32
 associativityDegree = 4
 metadata/_edit_group_ = true

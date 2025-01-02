@@ -1,7 +1,11 @@
+class_name CacheTestground
 extends Node
 
+## The [Cache] scene where incoming addresses are stored
 @onready var cache :VBoxContainer = $Cache		
+## Pressing this button triggers the scene to sort the address from [member input] into the [member cache]
 @onready var button :Button = $Button
+## Input field to write 32-bit hex addresses into
 @onready var input :LineEdit = $LineEdit
 
 
@@ -14,7 +18,7 @@ func _process(delta: float) -> void:
 	pass
 
 
-# signal handler for when the button was pressed: sort the address from the text field into the cache
+## Signal handler for when the button was pressed: sort the address from the text field into the cache
 func _on_button_pressed() -> void:
 	var text :String = input.get_text()
 	if text == "": return
@@ -24,8 +28,7 @@ func _on_button_pressed() -> void:
 	#cache.modify_cache_line(3, "keep", "keep", text, "keep", timestamp)
 
 
-# This function sorts the given addressString into the 'cache' scene. It calculates various parameters and extracts tag, index and offset from the address.
-# 
+## This function sorts the given [param addressString] into the [Cache] scene. It calculates various parameters and extracts tag, index and offset from the address.
 func sort_address_into_cache(addressString:String) -> void:
 	# input validation: hex address must not be longer than 8 digits and must be a hex number
 	if not is_String_32_bit_hex_number(addressString): return
@@ -94,7 +97,7 @@ func sort_address_into_cache(addressString:String) -> void:
 		
 	
 
-# Returns a dictionary containing "tag", "index", "offset" values for given address
+## Returns a dictionary containing "tag", "index", "offset" values for given address
 func get_tag_index_offset(fromAddress:int, tagBits:int, indexBits:int, offsetBits:int) -> Dictionary:
 	# create bitmasks to extract offset, index and tag from given address:int (does not need to be in binary)
 	var bitmasks :Array[String] = create_bitmasks(tagBits, indexBits, offsetBits)
@@ -114,7 +117,7 @@ func get_tag_index_offset(fromAddress:int, tagBits:int, indexBits:int, offsetBit
 	return {"tag":tag, "index":index, "offset":offset}
 		
 		
-# returns true if 'what' is a valid 32-bit hex number, else false
+## Returns [code]true[/code] if [param what] is a valid 32-bit hex number, else [code]false[/code]
 func is_String_32_bit_hex_number(what: String) -> bool:
 	# length check
 	if (what.begins_with("0x") and what.length() > 10) or (!what.begins_with("0x") and what.length() > 8):
@@ -135,10 +138,10 @@ func is_String_32_bit_hex_number(what: String) -> bool:
 	return true 
 
 
-# returns three bitmasks that each extract the tag, index and offset from a 32-bit address: [tagBitmask, indexBitmask, offsetBitmask]
-# parameters specify the length of the tag, index and offset bitmasks
-# eg. in tagBitmask the bitmask is of length 'tagBits' with as many "1"s
-# eg. an indexBitmask with length 3: "111"
+## Returns three bitmasks that each extract the tag, index and offset from a 32-bit address with following structure: [code][tagBitmask, indexBitmask, offsetBitmask][/code].
+## Parameters specify the length of the tag, index and offset bitmasks
+## eg. the [code]tagBitmask[/code] has [param tagBits] many [i]1[/i]s [br]
+## Example: [code]indexBitmask[/code] of length 3 = [code]"111"[/code]
 func create_bitmasks(tagBits:int, indexBits:int, offsetBits:int) -> Array[String]:
 	var offsetBitmask :String = ""				# use String concatenation to create the mask, then convert it back to int
 	var indexBitmask :String = ""
@@ -154,7 +157,7 @@ func create_bitmasks(tagBits:int, indexBits:int, offsetBits:int) -> Array[String
 	return [tagBitmask, indexBitmask, offsetBitmask]
 
 
-# returns all line indices of a given set for the current cache configuration
+## returns all line indices of a given set for the current cache configuration
 func get_line_indices_for_set(set:int) -> Array[int]:
 	var lines :Array[int]
 	#base case i = 0: first line of set
@@ -165,10 +168,10 @@ func get_line_indices_for_set(set:int) -> Array[int]:
 	return lines
 
 
-# returns the cache line from 'lines' that must be replaced, according to the 'replacementPolicy'
-# the "info" field of the cache line may be considered to choose which line to replace
-# returns -1 on error
-# => choose which of the existing lines must be replaced (use "info" field of cache.get_cache_line(idx))
+## returns the cache line from 'lines' that must be replaced, according to the 'replacementPolicy'
+## the "info" field of the cache line may be considered to choose which line to replace
+## returns -1 on error
+## => choose which of the existing lines must be replaced (use "info" field of cache.get_cache_line(idx))
 func choose_line_to_replace(lines:Array[int], replacementPolicy:String) -> int:
 	if len(lines) == 0: return -1
 	if len(lines) == 1: return lines[0]
