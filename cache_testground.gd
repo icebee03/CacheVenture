@@ -24,7 +24,8 @@ func _on_button_pressed() -> void:
 	#cache.modify_cache_line(3, "keep", "keep", text, "keep", timestamp)
 
 
-
+# This function sorts the given addressString into the 'cache' scene. It calculates various parameters and extracts tag, index and offset from the address.
+# 
 func sort_address_into_cache(addressString:String) -> void:
 	# input validation: hex address must not be longer than 8 digits and must be a hex number
 	if not is_String_32_bit_hex_number(addressString): return
@@ -35,7 +36,7 @@ func sort_address_into_cache(addressString:String) -> void:
 	# cache parameter calculations:
 	var setNumber :int = cache.blockNumber / cache.associativityDegree
 	var blockSize :int = 16 # in [Byte], maybe *8 if we want to access individual bits
-	var offsetBits :int = log(cache.blockNumber * blockSize) / log(2)			# equivalent to log2(blockNo*blockSize)
+	var offsetBits :int = log(blockSize) / log(2)			# equivalent to log2(blockSize)
 	var indexBits :int = log(setNumber) / log(2)
 	var tagBits :int = 32 - (indexBits + offsetBits)							# 32-bit address
 	
@@ -73,14 +74,23 @@ func sort_address_into_cache(addressString:String) -> void:
 	for lineIdx in possibleLines:
 		var line :Dictionary = cache.get_cache_line(lineIdx)
 		if line["tag"] == "" or line["tag"] == str(tag):
-			cache.modify_cache_line(lineIdx,"keep","keep",str(tag), str(offset), timestamp)
+			cache.modify_cache_line(lineIdx,"keep","keep",str(tag), str(offset), timestamp)		
 			wasLinePlaced = true
 			break
+	#TODO: implement cache hit procedure that updates the info field according to the chosen replacement policy (eg. a hit count for LFU, ...)
 			
-	if wasLinePlaced == false:
-		# TODO: implement replacement policy
-		# => choose which of the existing lines must be replaced (use "info" field of cache.get_cache_line(idx))
-		pass
+	# in case of a cache miss (due to conflict or capacity):		
+	var replacedLine :Dictionary
+	if wasLinePlaced == false:	
+		# choose which of the existing lines must be replaced and update that line. For now no action regarding the replaced address (like showing it into the world)
+		var lineToReplace :int = choose_line_to_replace(possibleLines, "Random")
+		if lineToReplace == -1: return
+		replacedLine = cache.get_cache_line(lineToReplace)				#TODO: do something with it (show it in the world)
+		cache.modify_cache_line(lineToReplace,"keep","keep",str(tag),str(offset),"replaced at random")		#TODO: change 'info' message depending on replacement policy
+		wasLinePlaced = true
+			
+	#TODO: implement cache conflict/replaced procedure that puts replaced lines into a list or so
+		
 		
 	
 
@@ -153,3 +163,31 @@ func get_line_indices_for_set(set:int) -> Array[int]:
 		var index :int = (cache.associativityDegree * set) + i
 		lines.append(index)
 	return lines
+
+
+# returns the cache line from 'lines' that must be replaced, according to the 'replacementPolicy'
+# the "info" field of the cache line may be considered to choose which line to replace
+# returns -1 on error
+# => choose which of the existing lines must be replaced (use "info" field of cache.get_cache_line(idx))
+func choose_line_to_replace(lines:Array[int], replacementPolicy:String) -> int:
+	if len(lines) == 0: return -1
+	if len(lines) == 1: return lines[0]
+	# implement all the usual replacement policies (capsulate later into own functions):
+	match replacementPolicy:
+		"LRU":		# chooses the line with the oldest hit
+			pass
+		"LFU":		# chooses the line with the lowest hit count
+			pass
+		"Random": 	# chooses a random line from lines that is within that range
+			var rng:RandomNumberGenerator = RandomNumberGenerator.new()
+			return rng.randi_range(lines[0], lines[len(lines)-1])		
+		_:			# default case. No replacementPolicy was set, so return error
+			return -1
+	
+	return -1
+	
+	
+	
+	
+	
+	
