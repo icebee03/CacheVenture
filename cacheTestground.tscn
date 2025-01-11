@@ -7,7 +7,8 @@
 script = ExtResource("1_cdvai")
 
 [node name="Cache" parent="." instance=ExtResource("1_8a5pb")]
-replacementPolicy = "LFU"
+associativityDegree = 2
+replacementPolicy = "LRU"
 
 [node name="Button" type="Button" parent="."]
 offset_left = 183.0

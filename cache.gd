@@ -1,6 +1,22 @@
 # cache.gd
 class_name Cache extends VBoxContainer
 
+# Signals
+## Emitted when the tag of an address is found in the cache
+signal cacheHit
+## Emitted when the tag of an address is not found in the cache. Three types of misses possible (see [enum cacheMissType])
+signal cacheMiss(type :cacheMissType)
+
+
+# Enums
+## COMPULSORY miss is when the tag is empty. Tag must be fetched from (imaginary) memory.
+## CONFLICT miss is when the set is full (but the cache is not). Entails replacement. 
+## CAPACITY miss is when the whole cache is full. Also entails replacement.
+enum cacheMissType {COMPULSORY, CONFLICT, CAPACITY}
+# helper enum used for _helper_update_cache_line() to indicate what action needs to be taken
+enum updateType {HIT, COMPULSORY, CONFLICT_OR_CAPACITY}
+
+
 #------ Variables ----------------
 
 @export_group("Cache Properties")
@@ -13,6 +29,10 @@ class_name Cache extends VBoxContainer
 
 # Private (underscore) count that is used in _add_cache_line()
 var _blockCount:int = 0
+# internal, stores precise unix time for every cache line. used for sub-second calculations in LRU
+# initialized to size blockNumber in _ready()
+var _timestampsUnix :Array[float]
+
 
 ## This is where all the information is stored, eg. the "cache" 
 @onready var cacheBody :ItemList = $CacheBody
@@ -28,7 +48,14 @@ func _ready() -> void:
 	var setTmp :int = 0
 	var setCounter :int = 0
 	
-	# dynamic tree creation depending on @blockNumber and @associativityDegree
+	# varying "Info" field text depending on replacementPolicy:
+	match replacementPolicy:
+		"Random": 	cacheHeader.set_item_text(3, "Random Replacement")
+		"LFU":		cacheHeader.set_item_text(3, "Access Count")
+		"LRU": 		cacheHeader.set_item_text(3, "Last Access")
+		_: 			print("Other replacement strategies than Random, LFU, LRU are not implemented!")
+	
+	# cache creation depending on @blockNumber and @associativityDegree
 	for i in range(0, blockNumber):
 		if (setTmp == associativityDegree):
 			setCounter += 1
@@ -37,7 +64,9 @@ func _ready() -> void:
 		
 		_add_cache_line(str(i), str(setCounter), "", "")	
 		
-	#_modify_cache_line(3, "----","-----","keep","----","keep")
+	# initialize timestamps array to ensure safe access
+	_timestampsUnix.resize(blockNumber)
+		
 	
 	
 #------------- Public functions ------------------	
@@ -48,22 +77,68 @@ func sort_address_into_cache(addressString:String) -> void:
 	if not _is_String_32_bit_hex_number(addressString): return
 	
 	var address :int = addressString.hex_to_int()
-	var timestamp :String = Time.get_datetime_string_from_system(false, true)
+	
+	# LRU timestamps:
+	var timestamp :String = Time.get_datetime_string_from_system(false, true)	 # for the "info" field, calculations depend on Unix time system (see below)
+	var timestampUnix :float = Time.get_unix_time_from_system()
 	
 	# cache parameter calculations:
 	var setNumber :int = blockNumber / associativityDegree
-	var blockSize :int = 16 # in [Byte], maybe *8 if we want to access individual bits
+	var blockSize :int = 16 								# in Byte
 	var offsetBits :int = log(blockSize) / log(2)			# equivalent to log2(blockSize)
 	var indexBits :int = log(setNumber) / log(2)
-	var tagBits :int = 32 - (indexBits + offsetBits)							# 32-bit address
+	var tagBits :int = 32 - (indexBits + offsetBits)		# 32-bit address
 	
+	var results :Dictionary = _get_tag_index_offset(address, tagBits, indexBits, offsetBits)
+	var tag :int = results["tag"]
+	var index :int = results["index"]
+	var offset :int = results["offset"]
+		
+	# place address (tag) in one of the 'possibleLines':
+	# update info field according to replacement policy (match ...)
+	var possibleLines :Array[int] = _get_line_indices_for_set(index)
+	var wasLinePlaced :bool = false
 	
-	# ------ debugging / testing: ---------
+	# first attempt to place tag:
+	for lineIdx in possibleLines:
+		var line :Dictionary = _get_cache_line(lineIdx)
+		
+		if line["tag"] == str(tag):	# cache HIT, no replacement. only update info field and emit the hit signal 
+			cacheHit.emit()	
+			_helper_update_cache_line(lineIdx, line, tag, timestamp, timestampUnix, updateType.HIT)					
+			wasLinePlaced = true
+			break
+		
+		elif line["tag"] == "":			# COMPULSORY cache miss, no replacement
+			cacheMiss.emit(cacheMissType.COMPULSORY)	
+			_helper_update_cache_line(lineIdx, line, tag, timestamp, timestampUnix, updateType.COMPULSORY)
+			wasLinePlaced = true
+			break
+			
+	# second attempt to place tag, in case of a cache miss due to CONFLICT or CAPACITY in first attempt:  Replaces another tag/line	
+	var replacedLine :Dictionary
+	if wasLinePlaced == false:	
+		if _is_cache_full():
+			cacheMiss.emit(cacheMissType.CAPACITY)		# capacity miss, because whole cache is full
+		else:
+			cacheMiss.emit(cacheMissType.CONFLICT)		# conflict miss, because cache is not full, only the set is
+		
+		# choose which of the existing lines must be replaced and update that line
+		var lineToReplace :int = _choose_line_to_replace(possibleLines)
+		if lineToReplace == -1: return
+		replacedLine = _get_cache_line(lineToReplace)		# save it for output etc.		
+		_helper_update_cache_line(lineToReplace, replacedLine, tag, timestamp, timestampUnix, updateType.CONFLICT_OR_CAPACITY)
+		wasLinePlaced = true
+			
+	#TODO: implement cache hit procedure that updates the info field according to the chosen replacement policy (eg. a hit count for LFU, ...)
+	#TODO: implement cache conflict/replaced procedure that puts replacedLine(s) into a list or so
+			
+	# ------ debugging / testing output: ---------
 	var bitmasks :Array[String] = _create_bitmasks(tagBits, indexBits, offsetBits)
 	var offsetBitmask :int = bitmasks[2].bin_to_int()
 	var indexBitmask :int = bitmasks[1].bin_to_int()
 	var tagBitmask :int = bitmasks[0].bin_to_int()
-	var addressBinary :int = 0b1111001001111001010
+	#var addressBinary :int = 0b1111001001111001010
 	
 	var debugresults :Dictionary = _get_tag_index_offset(address, tagBits, indexBits, offsetBits)
 	var debugtag :int = debugresults["tag"]
@@ -79,35 +154,7 @@ func sort_address_into_cache(addressString:String) -> void:
 	print("index:	%d" % debugindex)
 	print("tag:		%d" % debugtag)
 	# ------------- end debuggin/testing -------------------------------------
-	
-	var results :Dictionary = _get_tag_index_offset(address, tagBits, indexBits, offsetBits)
-	var tag :int = results["tag"]
-	var index :int = results["index"]
-	var offset :int = results["offset"]
-	
-	# place address (tag) in one of the 'possibleLines'
-	var possibleLines :Array[int] = _get_line_indices_for_set(index)
-	var wasLinePlaced :bool = false
-	for lineIdx in possibleLines:
-		var line :Dictionary = _get_cache_line(lineIdx)
-		if line["tag"] == "" or line["tag"] == str(tag):
-			_modify_cache_line(lineIdx,"keep","keep",str(tag), timestamp)		
-			wasLinePlaced = true
-			break
-	#TODO: implement cache hit procedure that updates the info field according to the chosen replacement policy (eg. a hit count for LFU, ...)
-			
-	# in case of a cache miss (due to conflict or capacity):		
-	var replacedLine :Dictionary
-	if wasLinePlaced == false:	
-		# choose which of the existing lines must be replaced and update that line. For now no action regarding the replaced address (like showing it into the world)
-		var lineToReplace :int = _choose_line_to_replace(possibleLines)
-		if lineToReplace == -1: return
-		replacedLine = _get_cache_line(lineToReplace)				#TODO: do something with it (show it in the world)
-		_modify_cache_line(lineToReplace,"keep","keep",str(tag),"replaced at random")		#TODO: change 'info' message depending on replacement policy
-		wasLinePlaced = true
-			
-	#TODO: implement cache conflict/replaced procedure that puts replaced lines into a list or so
-		
+					
 		
 #---------- "Private"/Internal functions, do not call from outside (usually) ----------------
 
@@ -130,6 +177,15 @@ func _modify_cache_line(index:int, block:String, set:String, tag:String, info:St
 	if set != "keep": 	cacheBody.set_item_text(index+1, set)
 	if tag != "keep": 	cacheBody.set_item_text(index+2, tag)
 	if info != "keep": 	cacheBody.set_item_text(index+3, info)
+	
+
+func _modify_cache_line_tooltips(index:int, block:String, set:String, tag:String, info:String) -> void:
+	if(index < 0 or index >= blockNumber): return
+	index *= cacheBody.get_max_columns()							# index calculation: index represents the row index
+	if block != "keep": 	cacheBody.set_item_tooltip(index, block)
+	if set != "keep": 	cacheBody.set_item_tooltip(index+1, set)
+	if tag != "keep": 	cacheBody.set_item_tooltip(index+2, tag)
+	if info != "keep": 	cacheBody.set_item_tooltip(index+3, info)
 	
 
 ## Returns the cache line parameters at [param index]. Ignores indices that point to non-existent cache lines
@@ -161,6 +217,15 @@ func _is_String_32_bit_hex_number(what: String) -> bool:
 				print(e + " is not a hex digit")
 				return false
 	return true 
+	
+
+## Returns [code]true[/code] if every tag of the cache is full (eg. has a value). Else [code]false[/code]
+func _is_cache_full() -> bool:
+	for i in blockNumber-1:
+		var line :Dictionary = _get_cache_line(i)
+		if line["tag"] == "":
+			return false
+	return true
 	
 	
 ## Returns three bitmasks that each extract the tag, index and offset from a 32-bit address with following structure: [code][tagBitmask, indexBitmask, offsetBitmask][/code].
@@ -220,16 +285,71 @@ func _get_line_indices_for_set(set:int) -> Array[int]:
 func _choose_line_to_replace(lines:Array[int]) -> int:
 	if len(lines) == 0: return -1
 	if len(lines) == 1: return lines[0]
-	# implement all the usual replacement policies (capsulate later into own functions):
+	# implement all the usual replacement policies (maybe capsulate later into own functions):
 	match replacementPolicy:
-		"LRU":		# chooses the line with the oldest hit
-			pass
-		"LFU":		# chooses the line with the lowest hit count
-			pass
 		"Random": 	# chooses a random line from lines that is within that range
 			var rng:RandomNumberGenerator = RandomNumberGenerator.new()
-			return rng.randi_range(lines[0], lines[len(lines)-1])		
-		_:			# default case. No replacementPolicy was set, so return error
-			return -1
+			return rng.randi_range(lines[0], lines[len(lines)-1])	
+			
+		"LFU": # chooses the line with the minimal hit count (basically argmin_{accessCount}(lines))
+			var line :int = lines[0]
+			var minCount :int = _get_cache_line(lines[0])["info"].to_int()	
+			for i in lines: 
+				if _get_cache_line(lines[i])["info"].to_int() < minCount:		# smaller hit count found, so update line and continue search with that hit count
+					line = i
+					minCount = _get_cache_line(lines[i])["info"].to_int()
+			return line
+			
+		"LRU": # chooses the line with the oldest hit timestamp (basically argmin_{timestamp}(lines); older timestamps have smaller values)
+			var line :int = lines[0]
+			var oldestTimestamp :float = _timestampsUnix[lines[0]]
+			for i in lines:
+				if _timestampsUnix[lines[i]] < oldestTimestamp:
+					line = i
+					oldestTimestamp = _timestampsUnix[lines[i]]
+			return line
+		
+	return -1	# default case. no replacementPolicy was set, so return an error
 	
-	return -1	
+	
+# Helper function for sort_address_into_cache(). Encapsulates the reapeated (match replacementPolicy) logic.
+# On a HIT: tag = "keep", clear "random" field or increment LFU counter.
+# On a COMPULSORY miss: tag = str(tag), clear "random" field or set LFU counter to 1.
+# On a CONFLICT or CAPACITY miss: tag = str(tag), display replacement message for random or resetting the LFU counter to 1.
+func _helper_update_cache_line(lineIdx:int, line:Dictionary, tag:int, timestamp:String, timestampUnix:float, type:updateType) -> void:
+	# depending on update type, change parameters:
+	var textForRandom :String
+	var textForLFU :String
+	var textForTag :String
+	
+	match type:
+		updateType.HIT:
+			textForRandom = ""
+			var accessCount :int = line["info"].to_int()		
+			accessCount += 1					# increment the counter by 1
+			textForLFU = str(accessCount)
+			textForTag = "keep"
+		
+		updateType.COMPULSORY:
+			textForRandom = ""
+			textForLFU = str(1)				# set the counter to 1
+			textForTag = str(tag)
+
+		updateType.CONFLICT_OR_CAPACITY:
+			textForRandom = "replaced at random"
+			textForLFU = str(1)				# reset the counter to 1
+			textForTag = str(tag)
+
+	match replacementPolicy:
+			"Random":	
+				_modify_cache_line(lineIdx,"keep","keep",textForTag,textForRandom)
+			"LFU":
+				_modify_cache_line(lineIdx,"keep","keep",textForTag,textForLFU)
+			"LRU":		
+				_modify_cache_line(lineIdx,"keep","keep",textForTag,timestamp)	
+				_modify_cache_line_tooltips(lineIdx,"keep","keep","keep","Unix time: "+str(timestampUnix))	
+				_timestampsUnix[lineIdx] = timestampUnix			# keep track of precise timing using this helper array				
+			_: 	print("Other replacement strategies than Random, LFU, LRU are not implemented!")
+			
+			
+			
