@@ -122,16 +122,14 @@ func sort_address_into_cache(addressString:String) -> void:
 			cacheMiss.emit(cacheMissType.CAPACITY)		# capacity miss, because whole cache is full
 		else:
 			cacheMiss.emit(cacheMissType.CONFLICT)		# conflict miss, because cache is not full, only the set is
-		
 		# choose which of the existing lines must be replaced and update that line
 		var lineToReplace :int = _choose_line_to_replace(possibleLines)
 		if lineToReplace == -1: return
-		replacedLine = _get_cache_line(lineToReplace)		# save it for output etc.		
+		replacedLine = _get_cache_line(lineToReplace)		# save it for output etc.
 		_helper_update_cache_line(lineToReplace, replacedLine, tag, timestamp, timestampUnix, updateType.CONFLICT_OR_CAPACITY)
 		wasLinePlaced = true
 			
-	#TODO: implement cache hit procedure that updates the info field according to the chosen replacement policy (eg. a hit count for LFU, ...)
-	#TODO: implement cache conflict/replaced procedure that puts replacedLine(s) into a list or so
+	#TODO: implement cache conflict/replaced procedure that puts replacedLine(s) (see above!) into a list or so
 			
 	# ------ debugging / testing output: ---------
 	var bitmasks :Array[String] = _create_bitmasks(tagBits, indexBits, offsetBits)
