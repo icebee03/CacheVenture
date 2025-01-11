@@ -26,7 +26,7 @@ fixed_column_width = 120
 item_0/text = "Block"
 item_1/text = "Set"
 item_2/text = "Tag"
-item_3/text = "Info (LRU, LFU)"
+item_3/text = "Info (LRU, LFU, Random)"
 
 [node name="CacheBody" type="ItemList" parent="."]
 layout_mode = 2
