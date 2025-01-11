@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+(do not use)gdscript_experiments.tscn
+gdscript_experiments.gd
