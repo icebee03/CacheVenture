@@ -39,4 +39,13 @@ rotation = 1.57167
 scale = Vector2(1, 1.06746)
 points = PackedVector2Array(2.90784, -99.3038, 3.06165, 66.5107)
 
+[node name="ReplacedAddressField" type="RichTextLabel" parent="."]
+offset_left = 828.0
+offset_top = 967.0
+offset_right = 1785.0
+offset_bottom = 1025.0
+theme_override_font_sizes/normal_font_size = 28
+text = "Replaced Address:"
+
+[connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

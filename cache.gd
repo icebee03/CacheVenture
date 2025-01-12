@@ -5,7 +5,7 @@ class_name Cache extends VBoxContainer
 ## Emitted when the tag of an address is found in the cache
 signal cacheHit
 ## Emitted when the tag of an address is not found in the cache. Three types of misses possible (see [enum cacheMissType])
-signal cacheMiss(type :cacheMissType)
+signal cacheMiss(type:cacheMissType, replacedAddress:String)
 
 
 # Enums
@@ -30,9 +30,14 @@ enum updateType {HIT, COMPULSORY, CONFLICT_OR_CAPACITY}
 # Private (underscore) count that is used in _add_cache_line()
 var _blockCount:int = 0
 # internal, stores precise unix time for every cache line. used for sub-second calculations in LRU
-# initialized to size blockNumber in _ready()
-var _timestampsUnix :Array[float]
-
+# initialized to size blockNumber in _ready(). Also stored in the tooltip of the "info" field
+#var _timestampsUnix :Array[float]
+# internal list of not-decomposed addresses that are stored in the cache. For easy access
+var _addressList :Array[String]
+## Internal metadata for every cache line. 
+## Stores the address String that was decomposed into tag, index, offset and the unix timestamp for precise LRU sub-second calculations.
+## Can be expanded in the future to hold more data (maybe statistics, etc.)
+var _metadata :Array[Dictionary]
 
 ## This is where all the information is stored, eg. the "cache" 
 @onready var cacheBody :ItemList = $CacheBody
@@ -56,16 +61,19 @@ func _ready() -> void:
 		_: 			print("Other replacement strategies than Random, LFU, LRU are not implemented!")
 	
 	# cache creation depending on @blockNumber and @associativityDegree
-	for i in range(0, blockNumber):
+	for i in blockNumber:
 		if (setTmp == associativityDegree):
 			setCounter += 1
 			setTmp = 0
 		setTmp += 1
-		
 		_add_cache_line(str(i), str(setCounter), "", "")	
 		
 	# initialize timestamps array to ensure safe access
-	_timestampsUnix.resize(blockNumber)
+	# _timestampsUnix.resize(blockNumber)
+	# initialize metadata array that holds dictionaries with more info about each cache line.
+	_metadata.resize(blockNumber)
+	for i in blockNumber:
+		_metadata[i] = {"block":i, "address":"", "timestampUnix":-1.0}
 		
 	
 	
@@ -105,52 +113,53 @@ func sort_address_into_cache(addressString:String) -> void:
 		
 		if line["tag"] == str(tag):	# cache HIT, no replacement. only update info field and emit the hit signal 
 			cacheHit.emit()	
-			_helper_update_cache_line(lineIdx, line, tag, timestamp, timestampUnix, updateType.HIT)					
+			_helper_update_cache_line(lineIdx, line, addressString, tag, timestamp, timestampUnix, updateType.HIT)					
 			wasLinePlaced = true
 			break
 		
 		elif line["tag"] == "":			# COMPULSORY cache miss, no replacement
-			cacheMiss.emit(cacheMissType.COMPULSORY)	
-			_helper_update_cache_line(lineIdx, line, tag, timestamp, timestampUnix, updateType.COMPULSORY)
+			cacheMiss.emit(cacheMissType.COMPULSORY, "")	
+			_helper_update_cache_line(lineIdx, line, addressString, tag, timestamp, timestampUnix, updateType.COMPULSORY)
 			wasLinePlaced = true
 			break
 			
 	# second attempt to place tag, in case of a cache miss due to CONFLICT or CAPACITY in first attempt:  Replaces another tag/line	
 	var replacedLine :Dictionary
 	if wasLinePlaced == false:	
-		if _is_cache_full():
-			cacheMiss.emit(cacheMissType.CAPACITY)		# capacity miss, because whole cache is full
-		else:
-			cacheMiss.emit(cacheMissType.CONFLICT)		# conflict miss, because cache is not full, only the set is
 		# choose which of the existing lines must be replaced and update that line
 		var lineToReplace :int = _choose_line_to_replace(possibleLines)
 		if lineToReplace == -1: return
 		replacedLine = _get_cache_line(lineToReplace)		# save it for output etc.
-		_helper_update_cache_line(lineToReplace, replacedLine, tag, timestamp, timestampUnix, updateType.CONFLICT_OR_CAPACITY)
+		if _is_cache_full():
+			cacheMiss.emit(cacheMissType.CAPACITY, _metadata[lineToReplace]["address"])		# capacity miss, because whole cache is full
+		else:
+			cacheMiss.emit(cacheMissType.CONFLICT, _metadata[lineToReplace]["address"])		# conflict miss, because cache is not full, only the set is
+		_helper_update_cache_line(lineToReplace, replacedLine, addressString, tag, timestamp, timestampUnix, updateType.CONFLICT_OR_CAPACITY)
 		wasLinePlaced = true
 			
 	#TODO: implement cache conflict/replaced procedure that puts replacedLine(s) (see above!) into a list or so
 			
 	# ------ debugging / testing output: ---------
-	var bitmasks :Array[String] = _create_bitmasks(tagBits, indexBits, offsetBits)
-	var offsetBitmask :int = bitmasks[2].bin_to_int()
-	var indexBitmask :int = bitmasks[1].bin_to_int()
-	var tagBitmask :int = bitmasks[0].bin_to_int()
-	#var addressBinary :int = 0b1111001001111001010
-	
-	var debugresults :Dictionary = _get_tag_index_offset(address, tagBits, indexBits, offsetBits)
-	var debugtag :int = debugresults["tag"]
-	var debugindex :int = debugresults["index"]
-	var debugoffset :int = debugresults["offset"]
-	
-	print("%d blocks à %d Byte, %d sets" % [blockNumber, blockSize, setNumber])	
-	print("=> %d tag bits, %d index bits, %d offset bits" % [tagBits, indexBits, offsetBits])	
-	print("offset Bitmask:	%32s" % bitmasks[2])
-	print("index Bitmask:	%32s" % bitmasks[1])
-	print("tag bitmask:		%32s" % bitmasks[0])
-	print("offset:	%d" % debugoffset)
-	print("index:	%d" % debugindex)
-	print("tag:		%d" % debugtag)
+	#var bitmasks :Array[String] = _create_bitmasks(tagBits, indexBits, offsetBits)
+	#var offsetBitmask :int = bitmasks[2].bin_to_int()
+	#var indexBitmask :int = bitmasks[1].bin_to_int()
+	#var tagBitmask :int = bitmasks[0].bin_to_int()
+	##var addressBinary :int = 0b1111001001111001010
+	#
+	#var debugresults :Dictionary = _get_tag_index_offset(address, tagBits, indexBits, offsetBits)
+	#var debugtag :int = debugresults["tag"]
+	#var debugindex :int = debugresults["index"]
+	#var debugoffset :int = debugresults["offset"]
+	#
+	#print("%d blocks à %d Byte, %d sets" % [blockNumber, blockSize, setNumber])	
+	#print("=> %d tag bits, %d index bits, %d offset bits" % [tagBits, indexBits, offsetBits])	
+	#print("offset Bitmask:	%32s" % bitmasks[2])
+	#print("index Bitmask:	%32s" % bitmasks[1])
+	#print("tag bitmask:		%32s" % bitmasks[0])
+	#print("offset:	%d" % debugoffset)
+	#print("index:	%d" % debugindex)
+	#print("tag:		%d" % debugtag)
+	#print("metadata:	",_metadata)
 	# ------------- end debuggin/testing -------------------------------------
 					
 		
@@ -219,7 +228,7 @@ func _is_String_32_bit_hex_number(what: String) -> bool:
 
 ## Returns [code]true[/code] if every tag of the cache is full (eg. has a value). Else [code]false[/code]
 func _is_cache_full() -> bool:
-	for i in blockNumber-1:
+	for i in blockNumber:
 		var line :Dictionary = _get_cache_line(i)
 		if line["tag"] == "":
 			return false
@@ -265,6 +274,11 @@ func _get_tag_index_offset(fromAddress:int, tagBits:int, indexBits:int, offsetBi
 	return {"tag":tag, "index":index, "offset":offset}
 	
 
+## Inverse to [method _get_tag_index_offset]: Reconstructs an address String from tag, index, offset decomposition
+func _get_address(fromTag:int, fromIndex:int, fromOffset:int) -> String:
+	return ""
+	
+
 ## returns all line indices of a given set for the current cache configuration
 func _get_line_indices_for_set(set:int) -> Array[int]:
 	var lines :Array[int]
@@ -300,11 +314,12 @@ func _choose_line_to_replace(lines:Array[int]) -> int:
 			
 		"LRU": # chooses the line with the oldest hit timestamp (basically argmin_{timestamp}(lines); older timestamps have smaller values)
 			var line :int = lines[0]
-			var oldestTimestamp :float = _timestampsUnix[lines[0]]
+			#var oldestTimestamp :float = _timestampsUnix[lines[0]]
+			var oldestTimestamp :float = _metadata[lines[0]]["timestampUnix"]
 			for i in lines:
-				if _timestampsUnix[lines[i]] < oldestTimestamp:
+				if _metadata[lines[i]]["timestampUnix"] < oldestTimestamp:
 					line = i
-					oldestTimestamp = _timestampsUnix[lines[i]]
+					oldestTimestamp = _metadata[lines[i]]["timestampUnix"]
 			return line
 		
 	return -1	# default case. no replacementPolicy was set, so return an error
@@ -314,7 +329,7 @@ func _choose_line_to_replace(lines:Array[int]) -> int:
 # On a HIT: tag = "keep", clear "random" field or increment LFU counter.
 # On a COMPULSORY miss: tag = str(tag), clear "random" field or set LFU counter to 1.
 # On a CONFLICT or CAPACITY miss: tag = str(tag), display replacement message for random or resetting the LFU counter to 1.
-func _helper_update_cache_line(lineIdx:int, line:Dictionary, tag:int, timestamp:String, timestampUnix:float, type:updateType) -> void:
+func _helper_update_cache_line(lineIdx:int, line:Dictionary, address:String, tag:int, timestamp:String, timestampUnix:float, type:updateType) -> void:
 	# depending on update type, change parameters:
 	var textForRandom :String
 	var textForLFU :String
@@ -345,8 +360,10 @@ func _helper_update_cache_line(lineIdx:int, line:Dictionary, tag:int, timestamp:
 				_modify_cache_line(lineIdx,"keep","keep",textForTag,textForLFU)
 			"LRU":		
 				_modify_cache_line(lineIdx,"keep","keep",textForTag,timestamp)	
-				_modify_cache_line_tooltips(lineIdx,"keep","keep","keep","Unix time: "+str(timestampUnix))	
-				_timestampsUnix[lineIdx] = timestampUnix			# keep track of precise timing using this helper array				
+				_modify_cache_line_tooltips(lineIdx,"keep","keep","keep","Unix time: "+str(timestampUnix))		# shown when hovering over "info" field
+				#_timestampsUnix[lineIdx] = timestampUnix			# keep track of precise timing using this helper array	
+				_metadata[lineIdx]["address"] = address if address.begins_with("0x") else "0x"+address		# original address stored in metadata, just overwrites existing/replaced address
+				_metadata[lineIdx]["timestampUnix"] = timestampUnix		# precise time stored in metadata
 			_: 	print("Other replacement strategies than Random, LFU, LRU are not implemented!")
 			
 			
