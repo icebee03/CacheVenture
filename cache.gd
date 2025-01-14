@@ -27,6 +27,15 @@ enum updateType {HIT, COMPULSORY, CONFLICT_OR_CAPACITY}
 ## The replacement policy decides which cache line must be replaced upon a conflict or capacity cache miss.
 @export_enum("Random", "LRU", "LFU") var replacementPolicy: String = "Random"
 
+@export_group("Cache Controls")
+## Controls the fixed_column_width value of the Header & CacheBody Lists. Overrides respective values, so always use this control.
+## Exported so that it can be used in different levels better.
+@export var columnWidth :int
+## Controls how big the cache will appear vertically at its maximum.
+## If [member blockNumber] < [member shownBlocks]: show only [member blockNumber] many rows.
+## Internal maximum: 16 blocks shown.
+@export var shownBlocks :int
+
 # Private (underscore) count that is used in _add_cache_line()
 var _blockCount:int = 0
 # internal, stores precise unix time for every cache line. used for sub-second calculations in LRU
@@ -39,11 +48,11 @@ var _addressList :Array[String]
 ## Can be expanded in the future to hold more data (maybe statistics, etc.)
 var _metadata :Array[Dictionary]
 
+
 ## This is where all the information is stored, eg. the "cache" 
 @onready var cacheBody :ItemList = $CacheBody
-
 ## The top of the cache list that stores the column names
-@onready var cacheHeader :ItemList = $Header
+@onready var cacheHeader :ItemList = $CacheHeader
 
 
 #--------- Constructor ----------------------
@@ -59,7 +68,20 @@ func _ready() -> void:
 		"LFU":		cacheHeader.set_item_text(3, "Access Count")
 		"LRU": 		cacheHeader.set_item_text(3, "Last Access")
 		_: 			print("Other replacement strategies than Random, LFU, LRU are not implemented!")
-	
+		
+	# set same width for Cache Header and Body:
+	cacheHeader.set_fixed_column_width(columnWidth)
+	cacheBody.set_fixed_column_width(columnWidth)
+	# set maximum height of Cache, measured in rows (before you need to scroll):
+	# those pixel counts should be good, but could break in other resolutions(?!)
+	const PIXELS_PER_BLOCK :int = 26
+	const HEADER_PIXELS :int = 55
+	shownBlocks = 16 if shownBlocks > 16 else shownBlocks		# upper bound of 16 rendered blocks on screen
+	if blockNumber <= shownBlocks:								
+		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * blockNumber))	
+	else:
+		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * shownBlocks))
+			
 	# cache creation depending on @blockNumber and @associativityDegree
 	for i in blockNumber:
 		if (setTmp == associativityDegree):
