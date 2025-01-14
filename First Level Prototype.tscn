@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdnkndic6vr55"]
+
+[ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
+
+[node name="Node" type="Node"]
+
+[node name="Cache" parent="." instance=ExtResource("1_7u17q")]
+offset_left = 866.0
+offset_top = 254.0
+offset_right = 1488.0
+offset_bottom = 446.0
+blockNumber = 4
+associativityDegree = 2
+replacementPolicy = "LFU"
+columnWidth = 100
+shownBlocks = 2
