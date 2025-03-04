@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmvrjrr064whf"]
+
+[ext_resource type="Script" uid="uid://bopdpetwfud25" path="res://rich_text_label.gd" id="1_dckok"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkw5c"]
+size = Vector2(103, 57)
+
+[node name="Floating Address" type="RichTextLabel"]
+offset_left = 659.0
+offset_top = 360.0
+offset_right = 769.0
+offset_bottom = 407.0
+theme_override_font_sizes/normal_font_size = 32
+text = "0xaffe"
+scroll_active = false
+script = ExtResource("1_dckok")
+metadata/_edit_group_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_pkw5c")
