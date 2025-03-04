@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bdnkndic6vr55"]
 
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
-[ext_resource type="Script" path="res://first_level_prototype.gd" id="1_fjlrh"]
+[ext_resource type="Script" uid="uid://xv82acc211l6" path="res://first_level_prototype.gd" id="1_fjlrh"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ebuchchuxp85"]
 
-[ext_resource type="Script" path="res://cache.gd" id="1_6iuxk"]
+[ext_resource type="Script" uid="uid://bfhb0eg8lfr40" path="res://cache.gd" id="1_6iuxk"]
 
 [node name="Cache" type="VBoxContainer"]
 offset_left = 813.0

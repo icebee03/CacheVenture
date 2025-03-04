@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bapjglv3bqlm8"]
 
-[ext_resource type="Script" path="res://item_list.gd" id="1_mksp0"]
+[ext_resource type="Script" uid="uid://dncqopbkwrqjl" path="res://item_list.gd" id="1_mksp0"]
 
 [node name="ItemList" type="ItemList"]
 offset_left = 55.0
