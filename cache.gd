@@ -32,9 +32,9 @@ enum updateType {HIT, COMPULSORY, CONFLICT_OR_CAPACITY}
 ## Exported so that it can be used in different levels better.
 @export var columnWidth :int
 ## Controls how big the cache will appear vertically at its maximum.
-## If [member blockNumber] < [member shownBlocks]: show only [member blockNumber] many rows.
+## If [member blockNumber] < [member maxShownBlocks]: show only [member blockNumber] many rows.
 ## Internal maximum: 16 blocks shown.
-@export var shownBlocks :int
+@export var maxShownBlocks :int
 
 # Private (underscore) count that is used in _add_cache_line()
 var _blockCount:int = 0
@@ -76,11 +76,11 @@ func _ready() -> void:
 	# those pixel counts should be good, but could break in other resolutions(?!)
 	const PIXELS_PER_BLOCK :int = 26
 	const HEADER_PIXELS :int = 55
-	shownBlocks = 16 if shownBlocks > 16 else shownBlocks		# upper bound of 16 rendered blocks on screen
-	if blockNumber <= shownBlocks:								
+	maxShownBlocks = 16 if maxShownBlocks > 16 else maxShownBlocks		# upper bound of 16 rendered blocks on screen
+	if blockNumber <= maxShownBlocks:								
 		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * blockNumber))	
 	else:
-		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * shownBlocks))
+		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * maxShownBlocks))
 			
 	# cache creation depending on @blockNumber and @associativityDegree
 	for i in blockNumber:
@@ -387,6 +387,4 @@ func _helper_update_cache_line(lineIdx:int, line:Dictionary, address:String, tag
 				_metadata[lineIdx]["address"] = address if address.begins_with("0x") else "0x"+address		# original address stored in metadata, just overwrites existing/replaced address
 				_metadata[lineIdx]["timestampUnix"] = timestampUnix		# precise time stored in metadata
 			_: 	print("Other replacement strategies than Random, LFU, LRU are not implemented!")
-			
-			
 			
