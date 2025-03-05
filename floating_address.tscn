@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bmvrjrr064whf"]
 
-[ext_resource type="Script" uid="uid://bopdpetwfud25" path="res://rich_text_label.gd" id="1_dckok"]
+[ext_resource type="Script" uid="uid://ff1867ys2fjk" path="res://floating_address.gd" id="1_dckok"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkw5c"]
 size = Vector2(103, 57)
@@ -8,7 +8,7 @@ size = Vector2(103, 57)
 [node name="Floating Address" type="RichTextLabel"]
 offset_left = 659.0
 offset_top = 360.0
-offset_right = 769.0
+offset_right = 814.0
 offset_bottom = 407.0
 theme_override_font_sizes/normal_font_size = 32
 text = "0xaffe"
