@@ -104,6 +104,7 @@ func _ready() -> void:
 ## This function sorts the given [param addressString] into the [Cache] scene. It calculates various parameters and extracts tag, index and offset from the address.
 func sort_address_into_cache(addressString:String) -> void:
 	# input validation: hex address must not be longer than 8 digits and must be a hex number
+	if addressString == "": return
 	if not _is_String_32_bit_hex_number(addressString): return
 	
 	var address :int = addressString.hex_to_int()
@@ -328,9 +329,9 @@ func _choose_line_to_replace(lines:Array[int]) -> int:
 		"LFU": # chooses the line with the minimal hit count (basically argmin_{accessCount}(lines))
 			var line :int = lines[0]
 			var minCount :int = _get_cache_line(lines[0])["info"].to_int()	
-			for i in lines: 
+			for i in len(lines): 
 				if _get_cache_line(lines[i])["info"].to_int() < minCount:		# smaller hit count found, so update line and continue search with that hit count
-					line = i
+					line = lines[i]
 					minCount = _get_cache_line(lines[i])["info"].to_int()
 			return line
 			
@@ -338,9 +339,9 @@ func _choose_line_to_replace(lines:Array[int]) -> int:
 			var line :int = lines[0]
 			#var oldestTimestamp :float = _timestampsUnix[lines[0]]
 			var oldestTimestamp :float = _metadata[lines[0]]["timestampUnix"]
-			for i in lines:
+			for i in len(lines):
 				if _metadata[lines[i]]["timestampUnix"] < oldestTimestamp:
-					line = i
+					line = lines[i]
 					oldestTimestamp = _metadata[lines[i]]["timestampUnix"]
 			return line
 		
@@ -378,8 +379,10 @@ func _helper_update_cache_line(lineIdx:int, line:Dictionary, address:String, tag
 	match replacementPolicy:
 			"Random":	
 				_modify_cache_line(lineIdx,"keep","keep",textForTag,textForRandom)
+				_metadata[lineIdx]["address"] = address if address.begins_with("0x") else "0x"+address		# original address stored in metadata, just overwrites existing/replaced address
 			"LFU":
 				_modify_cache_line(lineIdx,"keep","keep",textForTag,textForLFU)
+				_metadata[lineIdx]["address"] = address if address.begins_with("0x") else "0x"+address		# original address stored in metadata, just overwrites existing/replaced address
 			"LRU":		
 				_modify_cache_line(lineIdx,"keep","keep",textForTag,timestamp)	
 				_modify_cache_line_tooltips(lineIdx,"keep","keep","keep","Unix time: "+str(timestampUnix))		# shown when hovering over "info" field
