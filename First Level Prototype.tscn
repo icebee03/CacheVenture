@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bdnkndic6vr55"]
+[gd_scene load_steps=9 format=3 uid="uid://bdnkndic6vr55"]
 
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
 [ext_resource type="Script" uid="uid://xv82acc211l6" path="res://first_level_prototype.gd" id="1_fjlrh"]
@@ -15,10 +15,16 @@ _data = {
 }
 point_count = 18
 
+[sub_resource type="Curve2D" id="Curve2D_22nqy"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1674, 370, 0, 0, 0, 0, 1776, 369, 0, 0, 0, 0, 1840, 487, 0, 0, 0, 0, 1824, 657, 0, 0, 0, 0, 1812, 899, 0, 0, 0, 0, 1537, 940, 0, 0, 0, 0, 1182, 957, 0, 0, 0, 0, 1175, 1020)
+}
+point_count = 8
+
 [node name="First Level" type="Node"]
 script = ExtResource("1_fjlrh")
-spawnRate = 0.25
-pathSpeed = 2.0
+spawnRate = 0.125
+pathSpeed = 0.25
 
 [node name="Cache" parent="." instance=ExtResource("1_7u17q")]
 offset_left = 866.0
@@ -53,4 +59,8 @@ offset_top = -21.307
 offset_right = 82.495
 offset_bottom = 25.693
 
+[node name="PathFromCache" type="Path2D" parent="."]
+curve = SubResource("Curve2D_22nqy")
+
+[connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
 [connection signal="area_entered" from="Cache/Hitbox" to="." method="_on_area_2d_area_entered"]
