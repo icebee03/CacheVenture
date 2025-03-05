@@ -133,7 +133,7 @@ func sort_address_into_cache(addressString:String) -> void:
 	for lineIdx in possibleLines:
 		var line :Dictionary = _get_cache_line(lineIdx)
 		
-		if line["tag"] == str(tag):	# cache HIT, no replacement. only update info field and emit the hit signal 
+		if line["tag"] == "0x%x" % tag:	# cache HIT, no replacement. only update info field and emit the hit signal 
 			cacheHit.emit()	
 			_helper_update_cache_line(lineIdx, line, addressString, tag, timestamp, timestampUnix, updateType.HIT)					
 			wasLinePlaced = true
@@ -368,12 +368,12 @@ func _helper_update_cache_line(lineIdx:int, line:Dictionary, address:String, tag
 		updateType.COMPULSORY:
 			textForRandom = ""
 			textForLFU = str(1)				# set the counter to 1
-			textForTag = str(tag)
+			textForTag = "0x%x" % tag			#TODO: use formatstring: "0x%x" % tag
 
 		updateType.CONFLICT_OR_CAPACITY:
 			textForRandom = "replaced at random"
 			textForLFU = str(1)				# reset the counter to 1
-			textForTag = str(tag)
+			textForTag = "0x%x" % tag			#TODO: use formatstring: "0x%x" % tag
 
 	match replacementPolicy:
 			"Random":	
