@@ -22,6 +22,8 @@ enum updateType {HIT, COMPULSORY, CONFLICT_OR_CAPACITY}
 @export_group("Cache Properties")
 ## The amount of blocks that go into the cache.
 @export var blockNumber :int
+## The amount of Bytes a block stores
+@export var blockSize :int = 16 					# in Byte
 ## The amount of blocks that go into one set.
 @export var associativityDegree :int
 ## The replacement policy decides which cache line must be replaced upon a conflict or capacity cache miss.
@@ -35,6 +37,7 @@ enum updateType {HIT, COMPULSORY, CONFLICT_OR_CAPACITY}
 ## If [member blockNumber] < [member maxShownBlocks]: show only [member blockNumber] many rows.
 ## Internal maximum: 16 blocks shown.
 @export var maxShownBlocks :int
+
 
 # Private (underscore) count that is used in _add_cache_line()
 var _blockCount:int = 0
@@ -115,7 +118,6 @@ func sort_address_into_cache(addressString:String) -> void:
 	
 	# cache parameter calculations:
 	var setNumber :int = blockNumber / associativityDegree
-	var blockSize :int = 16 								# in Byte
 	var offsetBits :int = log(blockSize) / log(2)			# equivalent to log2(blockSize)
 	var indexBits :int = log(setNumber) / log(2)
 	var tagBits :int = 32 - (indexBits + offsetBits)		# 32-bit address
