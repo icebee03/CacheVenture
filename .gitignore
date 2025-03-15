@@ -3,3 +3,4 @@
 /android/
 (do not use)gdscript_experiments.tscn
 gdscript_experiments.gd
+*.tmp
