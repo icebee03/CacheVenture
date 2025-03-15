@@ -24,6 +24,10 @@ window/size/viewport_height=1080
 
 project/assembly_name="CacheVenture - Guardians of the Memory"
 
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

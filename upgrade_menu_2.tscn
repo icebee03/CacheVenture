@@ -1,0 +1,156 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgbm0i8vhobms"]
+
+[ext_resource type="Texture2D" uid="uid://dg6q4gqe0s4qv" path="res://icon.svg" id="1_c8he8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t5rd5"]
+bg_color = Color(0.413333, 0.3, 0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6ngt"]
+bg_color = Color(0.62, 0.45, 0.75, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oihe7"]
+bg_color = Color(0.801867, 0.582, 0.97, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c8he8"]
+bg_color = Color(0.31589, 0.696894, 0.344384, 1)
+
+[node name="Upgrade Menu 2" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Cache Upgrades Label" type="Label" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Cache Upgrades"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Panel" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel"]
+layout_mode = 2
+
+[node name="Modules Panel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_t5rd5")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Modules Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Modules Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 45
+text = "Modules"
+
+[node name="Overview Panel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_s6ngt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel"]
+layout_mode = 2
+
+[node name="Blocknbr VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocknbr VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+texture = ExtResource("1_c8he8")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocknbr VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 22
+text = "Block Number
+"
+horizontal_alignment = 1
+
+[node name="Blocksize VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocksize VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+texture = ExtResource("1_c8he8")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocksize VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 22
+text = "Block Number
+"
+horizontal_alignment = 1
+
+[node name="Assoc VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Assoc VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+texture = ExtResource("1_c8he8")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Assoc VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 22
+text = "Block Number
+"
+horizontal_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.21
+
+[node name="Panel3" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
+
+[node name="Panel2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 2.92
+theme_override_styles/panel = SubResource("StyleBoxFlat_c8he8")
