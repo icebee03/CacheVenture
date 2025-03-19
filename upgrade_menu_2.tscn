@@ -1,6 +1,91 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=28 format=3 uid="uid://dgbm0i8vhobms"]
 
-[ext_resource type="Texture2D" uid="uid://dg6q4gqe0s4qv" path="res://icon.svg" id="1_c8he8"]
+[ext_resource type="StyleBox" uid="uid://ci71f4gwuodso" path="res://upgrade option styling.tres" id="2_t5rd5"]
+[ext_resource type="StyleBox" uid="uid://df4klqe0t1atr" path="res://focus_box.tres" id="3_oihe7"]
+[ext_resource type="Script" uid="uid://34h7gr6j1sjc" path="res://upgrade_button.gd" id="3_s6ngt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_057qa"]
+bg_color = Color(0.1488, 0.108, 0.18, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yp6h7"]
+bg_color = Color(0.92, 0.75256, 0.2024, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.91, 0.667333, 0.3276, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oihe7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_057qa"]
+
+[sub_resource type="GDScript" id="GDScript_t5rd5"]
+script/source = "extends VBoxContainer
+
+
+#func _on_blocknbr_v_box_container_mouse_entered() -> void:
+	#$\"Upgrade Options/Block Number Upgrades\".visible = 	true
+	#$\"Upgrade Options/Block Size Upgrades\".visible = 		false
+	#$\"Upgrade Options/Associativity Upgrades\".visible = 	false
+	
+
+#func _on_blocksize_v_box_container_2_mouse_entered() -> void:
+	#print(\"Mouse!\")
+	#$\"Upgrade Options/Block Number Upgrades\".visible = 	false
+	#$\"Upgrade Options/Block Size Upgrades\".visible = 		true
+	#$\"Upgrade Options/Associativity Upgrades\".visible = 	false
+
+
+#func _on_assoc_v_box_container_3_mouse_entered() -> void:
+	#$\"Upgrade Options/Block Number Upgrades\".visible = 	false
+	#$\"Upgrade Options/Block Size Upgrades\".visible = 		false
+	#$\"Upgrade Options/Associativity Upgrades\".visible = 	true
+	
+var arrow : Label
+@onready var block_number_module = $\"Module Selector/Margin/HBox/Blocknumber\"
+@onready var block_size_module = $\"Module Selector/Margin/HBox/Blocksize\"
+@onready var associativity_module = $\"Module Selector/Margin/HBox/Associativity\"
+
+func _ready() -> void:
+	arrow = get_tree().root.get_node(\"Upgrade Menu 2/Module Arrow\")
+	
+	
+func _on_blocknbr_v_box_container_focus_entered() -> void:
+	print(\"Focus on block number!\")
+	var x_pos = block_number_module.global_position[0]
+	x_pos += (block_number_module.size[0] / 2) - (arrow.size[0]/2)
+	arrow.set_position(Vector2(x_pos, 400))
+	$\"Upgrade Options/Block Number Upgrades\".visible = 	true
+	$\"Upgrade Options/Block Size Upgrades\".visible = 		false
+	$\"Upgrade Options/Associativity Upgrades\".visible = 	false
+	
+func _on_blocksize_v_box_container_2_focus_entered() -> void:
+	print(\"Focus on block size!\")
+	var x_pos = block_size_module.global_position[0]
+	x_pos += (block_size_module.size[0]/2) - arrow.size[0]/2
+	arrow.set_position(Vector2(x_pos, 400))
+	$\"Upgrade Options/Block Number Upgrades\".visible = 	false
+	$\"Upgrade Options/Block Size Upgrades\".visible = 		true
+	$\"Upgrade Options/Associativity Upgrades\".visible = 	false
+	
+func _on_assoc_v_box_container_3_focus_entered() -> void:
+	print(\"Focus on associativity!\")
+	var x_pos = associativity_module.global_position[0]
+	x_pos += (associativity_module.size[0]/2) - arrow.size[0]/2
+	arrow.set_position(Vector2(x_pos, 400))
+	$\"Upgrade Options/Block Number Upgrades\".visible = 	false
+	$\"Upgrade Options/Block Size Upgrades\".visible = 		false
+	$\"Upgrade Options/Associativity Upgrades\".visible = 	true
+	
+
+
+func _on_panel_container_3_focus_entered() -> void:
+	print(\"Focus on 16B!\")
+"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t5rd5"]
 bg_color = Color(0.413333, 0.3, 0.5, 1)
@@ -8,11 +93,97 @@ bg_color = Color(0.413333, 0.3, 0.5, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6ngt"]
 bg_color = Color(0.62, 0.45, 0.75, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wa6nd"]
+bg_color = Color(0.39256, 0.1736, 0.56, 1)
+border_width_left = 10
+border_width_bottom = 5
+border_color = Color(0.46, 0.46, 0.46, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 55
+shadow_color = Color(0, 0, 0, 0.054902)
+shadow_size = 1
+shadow_offset = Vector2(-6.825, 4.665)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c8he8"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oihe7"]
 bg_color = Color(0.801867, 0.582, 0.97, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c8he8"]
-bg_color = Color(0.31589, 0.696894, 0.344384, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqohw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6g6sn"]
+bg_color = Color(0.62, 0.45, 0.75, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_av7vs"]
+bg_color = Color(0.62, 0.45, 0.75, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t5rd5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_814of"]
+bg_color = Color(0.62, 0.45, 0.75, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2si5a"]
+bg_color = Color(0.801867, 0.582, 0.97, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70i5d"]
+bg_color = Color(0.1748, 0.38, 0.18848, 1)
+corner_radius_bottom_left = 25
+
+[sub_resource type="GDScript" id="GDScript_s6ngt"]
+script/source = "extends Label
+
+
+# just for testing
+# TODO: use stored coin values for displaying
+func _on_upgrade_button_upgrade_bought(price: int) -> void:
+	var new_text:String = $\".\".text
+	var first_slice:String = new_text.get_slice(\" \", 0)
+	var coins = first_slice.to_int()
+	coins = coins - price
+	new_text = new_text.replace(first_slice, str(coins))
+	$\".\".text = new_text
+	
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ir0uh"]
+bg_color = Color(0.317647, 0.698039, 0.345098, 1)
+corner_radius_top_left = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_c8he8"]
+color = Color(1, 1, 1, 1)
+thickness = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6ngt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83xxv"]
+bg_color = Color(0.92, 0.75256, 0.2024, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.91, 0.667333, 0.3276, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.247059)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cs8on"]
+draw_center = false
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.91, 0.667333, 0.3276, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wa6nd"]
 
 [node name="Upgrade Menu 2" type="Control"]
 layout_mode = 3
@@ -21,79 +192,150 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="Top" type="PanelContainer" parent="VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_057qa")
+
+[node name="Top MarginContainer" type="MarginContainer" parent="VBox/Top"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="Cache Upgrades Label" type="Label" parent="VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBox/Top/Top MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Cache Upgrades Label" type="Label" parent="VBox/Top/Top MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 64
 text = "Cache Upgrades"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Reset Button" type="PanelContainer" parent="VBox/Top/Top MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_yp6h7")
+metadata/_edit_group_ = true
+
+[node name="Button" type="Button" parent="VBox/Top/Top MarginContainer/HBoxContainer/Reset Button"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.28, 0.28, 0.28, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oihe7")
+text = "Reset"
+flat = true
+
+[node name="Back Button" type="PanelContainer" parent="VBox/Top/Top MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_yp6h7")
+metadata/_edit_group_ = true
+
+[node name="Button" type="Button" parent="VBox/Top/Top MarginContainer/HBoxContainer/Back Button"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.28, 0.28, 0.28, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_057qa")
+text = "Back"
+flat = true
+
+[node name="Bottom" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="Panel" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="Left Side" type="PanelContainer" parent="VBox/Bottom"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBox/Bottom/Left Side"]
 layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+script = SubResource("GDScript_t5rd5")
 
-[node name="Modules Panel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+[node name="Modules Text" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_t5rd5")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Modules Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Modules Text"]
 layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Modules Panel/MarginContainer"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Modules Text/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 45
 text = "Modules"
 
-[node name="Overview Panel" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+[node name="Module Selector" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_s6ngt")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel"]
+[node name="Margin" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector"]
 layout_mode = 2
+theme_override_constants/margin_top = 20
 
-[node name="Blocknbr VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+[node name="HBox" type="HBoxContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Blocknumber" type="VBoxContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Associativity")
+focus_neighbor_right = NodePath("../Blocksize")
+focus_next = NodePath("../Blocksize")
+focus_previous = NodePath("../Associativity")
+focus_mode = 2
+metadata/_edit_group_ = true
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocknbr VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber"]
+custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 10
-texture = ExtResource("1_c8he8")
-stretch_mode = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocknbr VBoxContainer"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "256"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber"]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_font_sizes/font_size = 22
@@ -101,56 +343,1137 @@ text = "Block Number
 "
 horizontal_alignment = 1
 
-[node name="Blocksize VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+[node name="Blocksize" type="VBoxContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Blocknumber")
+focus_neighbor_right = NodePath("../Associativity")
+focus_next = NodePath("../Associativity")
+focus_previous = NodePath("../Blocknumber")
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 7
+metadata/_edit_group_ = true
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocksize VBoxContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize"]
+custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 10
-texture = ExtResource("1_c8he8")
-stretch_mode = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Blocksize VBoxContainer2"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "32 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize"]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_font_sizes/font_size = 22
-text = "Block Number
+text = "Block Size
 "
 horizontal_alignment = 1
 
-[node name="Assoc VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+[node name="Associativity" type="VBoxContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Blocksize")
+focus_neighbor_right = NodePath("../Blocknumber")
+focus_next = NodePath("../Blocknumber")
+focus_previous = NodePath("../Blocksize")
+focus_mode = 2
+mouse_filter = 0
+metadata/_edit_group_ = true
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Assoc VBoxContainer3"]
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity"]
+custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 10
-texture = ExtResource("1_c8he8")
-stretch_mode = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer/Assoc VBoxContainer3"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "4x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity"]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_font_sizes/font_size = 22
-text = "Block Number
+text = "Associativity
 "
 horizontal_alignment = 1
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer/Overview Panel/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.21
+theme_override_styles/separator = SubResource("StyleBoxEmpty_c8he8")
 
-[node name="Panel3" type="PanelContainer" parent="VBoxContainer/HBoxContainer/Panel/VBoxContainer"]
+[node name="Upgrade Options" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
+
+[node name="Block Number Upgrades" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 125
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="GridContainer" type="GridContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 100
+columns = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer3"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer4"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "16"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer5"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "32"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer6" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer6"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "64"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer7" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer7"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "128"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer8" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer8"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "256"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Block Size Upgrades" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 125
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="GridContainer" type="GridContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 100
+columns = 6
+
+[node name="4B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/4B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "4 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="8B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/8B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "8 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="16B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/16B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "16 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="32B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/32B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "32 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="64B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/64B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "64 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="128B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/128B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "128 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="256B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/256B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "256 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="512B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/512B"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "512 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1KiB" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/1KiB"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "1 KiB"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Associativity Upgrades" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 125
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="GridContainer" type="GridContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 100
+columns = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "1x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "2x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer3"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "4x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer4"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "8x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer5"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "16x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer6" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer6"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "32x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabContainer" type="TabContainer" parent="VBox/Bottom/Left Side/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_sqohw")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_6g6sn")
+current_tab = 0
+
+[node name="TabBar" type="TabBar" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer"]
+layout_mode = 2
+theme_override_styles/tab_focus = SubResource("StyleBoxFlat_av7vs")
+current_tab = 0
+tab_alignment = 1
+tab_count = 3
+tab_0/title = "Ihrler"
+tab_1/title = "straub"
+tab_2/title = "Hörnig"
+metadata/_tab_index = 0
+
+[node name="Block Number" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar"]
+visible = false
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 31.0
+offset_right = 1130.0
+offset_bottom = 506.0
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
 
-[node name="Panel2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 125
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="GridContainer" type="GridContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 100
+columns = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "4 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "8 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer3"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "16 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer4"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "32 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer5"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "128 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer6" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer6"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "256 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer7" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer7"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "512 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer8" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar/Block Number/MarginContainer/GridContainer/PanelContainer8"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "1 KiB"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="TabBar2" type="TabBar" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Block Size" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2"]
+visible = false
+layout_mode = 2
+offset_right = 1170.0
+offset_bottom = 515.0
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 125
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="GridContainer" type="GridContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 100
+columns = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "8 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer3"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "16 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer4"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "32 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer5"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "128 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer6" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer6"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "256 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer7" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer7"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "512 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer8" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar2/Block Size/MarginContainer/GridContainer/PanelContainer8"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "1 KiB"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="TabBar3" type="TabBar" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Associativity" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3"]
+visible = false
+layout_mode = 2
+offset_right = 1170.0
+offset_bottom = 515.0
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 125
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="GridContainer" type="GridContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 100
+columns = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "8 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer3"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "16 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer4" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer4"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "32 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer5" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer5"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "128 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer6" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer6"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "256 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer7" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer7"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "512 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer8" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/TabContainer/TabBar3/Associativity/MarginContainer/GridContainer/PanelContainer8"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "1 KiB"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Right Side" type="PanelContainer" parent="VBox/Bottom"]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 size_flags_stretch_ratio = 2.92
-theme_override_styles/panel = SubResource("StyleBoxFlat_c8he8")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_t5rd5")
+
+[node name="BG Lila Colors" type="VBoxContainer" parent="VBox/Bottom/Right Side"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="VBox/Bottom/Right Side/BG Lila Colors"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_814of")
+
+[node name="Panel2" type="Panel" parent="VBox/Bottom/Right Side/BG Lila Colors"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_2si5a")
+
+[node name="Details" type="VBoxContainer" parent="VBox/Bottom/Right Side"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Coins Display" type="PanelContainer" parent="VBox/Bottom/Right Side/Details"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_70i5d")
+
+[node name="Currency Label" type="Label" parent="VBox/Bottom/Right Side/Details/Coins Display"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+text = "13 🪙 /  20 🪙"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_s6ngt")
+
+[node name="Info & Buy Button" type="PanelContainer" parent="VBox/Bottom/Right Side/Details"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.04
+theme_override_styles/panel = SubResource("StyleBoxFlat_ir0uh")
+
+[node name="Info & Buy Button" type="MarginContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 10
+
+[node name="Info & Buy Button" type="VBoxContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button"]
+layout_mode = 2
+
+[node name="Upgrade Title" type="RichTextLabel" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.45
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "Block Size"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Underline Divider" type="Panel" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.03
+theme_override_styles/panel = SubResource("StyleBoxLine_c8he8")
+
+[node name="32B Icon" type="MarginContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="32B Icon" type="PanelContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/32B Icon"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = ExtResource("2_t5rd5")
+
+[node name="32 B" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/32B Icon/32B Icon"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 100
+text = "32 B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Upgrade Info Text" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.37
+theme_override_font_sizes/font_size = 25
+text = "Stores 32 Byte of Data in each block.
+
++ SPATIAL PERFORMANCE"
+
+[node name="Underline Divider2" type="Panel" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.03
+theme_override_styles/panel = SubResource("StyleBoxLine_c8he8")
+
+[node name="Upgrade Cost & Button" type="HBoxContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Upgrade Cost" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 25
+text = "Upgrade Cost: 5 🪙"
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_s6ngt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_83xxv")
+value = 68.95
+show_percentage = false
+
+[node name="Upgrade Button" type="Button" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar"]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_colors/font_disabled_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.278431, 0.278431, 0.278431, 1)
+theme_override_colors/font_color = Color(0.278431, 0.278431, 0.278431, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 25
+theme_override_styles/focus = SubResource("StyleBoxFlat_cs8on")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_cs8on")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_cs8on")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cs8on")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cs8on")
+theme_override_styles/normal = SubResource("StyleBoxFlat_cs8on")
+toggle_mode = true
+text = "Purchase"
+script = ExtResource("3_s6ngt")
+
+[node name="HSeparator" type="HSeparator" parent="VBox/Bottom/Right Side/Details"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.08
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wa6nd")
+
+[node name="Module Arrow" type="Label" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_left = 65.5
+offset_top = 400.0
+offset_right = 165.5
+offset_bottom = 581.0
+rotation = 3.14159
+pivot_offset = Vector2(50, 90)
+theme_override_font_sizes/font_size = 130
+text = "⬇️"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
+clip_text = true
+
+[node name="Focus Outline" type="PanelContainer" parent="."]
+layout_mode = 2
+offset_left = 622.0
+offset_top = 798.0
+offset_right = 762.0
+offset_bottom = 938.0
+focus_mode = 2
+theme_override_styles/panel = ExtResource("3_oihe7")
+
+[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocknbr_v_box_container_focus_entered"]
+[connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocknbr_v_box_container_mouse_entered"]
+[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocksize_v_box_container_2_focus_entered"]
+[connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocksize_v_box_container_2_mouse_entered"]
+[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_assoc_v_box_container_3_focus_entered"]
+[connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_assoc_v_box_container_3_mouse_entered"]
+[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/16B" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_panel_container_3_focus_entered"]
+[connection signal="button_down" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" method="_on_button_down"]
+[connection signal="button_up" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" method="_on_button_up"]
+[connection signal="upgrade_bought" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Coins Display/Currency Label" method="_on_upgrade_button_upgrade_bought"]
