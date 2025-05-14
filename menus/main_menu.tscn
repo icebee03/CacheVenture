@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://ilgtuvsnokah"]
+[gd_scene load_steps=23 format=3 uid="uid://ilgtuvsnokah"]
 
-[ext_resource type="Script" uid="uid://dwiryy3cxhxpc" path="res://main_menu.gd" id="1_7vrkn"]
+[ext_resource type="Script" uid="uid://dwiryy3cxhxpc" path="res://menus/main_menu.gd" id="1_7vrkn"]
 [ext_resource type="Texture2D" uid="uid://gohxhknol14k" path="res://images/Logo particles experimental trans.png" id="2_7vrkn"]
-[ext_resource type="Texture2D" uid="uid://cfioisth7j36o" path="res://images/Logo particles part 1.png" id="3_jix8l"]
+[ext_resource type="Texture2D" uid="uid://dqlric42t6e1d" path="res://images/Blocks.png" id="2_glbon"]
 [ext_resource type="Texture2D" uid="uid://bwmxylsyxoitf" path="res://images/Logo particles part 2.png" id="4_glbon"]
+[ext_resource type="Texture2D" uid="uid://c5im7lht5ciiv" path="res://images/Logo fancy v2 transparent.png" id="4_nlkkf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhts7"]
 bg_color = Color(0.653105, 0.644694, 0.81381, 1)
@@ -14,6 +15,7 @@ bg_color = Color(0.653105, 0.644694, 0.81381, 1)
 font_names = PackedStringArray("Rockwell")
 font_italic = true
 font_stretch = 200
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vrkn"]
 bg_color = Color(0.317647, 0.698039, 0.345098, 1)
@@ -84,8 +86,17 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_rhts7")
 layout_mode = 2
 theme_override_constants/margin_left = 20
 
-[node name="MAIN MENU Text" type="RichTextLabel" parent="PanelContainer/HBoxContainer/LeftSide/MarginContainer"]
-custom_minimum_size = Vector2(600, 0)
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/LeftSide/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BlocksIcon" type="TextureRect" parent="PanelContainer/HBoxContainer/LeftSide/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_glbon")
+expand_mode = 2
+
+[node name="MAIN MENU Text" type="RichTextLabel" parent="PanelContainer/HBoxContainer/LeftSide/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(228.695, 0)
 layout_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = SubResource("SystemFont_7vrkn")
@@ -216,7 +227,7 @@ layout_mode = 2
 offset_left = 790.0
 offset_right = 1870.0
 offset_bottom = 1080.0
-texture = ExtResource("3_jix8l")
+texture = ExtResource("4_nlkkf")
 expand_mode = 2
 stretch_mode = 5
 

@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnsf2p6j80wxs"]
+
+[ext_resource type="Script" uid="uid://bt2wkbyl2fgef" path="res://menus/level_menu.gd" id="1_pssaq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tycui"]
+bg_color = Color(0.149071, 0.140273, 0.238736, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_mcy63"]
+font_names = PackedStringArray("Rockwell")
+
+[node name="Level Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pssaq")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tycui")
+
+[node name="Lvl1Button" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.215625
+anchor_top = 0.351852
+anchor_right = 0.319792
+anchor_bottom = 0.537037
+offset_right = -6.10352e-05
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("SystemFont_mcy63")
+theme_override_font_sizes/font_size = 66
+text = "Level
+1"
+metadata/_edit_use_anchors_ = true
+
+[node name="UpgradeMenuButton" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.628646
+anchor_top = 0.321296
+anchor_right = 0.771875
+anchor_bottom = 0.537037
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("SystemFont_mcy63")
+theme_override_font_sizes/font_size = 66
+text = "Upgrade
+Menu"
+metadata/_edit_use_anchors_ = true
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 849.0
+offset_top = -515.0
+offset_right = 923.0
+offset_bottom = -471.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("SystemFont_mcy63")
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[connection signal="pressed" from="Lvl1Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UpgradeMenuButton" to="." method="_on_upgrade_menu_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

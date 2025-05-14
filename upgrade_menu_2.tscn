@@ -1,5 +1,6 @@
-[gd_scene load_steps=29 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=30 format=3 uid="uid://dgbm0i8vhobms"]
 
+[ext_resource type="Script" uid="uid://bqfsuhedtqxd5" path="res://menus/upgrade_menu_2.gd" id="1_oihe7"]
 [ext_resource type="StyleBox" uid="uid://ci71f4gwuodso" path="res://upgrade option styling.tres" id="2_t5rd5"]
 [ext_resource type="StyleBox" uid="uid://df4klqe0t1atr" path="res://focus_box.tres" id="3_oihe7"]
 [ext_resource type="Script" uid="uid://34h7gr6j1sjc" path="res://upgrade_button.gd" id="3_s6ngt"]
@@ -232,6 +233,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_oihe7")
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -270,7 +272,7 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_yp6h7")
 metadata/_edit_group_ = true
 
-[node name="Button" type="Button" parent="VBox/Top/Top MarginContainer/HBoxContainer/Reset Button"]
+[node name="ResetButton" type="Button" parent="VBox/Top/Top MarginContainer/HBoxContainer/Reset Button"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_vertical = 4
@@ -287,7 +289,7 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_yp6h7")
 metadata/_edit_group_ = true
 
-[node name="Button" type="Button" parent="VBox/Top/Top MarginContainer/HBoxContainer/Back Button"]
+[node name="BackButton" type="Button" parent="VBox/Top/Top MarginContainer/HBoxContainer/Back Button"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_vertical = 4
@@ -1540,6 +1542,7 @@ offset_bottom = 938.0
 focus_mode = 2
 theme_override_styles/panel = ExtResource("3_oihe7")
 
+[connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Back Button/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocknbr_v_box_container_focus_entered"]
 [connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocknbr_v_box_container_mouse_entered"]
 [connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocksize_v_box_container_2_focus_entered"]

@@ -8,7 +8,7 @@ func _ready() -> void:
 
 
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://First Level Prototype.tscn")
+	get_tree().change_scene_to_file("res://menus/level_menu.tscn")
 
 
 func _on_quit_button_pressed() -> void:

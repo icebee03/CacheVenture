@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpnih78j7pofm"]
+[gd_scene load_steps=3 format=3 uid="uid://bpnih78j7pofm"]
 
 [ext_resource type="Script" uid="uid://dmlndt2cb6f7j" path="res://hud.gd" id="1_37p78"]
+
+[sub_resource type="SystemFont" id="SystemFont_37p78"]
+font_names = PackedStringArray("Rockwell")
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_37p78")
@@ -14,10 +17,11 @@ offset_bottom = 181.0
 grow_horizontal = 0
 size_flags_horizontal = 0
 size_flags_vertical = 4
+theme_override_fonts/normal_font = SubResource("SystemFont_37p78")
 theme_override_font_sizes/normal_font_size = 40
 theme_override_font_sizes/bold_font_size = 40
 bbcode_enabled = true
-text = "[b][u]Score[/u][/b]
+text = "[u] Score  [/u]
 Hit Rate: xx.x%
 Miss Rate: yy.y%"
 
