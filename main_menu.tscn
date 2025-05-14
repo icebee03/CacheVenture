@@ -1,6 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://ilgtuvsnokah"]
+[gd_scene load_steps=22 format=3 uid="uid://ilgtuvsnokah"]
 
-[ext_resource type="Texture2D" uid="uid://c5im7lht5ciiv" path="res://images/Logo fancy v2 transparent.png" id="1_06t4h"]
+[ext_resource type="Script" uid="uid://dwiryy3cxhxpc" path="res://main_menu.gd" id="1_7vrkn"]
+[ext_resource type="Texture2D" uid="uid://gohxhknol14k" path="res://images/Logo particles experimental trans.png" id="2_7vrkn"]
+[ext_resource type="Texture2D" uid="uid://cfioisth7j36o" path="res://images/Logo particles part 1.png" id="3_jix8l"]
+[ext_resource type="Texture2D" uid="uid://bwmxylsyxoitf" path="res://images/Logo particles part 2.png" id="4_glbon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhts7"]
 bg_color = Color(0.653105, 0.644694, 0.81381, 1)
@@ -52,6 +55,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7vrkn")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -201,7 +205,29 @@ layout_mode = 2
 theme_override_constants/margin_right = 50
 
 [node name="GameLogo!!!" type="TextureRect" parent="PanelContainer/HBoxContainer/RightSide/MarginContainer"]
+visible = false
 layout_mode = 2
-texture = ExtResource("1_06t4h")
+texture = ExtResource("2_7vrkn")
 expand_mode = 2
 stretch_mode = 5
+
+[node name="GameLogo!" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 790.0
+offset_right = 1870.0
+offset_bottom = 1080.0
+texture = ExtResource("3_jix8l")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="GameLogo! (particles)" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 790.0
+offset_right = 1870.0
+offset_bottom = 1080.0
+texture = ExtResource("4_glbon")
+expand_mode = 2
+stretch_mode = 5
+
+[connection signal="pressed" from="PanelContainer/HBoxContainer/LeftSide/PanelContainer/MarginContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/LeftSide/PanelContainer4/MarginContainer/QuitButton" to="." method="_on_quit_button_pressed"]
