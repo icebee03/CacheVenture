@@ -24,9 +24,8 @@ point_count = 7
 
 [node name="First Level" type="Node"]
 script = ExtResource("1_fjlrh")
-spawnRate = 0.125
-pathSpeed = 0.125
-timeToLoop = 5.0
+spawnRate = 1.0
+pathSpeed = 1.0
 
 [node name="Cache" parent="." instance=ExtResource("1_7u17q")]
 offset_left = 861.0

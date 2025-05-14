@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=29 format=3 uid="uid://dgbm0i8vhobms"]
 
 [ext_resource type="StyleBox" uid="uid://ci71f4gwuodso" path="res://upgrade option styling.tres" id="2_t5rd5"]
 [ext_resource type="StyleBox" uid="uid://df4klqe0t1atr" path="res://focus_box.tres" id="3_oihe7"]
@@ -25,33 +25,37 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="GDScript" id="GDScript_t5rd5"]
 script/source = "extends VBoxContainer
-
-
-#func _on_blocknbr_v_box_container_mouse_entered() -> void:
-	#$\"Upgrade Options/Block Number Upgrades\".visible = 	true
-	#$\"Upgrade Options/Block Size Upgrades\".visible = 		false
-	#$\"Upgrade Options/Associativity Upgrades\".visible = 	false
 	
-
-#func _on_blocksize_v_box_container_2_mouse_entered() -> void:
-	#print(\"Mouse!\")
-	#$\"Upgrade Options/Block Number Upgrades\".visible = 	false
-	#$\"Upgrade Options/Block Size Upgrades\".visible = 		true
-	#$\"Upgrade Options/Associativity Upgrades\".visible = 	false
-
-
-#func _on_assoc_v_box_container_3_mouse_entered() -> void:
-	#$\"Upgrade Options/Block Number Upgrades\".visible = 	false
-	#$\"Upgrade Options/Block Size Upgrades\".visible = 		false
-	#$\"Upgrade Options/Associativity Upgrades\".visible = 	true
-	
+var root	
 var arrow : Label
+var focus_outline : PanelContainer
+var info_and_buy : VBoxContainer
+var upgrade_title : RichTextLabel
 @onready var block_number_module = $\"Module Selector/Margin/HBox/Blocknumber\"
 @onready var block_size_module = $\"Module Selector/Margin/HBox/Blocksize\"
 @onready var associativity_module = $\"Module Selector/Margin/HBox/Associativity\"
 
 func _ready() -> void:
-	arrow = get_tree().root.get_node(\"Upgrade Menu 2/Module Arrow\")
+	root = get_tree().root
+	arrow = root.get_node(\"Upgrade Menu 2/Module Arrow\")
+	focus_outline = root.get_node(\"Upgrade Menu 2/Focus Outline\")
+	info_and_buy = root.get_node(\"Upgrade Menu 2/VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button\")
+	upgrade_title = root.get_node(\"Upgrade Menu 2/VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Title\")
+	
+func _process(delta: float) -> void:
+	set_focus_outline()
+	
+	
+## Draws the focus outline around the currently focused upgrade option	
+func set_focus_outline() -> void:
+	var focused :Control =  get_viewport().gui_get_focus_owner()
+	if focused == null: return
+	if focused is not PanelContainer: return
+	var pos : Vector2 = focused.global_position
+	var offset : Vector2 = (focus_outline.size - focused.size) / 2
+	# animate the movement of the focus rectangle
+	var tween : Tween = get_tree().create_tween()
+	tween.tween_property(focus_outline, \"position\", pos-offset, 0.1)
 	
 	
 func _on_blocknbr_v_box_container_focus_entered() -> void:
@@ -59,6 +63,7 @@ func _on_blocknbr_v_box_container_focus_entered() -> void:
 	var x_pos = block_number_module.global_position[0]
 	x_pos += (block_number_module.size[0] / 2) - (arrow.size[0]/2)
 	arrow.set_position(Vector2(x_pos, 400))
+	upgrade_title.text = \"Block Number\"
 	$\"Upgrade Options/Block Number Upgrades\".visible = 	true
 	$\"Upgrade Options/Block Size Upgrades\".visible = 		false
 	$\"Upgrade Options/Associativity Upgrades\".visible = 	false
@@ -68,6 +73,7 @@ func _on_blocksize_v_box_container_2_focus_entered() -> void:
 	var x_pos = block_size_module.global_position[0]
 	x_pos += (block_size_module.size[0]/2) - arrow.size[0]/2
 	arrow.set_position(Vector2(x_pos, 400))
+	upgrade_title.text = \"Block Size\"
 	$\"Upgrade Options/Block Number Upgrades\".visible = 	false
 	$\"Upgrade Options/Block Size Upgrades\".visible = 		true
 	$\"Upgrade Options/Associativity Upgrades\".visible = 	false
@@ -77,14 +83,11 @@ func _on_assoc_v_box_container_3_focus_entered() -> void:
 	var x_pos = associativity_module.global_position[0]
 	x_pos += (associativity_module.size[0]/2) - arrow.size[0]/2
 	arrow.set_position(Vector2(x_pos, 400))
+	upgrade_title.text = \"Degree of Associativity\"
 	$\"Upgrade Options/Block Number Upgrades\".visible = 	false
 	$\"Upgrade Options/Block Size Upgrades\".visible = 		false
 	$\"Upgrade Options/Associativity Upgrades\".visible = 	true
 	
-
-
-func _on_panel_container_3_focus_entered() -> void:
-	print(\"Focus on 16B!\")
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t5rd5"]
@@ -151,6 +154,42 @@ func _on_upgrade_button_upgrade_bought(price: int) -> void:
 bg_color = Color(0.317647, 0.698039, 0.345098, 1)
 corner_radius_top_left = 25
 corner_radius_bottom_left = 25
+
+[sub_resource type="GDScript" id="GDScript_oihe7"]
+script/source = "extends VBoxContainer
+
+var upgrade_type : String 
+@onready var upgrade_icon : Label = $\"Icon/Upgrade Icon/Upgrade Label\"
+@onready var upgrade_info_text : Label = $\"Upgrade Info Text\"
+@onready var upgrade_cost : Label = $\"Upgrade Cost & Button/Upgrade Cost\"
+
+
+func _process(delta: float) -> void:
+	display_focused_info()
+	
+
+func display_focused_info() -> void:
+	var focused :Control =  get_viewport().gui_get_focus_owner()
+	if focused == null: return
+	if focused is not PanelContainer: return
+	var focused_child_0 = focused.get_child(0)
+	if focused_child_0 == null: return
+	var upgrade_text : String = focused_child_0.text
+	upgrade_icon.text = upgrade_text
+	upgrade_type = $\"Upgrade Title\".text
+	if upgrade_type == \"Block Number\":
+		var info_text : String = \"%s\" % upgrade_text
+		upgrade_info_text.text = info_text
+		upgrade_cost.text = \"Upgrade Cost: 5 🪙\"
+	elif upgrade_type == \"Block Size\":
+		var info_text : String = \"Stores %syte of Data in each block.\\n\\n+SPATIAL PERFORMANCE\" % upgrade_text
+		upgrade_info_text.text = info_text
+		upgrade_cost.text = \"Upgrade Cost: 2 🪙\"
+	elif upgrade_type == \"Degree of Associativity\":
+		var info_text : String = \"%s\" % upgrade_text
+		upgrade_info_text.text = info_text
+		upgrade_cost.text = \"Upgrade Cost: 10 🪙\"
+"
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_c8he8"]
 color = Color(1, 1, 1, 1)
@@ -442,14 +481,15 @@ theme_override_constants/h_separation = 50
 theme_override_constants/v_separation = 100
 columns = 6
 
-[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="2 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/2 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -457,14 +497,15 @@ text = "2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="4 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer2"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/4 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -472,14 +513,15 @@ text = "4"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="8 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer3"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/8 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -487,14 +529,15 @@ text = "8"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer4" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="16 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer4"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/16 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -502,14 +545,15 @@ text = "16"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer5" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="32 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer5"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/32 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -517,14 +561,15 @@ text = "32"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer6" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="64 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer6"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/64 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -532,14 +577,15 @@ text = "64"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer7" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="128 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer7"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/128 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -547,14 +593,15 @@ text = "128"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer8" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+[node name="256 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/PanelContainer8"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer/256 Blocks"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -564,6 +611,7 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="Block Size Upgrades" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options"]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 100
@@ -583,6 +631,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/4B"]
@@ -598,6 +647,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/8B"]
@@ -629,7 +679,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-mouse_filter = 2
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/32B"]
@@ -645,7 +695,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-mouse_filter = 2
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/64B"]
@@ -661,6 +711,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/128B"]
@@ -676,6 +727,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/256B"]
@@ -691,6 +743,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/512B"]
@@ -706,6 +759,7 @@ custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/1KiB"]
@@ -731,14 +785,17 @@ theme_override_constants/h_separation = 50
 theme_override_constants/v_separation = 100
 columns = 6
 
-[node name="PanelContainer" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+[node name="1x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_left = NodePath("../32x")
+focus_neighbor_right = NodePath("../2x")
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/1x"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -746,14 +803,17 @@ text = "1x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+[node name="2x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_left = NodePath("../1x")
+focus_neighbor_right = NodePath("../4x")
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer2"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/2x"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -761,14 +821,17 @@ text = "2x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer3" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+[node name="4x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_left = NodePath("../2x")
+focus_neighbor_right = NodePath("../8x")
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer3"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/4x"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -776,14 +839,17 @@ text = "4x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer4" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+[node name="8x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_left = NodePath("../4x")
+focus_neighbor_right = NodePath("../16x")
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer4"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/8x"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -791,14 +857,17 @@ text = "8x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer5" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+[node name="16x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_left = NodePath("../8x")
+focus_neighbor_right = NodePath("../32x")
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer5"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/16x"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -806,14 +875,17 @@ text = "16x"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer6" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+[node name="32x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_neighbor_left = NodePath("../16x")
+focus_neighbor_right = NodePath("../2x")
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/PanelContainer6"]
+[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer/32x"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -1330,6 +1402,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="Info & Buy Button" type="VBoxContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
+script = SubResource("GDScript_oihe7")
 
 [node name="Upgrade Title" type="RichTextLabel" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
@@ -1347,7 +1420,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.03
 theme_override_styles/panel = SubResource("StyleBoxLine_c8he8")
 
-[node name="32B Icon" type="MarginContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+[node name="Icon" type="MarginContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 25
@@ -1355,14 +1428,14 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="32B Icon" type="PanelContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/32B Icon"]
+[node name="Upgrade Icon" type="PanelContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Icon"]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = ExtResource("2_t5rd5")
 
-[node name="32 B" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/32B Icon/32B Icon"]
+[node name="Upgrade Label" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Icon/Upgrade Icon"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 100
@@ -1473,7 +1546,6 @@ theme_override_styles/panel = ExtResource("3_oihe7")
 [connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocksize_v_box_container_2_mouse_entered"]
 [connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_assoc_v_box_container_3_focus_entered"]
 [connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_assoc_v_box_container_3_mouse_entered"]
-[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer/16B" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_panel_container_3_focus_entered"]
 [connection signal="button_down" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" method="_on_button_down"]
 [connection signal="button_up" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" method="_on_button_up"]
 [connection signal="upgrade_bought" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Coins Display/Currency Label" method="_on_upgrade_button_upgrade_bought"]
