@@ -87,6 +87,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func _on_timer_timeout() ->void:
 	var newAddress: Node = preload("res://floating_address.tscn").instantiate()
 	var pathFollow: PathFollow2D = PathFollow2D.new()
+	pathFollow.rotates = false
 	var tween = get_tree().create_tween()
 	# Half of the time sequential access, the other half temporal
 	var decision:float = RandomNumberGenerator.new().randf()

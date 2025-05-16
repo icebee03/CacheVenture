@@ -5,14 +5,23 @@
 [sub_resource type="SystemFont" id="SystemFont_37p78"]
 font_names = PackedStringArray("Rockwell")
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_37p78")
 
 [node name="ScoreLabel" type="RichTextLabel" parent="."]
+show_behind_parent = true
+z_index = -2
+z_as_relative = false
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -370.0
+offset_left = 1550.0
+offset_right = 1920.0
 offset_bottom = 181.0
 grow_horizontal = 0
 size_flags_horizontal = 0
@@ -21,17 +30,23 @@ theme_override_fonts/normal_font = SubResource("SystemFont_37p78")
 theme_override_font_sizes/normal_font_size = 40
 theme_override_font_sizes/bold_font_size = 40
 bbcode_enabled = true
-text = "[u] Score  [/u]
+text = "[u] Score [/u]
 Hit Rate: xx.x%
 Miss Rate: yy.y%"
 
 [node name="LoopTimerLabel" type="RichTextLabel" parent="."]
+show_behind_parent = true
+z_index = -2
+z_as_relative = false
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -57.0
+offset_top = 1023.0
 offset_right = 712.0
+offset_bottom = 1080.0
 grow_vertical = 0
+theme_override_fonts/normal_font = SubResource("SystemFont_37p78")
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "   Time until start of loop: xxxs"
