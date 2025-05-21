@@ -49,6 +49,7 @@ theme_override_font_sizes/font_size = 30
 text = "Back"
 
 [node name="Cache" parent="." instance=ExtResource("1_7u17q")]
+process_mode = 3
 offset_left = 861.0
 offset_top = 363.0
 offset_right = 1483.0
@@ -79,6 +80,7 @@ rotates = false
 script = ExtResource("3_22nqy")
 
 [node name="Floating Address" parent="Path2D/PathFollow2D" instance=ExtResource("3_rsvx3")]
+process_mode = 3
 offset_left = -27.505
 offset_top = -21.307
 offset_right = 82.495

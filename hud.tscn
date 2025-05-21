@@ -1,9 +1,79 @@
-[gd_scene load_steps=3 format=3 uid="uid://bpnih78j7pofm"]
+[gd_scene load_steps=23 format=3 uid="uid://bpnih78j7pofm"]
 
 [ext_resource type="Script" uid="uid://dmlndt2cb6f7j" path="res://hud.gd" id="1_37p78"]
 
 [sub_resource type="SystemFont" id="SystemFont_37p78"]
 font_names = PackedStringArray("Rockwell")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37p78"]
+skew = Vector2(0.695, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.317647, 0.698039, 0.345098, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8sq4i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_640wx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a2258"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1xsix"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rftc2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_64ctp"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_37p78"]
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_64ctp"]
+events = [SubResource("InputEventKey_37p78")]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_37p78"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_8sq4i"]
+device = -1
+keycode = 50
+unicode = 50
+
+[sub_resource type="Shortcut" id="Shortcut_8sq4i"]
+events = [SubResource("InputEventKey_8sq4i")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_640wx"]
+device = -1
+keycode = 51
+unicode = 51
+
+[sub_resource type="Shortcut" id="Shortcut_a2258"]
+events = [SubResource("InputEventKey_640wx")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_64ctp"]
+device = -1
+keycode = 52
+unicode = 52
+
+[sub_resource type="Shortcut" id="Shortcut_640wx"]
+events = [SubResource("InputEventKey_64ctp")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_a2258"]
+device = -1
+keycode = 53
+unicode = 53
+
+[sub_resource type="Shortcut" id="Shortcut_1xsix"]
+events = [SubResource("InputEventKey_a2258")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_rftc2"]
+device = -1
+keycode = 54
+unicode = 54
+
+[sub_resource type="Shortcut" id="Shortcut_61f8s"]
+events = [SubResource("InputEventKey_rftc2")]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -50,3 +120,154 @@ theme_override_fonts/normal_font = SubResource("SystemFont_37p78")
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
 text = "   Time until start of loop: xxxs"
+
+[node name="Speed Controls" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 531.0
+offset_bottom = 91.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Speed Controls"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 30
+text = "Speed Multiplier:"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="SpeedSlider" type="HSlider" parent="Speed Controls"]
+process_mode = 3
+custom_minimum_size = Vector2(400, 20)
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_37p78")
+max_value = 4.0
+step = 0.01
+value = 1.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Speed Controls"]
+layout_mode = 2
+
+[node name="StopButton" type="Button" parent="Speed Controls/HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq4i")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_640wx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a2258")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1xsix")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rftc2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_64ctp")
+shortcut = SubResource("Shortcut_64ctp")
+text = "0x"
+
+[node name="VSeparator" type="VSeparator" parent="Speed Controls/HBoxContainer"]
+custom_minimum_size = Vector2(34.125, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.28
+theme_override_styles/separator = SubResource("StyleBoxEmpty_37p78")
+
+[node name="HalfSpeedButton" type="Button" parent="Speed Controls/HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq4i")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_640wx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a2258")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1xsix")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rftc2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_64ctp")
+shortcut = SubResource("Shortcut_8sq4i")
+text = "0.5x"
+
+[node name="VSeparator2" type="VSeparator" parent="Speed Controls/HBoxContainer"]
+custom_minimum_size = Vector2(27.525, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.34
+theme_override_styles/separator = SubResource("StyleBoxEmpty_37p78")
+
+[node name="NormalSpeedButton" type="Button" parent="Speed Controls/HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq4i")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_640wx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a2258")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1xsix")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rftc2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_64ctp")
+shortcut = SubResource("Shortcut_a2258")
+text = "1x"
+
+[node name="VSeparator3" type="VSeparator" parent="Speed Controls/HBoxContainer"]
+custom_minimum_size = Vector2(105, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 2.81
+theme_override_styles/separator = SubResource("StyleBoxEmpty_37p78")
+
+[node name="TwiceSpeedButton" type="Button" parent="Speed Controls/HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq4i")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_640wx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a2258")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1xsix")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rftc2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_64ctp")
+shortcut = SubResource("Shortcut_640wx")
+text = "2x"
+
+[node name="VSeparator4" type="VSeparator" parent="Speed Controls/HBoxContainer"]
+custom_minimum_size = Vector2(105, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 5.21
+theme_override_styles/separator = SubResource("StyleBoxEmpty_37p78")
+
+[node name="TripleSpeedButton" type="Button" parent="Speed Controls/HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq4i")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_640wx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a2258")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1xsix")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rftc2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_64ctp")
+shortcut = SubResource("Shortcut_1xsix")
+text = "3x"
+
+[node name="VSeparator5" type="VSeparator" parent="Speed Controls/HBoxContainer"]
+custom_minimum_size = Vector2(105, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 5.21
+theme_override_styles/separator = SubResource("StyleBoxEmpty_37p78")
+
+[node name="QuadrupleSpeedButton" type="Button" parent="Speed Controls/HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq4i")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_640wx")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_a2258")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_1xsix")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_rftc2")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_64ctp")
+shortcut = SubResource("Shortcut_61f8s")
+text = "4x"
+
+[connection signal="value_changed" from="Speed Controls/SpeedSlider" to="." method="_on_speed_multiplier_value_changed"]
+[connection signal="pressed" from="Speed Controls/HBoxContainer/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="pressed" from="Speed Controls/HBoxContainer/HalfSpeedButton" to="." method="_on_half_speed_button_pressed"]
+[connection signal="pressed" from="Speed Controls/HBoxContainer/NormalSpeedButton" to="." method="_on_normal_speed_button_pressed"]
+[connection signal="pressed" from="Speed Controls/HBoxContainer/TwiceSpeedButton" to="." method="_on_twice_speed_button_pressed"]
+[connection signal="pressed" from="Speed Controls/HBoxContainer/TripleSpeedButton" to="." method="_on_triple_speed_button_pressed"]
+[connection signal="pressed" from="Speed Controls/HBoxContainer/QuadrupleSpeedButton" to="." method="_on_quadruple_speed_button_pressed"]

@@ -10,9 +10,11 @@ bg_color = Color(0.05, 0.05, 0.05, 0.862745)
 
 [sub_resource type="SystemFont" id="SystemFont_ddlc4"]
 font_names = PackedStringArray("Garamond", "Rockwell")
+subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_0wv6w"]
 font_names = PackedStringArray("Rockwell")
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0wv6w"]
 
@@ -33,6 +35,7 @@ metadata/_edit_lock_ = true
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 visible = false
+layout_mode = 0
 offset_left = 342.0
 offset_top = 486.0
 offset_right = 624.0
@@ -85,7 +88,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
 theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
 text = "Resume"
@@ -97,7 +100,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
 theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
 text = "Restart"
@@ -109,7 +112,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
 theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
 text = "Upgrades"
@@ -121,7 +124,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
 theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
 text = "Options"
@@ -142,7 +145,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
 theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
 text = "Main Menu"
@@ -154,7 +157,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
 theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
 text = "Quit"

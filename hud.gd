@@ -1,5 +1,6 @@
 extends Control
 
+@onready var slider : Slider = $"Speed Controls/SpeedSlider"
 
 func _ready() -> void:
 	pass
@@ -12,6 +13,47 @@ func update_score(hitRate:float, missRate:float) -> void:
 
 func update_timer_label(time:float) -> void:
 	if time == 0.0: 
-		$LoopTimerLabel.text = "   Loop has started (no new addresses)"
+		$LoopTimerLabel.text = "   Loop has started (repeating addresses now)"
 	else:
 		$LoopTimerLabel.text = "   Time until start of loop: %.0fs" % time
+		
+
+## Changes the game speed based on slider input (0x -- 4x possible)
+func change_game_speed(factor:float) -> void:
+	if factor == 0.0:
+		get_tree().paused = true
+	else:
+		get_tree().paused = false
+		Engine.time_scale = factor
+
+
+# stop gameplay for closer inspection
+func _on_stop_button_pressed() -> void:
+	slider.value = 0.0
+
+
+# set gameplay to normal speed
+func _on_normal_speed_button_pressed() -> void:
+	slider.value = 1.0
+
+
+func _on_half_speed_button_pressed() -> void:
+	slider.value = 0.5
+
+
+func _on_twice_speed_button_pressed() -> void:
+	slider.value = 2.0
+
+
+func _on_triple_speed_button_pressed() -> void:
+	slider.value = 3.0
+
+
+func _on_quadruple_speed_button_pressed() -> void:
+	slider.value = 4.0
+
+
+func _on_speed_multiplier_value_changed(value: float) -> void:
+	#debouncing timer (hopefully works)
+	await get_tree().create_timer(0.01).timeout
+	change_game_speed(value)
