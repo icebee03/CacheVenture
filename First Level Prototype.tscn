@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bdnkndic6vr55"]
+[gd_scene load_steps=11 format=3 uid="uid://bdnkndic6vr55"]
 
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
 [ext_resource type="Script" uid="uid://xv82acc211l6" path="res://first_level_prototype.gd" id="1_fjlrh"]
@@ -6,9 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bmvrjrr064whf" path="res://floating_address.tscn" id="3_rsvx3"]
 [ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_ad4gw"]
 [ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_mah6i"]
-
-[sub_resource type="SystemFont" id="SystemFont_ad4gw"]
-font_names = PackedStringArray("Rockwell")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
 
@@ -30,23 +27,6 @@ point_count = 7
 script = ExtResource("1_fjlrh")
 spawnRate = 1.0
 pathSpeed = 1.0
-
-[node name="BackButton" type="Button" parent="."]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -949.0
-offset_top = -526.0
-offset_right = -875.0
-offset_bottom = -482.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = SubResource("SystemFont_ad4gw")
-theme_override_font_sizes/font_size = 30
-text = "Back"
 
 [node name="Cache" parent="." instance=ExtResource("1_7u17q")]
 process_mode = 3
@@ -94,10 +74,8 @@ curve = SubResource("Curve2D_22nqy")
 [node name="HUD" parent="." instance=ExtResource("5_ad4gw")]
 
 [node name="Pause Menu" parent="." instance=ExtResource("6_mah6i")]
-visible = false
 z_as_relative = false
 
-[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]
 [connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
 [connection signal="area_entered" from="Cache/Hitbox" to="." method="_on_area_2d_area_entered"]

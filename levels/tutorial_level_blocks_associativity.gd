@@ -1,16 +1,14 @@
-class_name FirstLevel extends Node
+# THIS FILE is "tutorial_level_blocks_associativity.gd"
+# THE FIRST TUTORIAL LEVEL
 
-## Time between address spawns
-@export var spawnRate: float
+extends Node2D
+
 ## Time between spawn and cache contact
-@export var pathSpeed: float
-## Time until imaginary loop starts and no more sequential addresses are added
-@export var timeToLoop:float = 90
+@export var pathSpeed: float = 1.0
 
-var timer: Timer = Timer.new()
-var prevAddresses:Array[String] = ["0x1228"]
-var timerToLoop: Timer = Timer.new()
-var loopTimerFinished:bool = false				# After that timer is finished, only spawn previous addresses (simulates loop)
+var addressList : Array[String] = ["0x1228", "0x122c", "0x1230", "0x1234", "0x1238", "0x123c", "0x1240", 
+"0x1244", "0x1248", "0x124c", "0x1250", "0x1254", "0x1258", "0x125c", "0x1260", "0x1264"] 
+var addressIndex : int = 0				# Use this to iterate over the above list, while clicking through the tutorial
 
 #--- for score calculation ---
 var totalAccessCount:int = 0
@@ -19,36 +17,19 @@ var hitRate:float = 0.0				# in %
 var missCount:int = 0
 var missRate:float = 0.0				# in %
 
-
 @onready var cache :Cache = $Cache
 @onready var hitbox :CollisionShape2D = $Cache/Hitbox/CollisionShape2D
-@onready var pathToCache: PathFollow2D = $Path2D/PathFollow2D
-@onready var path: Path2D = $Path2D
+@onready var path: Path2D = $PathToCache
 @onready var pathFromCache: Path2D = $PathFromCache
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
-	$HUD/LoopTimerLabel.visible = true
 	_fit_hitbox_to_cache()
-	pathToCache.start(pathSpeed)
+	$HUD/LoopTimerLabel.visible = false			# not relevant to this scene
+	$Cache/Hitbox.area_entered.connect(_on_cache_hitbox_area_entered)		# Connect Hitbox signal to sorting method
+	cache.cacheHit.connect(_on_cache_cache_hit)
+	cache.cacheMiss.connect(_on_cache_cache_miss)
 	
-	timer.wait_time = spawnRate
-	timer.autostart = true
-	timer.one_shot = false
-	timer.timeout.connect(_on_timer_timeout)
-	add_child(timer)
-	
-	timerToLoop.wait_time = timeToLoop
-	timerToLoop.autostart = true
-	timerToLoop.one_shot = true
-	timerToLoop.timeout.connect(_on_timerToLoop_timeout)
-	add_child(timerToLoop)
-	
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	$HUD.update_timer_label(timerToLoop.time_left)
-
 
 ## Fits the hitbox to the dynamic size of the cache
 func _fit_hitbox_to_cache() -> void:
@@ -57,23 +38,9 @@ func _fit_hitbox_to_cache() -> void:
 	hitbox.shape.set_size(cache.get_size())
 	
 	
-## Takes the previous address and adds 4 to it. Simulates sequential accesses (arrays, code, ...).
-func _generate_next_address_spatial() -> String:
-	var new:String = "0x%x" % (prevAddresses[-1].hex_to_int() + 4)
-	prevAddresses.append(new)
-	return new
 	
-	
-## Returns a previously generated address. Simulates reocurring accesses (loops, frequently used data).
-func _generate_next_address_temporal() -> String:
-	var rng = RandomNumberGenerator.new()
-	var rndIdx:int = rng.randf_range(0.0, len(prevAddresses))
-	return prevAddresses[rndIdx]
-
-
-
-## Collision with Cache -> sort address and delete it from path
-func _on_area_2d_area_entered(area: Area2D) -> void:
+## Collision with Cache -> sort it and delete it from path
+func _on_cache_hitbox_area_entered(area: Area2D) -> void:
 	var floatingAddress = area.get_parent()
 	if floatingAddress is not RichTextLabel: return
 	var address = floatingAddress.text
@@ -81,32 +48,53 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	var pathFollow: Node = floatingAddress.get_parent()
 	if pathFollow is not PathFollow2D: return
 	pathFollow.queue_free()
-		
-		
-		
-## On timeout, spawn new address on Path to Cache
-func _on_timer_timeout() ->void:
-	var newAddress: Node = preload("res://floating_address.tscn").instantiate()
+	
+
+#TODO: change this function to fit the tutorial level. Idea: have button presses from dialogue trigger spawning of new address
+### On timeout, spawn new address on Path to Cache
+#func _on_timer_timeout() ->void:
+	## Spawn new address on the path
+	#var newAddress: Node = preload("res://floating_address.tscn").instantiate()
+	#var pathFollow: PathFollow2D = PathFollow2D.new()
+	#pathFollow.rotates = false
+	#var tween = get_tree().create_tween()
+	## Get next address to send towards cache
+	#var decision:float = RandomNumberGenerator.new().randf()
+	##if decision < 0.5 and not loopTimerFinished:
+		##newAddress.text = _generate_next_address_spatial()
+	##else:
+		##newAddress.text = _generate_next_address_temporal()
+	#newAddress.set_position(Vector2(0,0))
+	#path.add_child(pathFollow)
+	#pathFollow.add_child(newAddress)
+	#tween.tween_property(pathFollow, "progress_ratio", 1.0, pathSpeed)
+	
+	
+## When pressing this button, advance the level, e.g. send new address on the path to the cache	
+func _on_continue_button_pressed() -> void:
+	var newAddress : Node = preload("res://menus/floating_address.tscn").instantiate()
 	var pathFollow: PathFollow2D = PathFollow2D.new()
-	pathFollow.rotates = false
 	var tween = get_tree().create_tween()
-	# Half of the time sequential access, the other half temporal
-	var decision:float = RandomNumberGenerator.new().randf()
-	if decision < 0.5 and not loopTimerFinished:
-		newAddress.text = _generate_next_address_spatial()
-	else:
-		newAddress.text = _generate_next_address_temporal()
+	if addressIndex < len(addressList):
+		newAddress.text = addressList[addressIndex]
+		addressIndex += 1							# the next time the button is pressed, just addressList[addressIndex+1] is set as address -> enables fine-tuning for didactic showcase of cache concepts
 	newAddress.set_position(Vector2(0,0))
+	pathFollow.rotates = false
 	path.add_child(pathFollow)
 	pathFollow.add_child(newAddress)
 	tween.tween_property(pathFollow, "progress_ratio", 1.0, pathSpeed)
 	
 	
-## Triggers start of imaginary loop, old addresses are constantly accessed	
-func _on_timerToLoop_timeout() -> void:
-	loopTimerFinished = true
-	
-	
+## Just update the score
+func _on_cache_cache_hit(address:String) -> void:
+	totalAccessCount += 1
+	hitCount += 1
+	hitRate = float(hitCount) / float(totalAccessCount)
+	missRate = 1 - hitRate
+	$HUD.update_score(hitRate, missRate)
+	$HUD.display_chat_message("Cache Hit with address "+address)
+
+
 ## Place replacedAddress on pathFromCache and update score
 # TODO: some error with adding the pathFollow to the scene
 func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) -> void:
@@ -135,13 +123,3 @@ func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) ->
 	tween.tween_property(pathFollow, "progress_ratio", 1.0, 4.0)
 	tween.finished.connect(func(): pathFollow.queue_free())
 	
-	
-
-## Just update the score
-func _on_cache_cache_hit(address:String) -> void:
-	totalAccessCount += 1
-	hitCount += 1
-	hitRate = float(hitCount) / float(totalAccessCount)
-	missRate = 1 - hitRate
-	$HUD.update_score(hitRate, missRate)
-	$HUD.display_chat_message("Cache Hit with address "+address)

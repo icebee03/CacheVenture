@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bpnih78j7pofm"]
+[gd_scene load_steps=27 format=3 uid="uid://bpnih78j7pofm"]
 
 [ext_resource type="Script" uid="uid://dmlndt2cb6f7j" path="res://hud.gd" id="1_37p78"]
 
@@ -75,9 +75,44 @@ unicode = 54
 [sub_resource type="Shortcut" id="Shortcut_61f8s"]
 events = [SubResource("InputEventKey_rftc2")]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_61f8s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g10ll"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8sq4i"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.18, 0.18, 0.18, 0.592157)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(0.17, 0.17, 0.17, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+shadow_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64ctp"]
+content_margin_left = 20.0
+content_margin_bottom = 80.0
+bg_color = Color(0.18, 0.18, 0.18, 0.176471)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.17, 0.17, 0.17, 1)
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+shadow_color = Color(0, 0, 0, 0)
+
 [node name="HUD" type="Control"]
+process_mode = 3
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_37p78")
@@ -90,8 +125,7 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 1550.0
-offset_right = 1920.0
+offset_left = -370.0
 offset_bottom = 181.0
 grow_horizontal = 0
 size_flags_horizontal = 0
@@ -105,6 +139,7 @@ Hit Rate: xx.x%
 Miss Rate: yy.y%"
 
 [node name="LoopTimerLabel" type="RichTextLabel" parent="."]
+visible = false
 show_behind_parent = true
 z_index = -2
 z_as_relative = false
@@ -112,14 +147,13 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = 1023.0
+offset_top = -57.0
 offset_right = 712.0
-offset_bottom = 1080.0
 grow_vertical = 0
 theme_override_fonts/normal_font = SubResource("SystemFont_37p78")
 theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
-text = "   Time until start of loop: xxxs"
+text = "  Time until start of loop: xxxs"
 
 [node name="Speed Controls" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -263,6 +297,46 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_rftc2")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_64ctp")
 shortcut = SubResource("Shortcut_61f8s")
 text = "4x"
+
+[node name="ChatLogControl" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 844.0
+offset_right = 45.0
+offset_bottom = 884.0
+
+[node name="EventLogLabel" type="TextEdit" parent="ChatLogControl"]
+layout_mode = 2
+offset_right = 110.0
+offset_bottom = 32.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_61f8s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g10ll")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_8sq4i")
+text = "Event Log"
+editable = false
+
+[node name="MarginContainer" type="MarginContainer" parent="ChatLogControl"]
+layout_mode = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -9.0
+offset_right = 600.0
+offset_bottom = 196.0
+grow_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ChatLog" type="TextEdit" parent="ChatLogControl/MarginContainer"]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+theme_override_colors/font_readonly_color = Color(0.91, 0.667333, 0.3276, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_61f8s")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g10ll")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_64ctp")
+editable = false
+wrap_mode = 1
+indent_wrapped_lines = true
 
 [connection signal="value_changed" from="Speed Controls/SpeedSlider" to="." method="_on_speed_multiplier_value_changed"]
 [connection signal="pressed" from="Speed Controls/HBoxContainer/StopButton" to="." method="_on_stop_button_pressed"]

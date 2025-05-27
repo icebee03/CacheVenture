@@ -11,3 +11,7 @@ func _on_back_button_pressed() -> void:
 
 func _on_upgrade_menu_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://upgrade_menu_2.tscn")
+
+
+func _on_tut_lvl_1_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://levels/Tutorial-Level-Blocks-Associativity.tscn")

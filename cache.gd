@@ -3,7 +3,7 @@ class_name Cache extends VBoxContainer
 
 # Signals
 ## Emitted when the tag of an address is found in the cache
-signal cacheHit
+signal cacheHit(address:String)
 ## Emitted when the tag of an address is not found in the cache. Three types of misses possible (see [enum cacheMissType])
 signal cacheMiss(type:cacheMissType, replacedAddress:String)
 
@@ -137,13 +137,13 @@ func sort_address_into_cache(addressString:String) -> void:
 		var line :Dictionary = _get_cache_line(lineIdx)
 		
 		if line["tag"] == "0x%x" % tag:	# cache HIT, no replacement. only update info field and emit the hit signal 
-			cacheHit.emit()	
+			cacheHit.emit(addressString)	
 			_helper_update_cache_line(lineIdx, line, addressString, tag, timestamp, timestampUnix, updateType.HIT)					
 			wasLinePlaced = true
 			break
 		
 		elif line["tag"] == "":			# COMPULSORY cache miss, no replacement
-			cacheMiss.emit(cacheMissType.COMPULSORY, "")	
+			cacheMiss.emit(cacheMissType.COMPULSORY, addressString)		# emit as argument the input address for compulsory miss
 			_helper_update_cache_line(lineIdx, line, addressString, tag, timestamp, timestampUnix, updateType.COMPULSORY)
 			wasLinePlaced = true
 			break

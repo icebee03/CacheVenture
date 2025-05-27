@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://bkptrrb2oxrui"]
+
+[ext_resource type="Script" uid="uid://de3rvcc4d4g47" path="res://levels/tutorial_level_blocks_associativity.gd" id="1_0afkn"]
+[ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_p3yn1"]
+[ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_hhfb3"]
+[ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_8i1qm"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_p3yn1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7w0o"]
+
+[sub_resource type="Curve2D" id="Curve2D_j6kx5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 26.641, 126.529, 0, 0, 0, 0, 94.641, 212.529, 0, 0, 0, 0, 219.641, 278.529, 0, 0, 0, 0, 291.641, 282.529, 0, 0, 0, 0, 352.641, 261.529, 0, 0, 0, 0, 378.641, 215.529, 0, 0, 0, 0, 384.375, 77.3045, 0, 0, 0, 0, 404.641, 32.5289, 0, 0, 0, 0, 430.641, 17.5289, 0, 0, 0, 0, 474.641, 6.52888, 0, 0, 0, 0, 535.641, 10.5289, 0, 0, 0, 0, 597.641, 34.5289, 0, 0, 0, 0, 629.641, 63.5289, 0, 0, 0, 0, 647.641, 126.529, 0, 0, 0, 0, 661.641, 209.529, 0, 0, 0, 0, 709.641, 259.529, 0, 0, 0, 0, 775.641, 274.529, 0, 0, 0, 0, 865.641, 264.529)
+}
+point_count = 18
+
+[sub_resource type="Curve2D" id="Curve2D_mwdbl"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1674, 370, 0, 0, 0, 0, 1776, 369, 0, 0, 0, 0, 1840, 487, 0, 0, 0, 0, 1824, 657, 0, 0, 0, 0, 1812, 899, 0, 0, 0, 0, 1537, 940, 0, 0, 0, 0, 1185, 945)
+}
+point_count = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0afkn"]
+
+[node name="Tutorial Level - Blocks & Associativity" type="Node2D"]
+script = ExtResource("1_0afkn")
+
+[node name="Cache" parent="." instance=ExtResource("1_p3yn1")]
+process_mode = 3
+offset_left = 861.0
+offset_top = 363.0
+offset_right = 1483.0
+offset_bottom = 555.0
+blockNumber = 8
+associativityDegree = 1
+replacementPolicy = "LFU"
+columnWidth = 100
+maxShownBlocks = 16
+
+[node name="Hitbox" type="Area2D" parent="Cache"]
+material = SubResource("CanvasItemMaterial_p3yn1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cache/Hitbox"]
+shape = SubResource("RectangleShape2D_g7w0o")
+debug_color = Color(0.764676, 0.324319, 0.785679, 0.42)
+
+[node name="PathToCache" type="Path2D" parent="."]
+position = Vector2(-4, 127)
+rotation = -0.00210429
+curve = SubResource("Curve2D_j6kx5")
+metadata/_edit_group_ = true
+
+[node name="PathFromCache" type="Path2D" parent="."]
+position = Vector2(18, 113)
+curve = SubResource("Curve2D_mwdbl")
+
+[node name="HUD" parent="." instance=ExtResource("5_hhfb3")]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="ContinueButton" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 80)
+offset_left = 595.0
+offset_top = 655.0
+offset_right = 795.0
+offset_bottom = 735.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_0afkn")
+text = "Continue"
+
+[node name="Pause Menu" parent="." instance=ExtResource("6_8i1qm")]
+visible = false
+z_as_relative = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

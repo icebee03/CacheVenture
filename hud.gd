@@ -1,6 +1,8 @@
 extends Control
 
 @onready var slider : Slider = $"Speed Controls/SpeedSlider"
+@onready var chatlog: TextEdit = $ChatLogControl/MarginContainer/ChatLog
+
 
 func _ready() -> void:
 	pass
@@ -16,6 +18,11 @@ func update_timer_label(time:float) -> void:
 		$LoopTimerLabel.text = "   Loop has started (repeating addresses now)"
 	else:
 		$LoopTimerLabel.text = "   Time until start of loop: %.0fs" % time
+		
+		
+func display_chat_message(msg:String) -> void:
+	chatlog.text += msg + "\n"
+	chatlog.scroll_vertical = chatlog.get_line_count()		# for autoscroll to bottom, e.g. newest message
 		
 
 ## Changes the game speed based on slider input (0x -- 4x possible)
