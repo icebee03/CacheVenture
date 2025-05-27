@@ -105,9 +105,23 @@ func _on_timer_timeout() ->void:
 ## Triggers start of imaginary loop, old addresses are constantly accessed	
 func _on_timerToLoop_timeout() -> void:
 	loopTimerFinished = true
+	$HUD.display_chat_message("------- Loop has started (repeating addresses now) ----------")
 	
 	
-## Place replacedAddress on pathFromCache and update score
+## Update score and put message in event log
+func _on_cache_cache_hit(address:String) -> void:
+	totalAccessCount += 1
+	hitCount += 1
+	hitRate = float(hitCount) / float(totalAccessCount)
+	missRate = 1 - hitRate
+	# Get tag, index, offset info for event log
+	var bits :Dictionary = cache._get_cache_bitnumbers()
+	var tio :Dictionary = cache._get_tag_index_offset(address.hex_to_int(), bits["tagbits"], bits["indexbits"], bits["offsetbits"])
+	$HUD.update_score(hitRate, missRate)
+	$HUD.display_chat_message("Hit with address "+address+" in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
+
+
+## Place replacedAddress on pathFromCache, update score and put message in event log
 # TODO: some error with adding the pathFollow to the scene
 func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) -> void:
 	totalAccessCount += 1
@@ -115,14 +129,17 @@ func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) ->
 	hitRate = float(hitCount) / float(totalAccessCount)
 	missRate = 1 - hitRate
 	$HUD.update_score(hitRate, missRate)
+	# Get tag, index, offset info for event log
+	var bits :Dictionary = cache._get_cache_bitnumbers()
+	var tio :Dictionary = cache._get_tag_index_offset(replacedAddress.hex_to_int(), bits["tagbits"], bits["indexbits"], bits["offsetbits"])
 	# Custom Event message depending on the type of cache miss
 	if type == cache.cacheMissType.COMPULSORY: 
-		$HUD.display_chat_message("Compulsory Cache Miss with address " + replacedAddress)# + " (tag: 0xYZ, index: 0xYZ, offset: 0xYZ)")
+		$HUD.display_chat_message("Miss (Compulsory) with address " + replacedAddress+" in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
 		return
 	elif type == cache.cacheMissType.CONFLICT:
-		$HUD.display_chat_message("Conflict Cache Miss with address " + replacedAddress)# + " (tag: 0xYZ, index: 0xYZ, offset: 0xYZ)")
+		$HUD.display_chat_message("Miss (Conflict) address " + replacedAddress+" was in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
 	elif type == cache.cacheMissType.CAPACITY:
-		$HUD.display_chat_message("Capacity Cache Miss with address " + replacedAddress)# + " (tag: 0xYZ, index: 0xYZ, offset: 0xYZ)")
+		$HUD.display_chat_message("Miss (Capacity) address " + replacedAddress+" was in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
 	# Display address coming out of cache, delete it and path after animation is done
 	var newAddress: Node = preload("res://floating_address.tscn").instantiate()
 	var pathFollow: PathFollow2D = PathFollow2D.new()
@@ -134,14 +151,3 @@ func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) ->
 	pathFollow.rotates = false
 	tween.tween_property(pathFollow, "progress_ratio", 1.0, 4.0)
 	tween.finished.connect(func(): pathFollow.queue_free())
-	
-	
-
-## Just update the score
-func _on_cache_cache_hit(address:String) -> void:
-	totalAccessCount += 1
-	hitCount += 1
-	hitRate = float(hitCount) / float(totalAccessCount)
-	missRate = 1 - hitRate
-	$HUD.update_score(hitRate, missRate)
-	$HUD.display_chat_message("Cache Hit with address "+address)

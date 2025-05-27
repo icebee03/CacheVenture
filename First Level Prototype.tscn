@@ -25,8 +25,9 @@ point_count = 7
 
 [node name="First Level" type="Node"]
 script = ExtResource("1_fjlrh")
-spawnRate = 1.0
+spawnRate = 0.1
 pathSpeed = 1.0
+timeToLoop = 45.0
 
 [node name="Cache" parent="." instance=ExtResource("1_7u17q")]
 process_mode = 3
@@ -34,7 +35,6 @@ offset_left = 861.0
 offset_top = 363.0
 offset_right = 1483.0
 offset_bottom = 555.0
-blockNumber = 16
 associativityDegree = 2
 replacementPolicy = "LFU"
 columnWidth = 100
@@ -74,6 +74,7 @@ curve = SubResource("Curve2D_22nqy")
 [node name="HUD" parent="." instance=ExtResource("5_ad4gw")]
 
 [node name="Pause Menu" parent="." instance=ExtResource("6_mah6i")]
+visible = false
 z_as_relative = false
 
 [connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]

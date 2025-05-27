@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bpnih78j7pofm"]
+[gd_scene load_steps=29 format=3 uid="uid://bpnih78j7pofm"]
 
 [ext_resource type="Script" uid="uid://dmlndt2cb6f7j" path="res://hud.gd" id="1_37p78"]
 
@@ -91,9 +91,13 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 shadow_color = Color(0, 0, 0, 0)
 
+[sub_resource type="SystemFont" id="SystemFont_64ctp"]
+font_names = PackedStringArray("Cascadia Mono", "Monospace", "Rockwell", "Consolas")
+font_weight = 600
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64ctp"]
 content_margin_left = 20.0
-content_margin_bottom = 80.0
+content_margin_bottom = 15.0
 bg_color = Color(0.18, 0.18, 0.18, 0.176471)
 border_width_left = 2
 border_width_top = 2
@@ -105,6 +109,18 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 shadow_color = Color(0, 0, 0, 0)
 
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_37p78"]
+number_color = Color(0.91, 0.667333, 0.3276, 1)
+symbol_color = Color(1, 1, 1, 1)
+function_color = Color(1, 1, 1, 1)
+keyword_colors = {
+"Capacity": Color(0.839216, 0.192157, 0.203922, 1),
+"Compulsory": Color(0.839216, 0.192157, 0.203922, 1),
+"Conflict": Color(0.839216, 0.192157, 0.203922, 1),
+"Hit": Color(0, 0.854902, 0, 1),
+"Miss": Color(0.84, 0.1932, 0.20398, 1)
+}
+
 [node name="HUD" type="Control"]
 process_mode = 3
 layout_mode = 3
@@ -115,6 +131,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 script = ExtResource("1_37p78")
 
 [node name="ScoreLabel" type="RichTextLabel" parent="."]
@@ -147,8 +164,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -57.0
-offset_right = 712.0
+offset_left = 115.0
+offset_top = -242.0
+offset_right = 827.0
+offset_bottom = -185.0
 grow_vertical = 0
 theme_override_fonts/normal_font = SubResource("SystemFont_37p78")
 theme_override_font_sizes/normal_font_size = 30
@@ -327,16 +346,18 @@ grow_vertical = 0
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="ChatLog" type="TextEdit" parent="ChatLogControl/MarginContainer"]
+[node name="ChatLogTextEdit" type="TextEdit" parent="ChatLogControl/MarginContainer"]
 custom_minimum_size = Vector2(600, 200)
 layout_mode = 2
 theme_override_colors/font_readonly_color = Color(0.91, 0.667333, 0.3276, 1)
+theme_override_fonts/font = SubResource("SystemFont_64ctp")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_61f8s")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_g10ll")
 theme_override_styles/read_only = SubResource("StyleBoxFlat_64ctp")
 editable = false
 wrap_mode = 1
 indent_wrapped_lines = true
+syntax_highlighter = SubResource("CodeHighlighter_37p78")
 
 [connection signal="value_changed" from="Speed Controls/SpeedSlider" to="." method="_on_speed_multiplier_value_changed"]
 [connection signal="pressed" from="Speed Controls/HBoxContainer/StopButton" to="." method="_on_stop_button_pressed"]

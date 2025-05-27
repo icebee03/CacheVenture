@@ -1,10 +1,14 @@
 extends Control
 
 @onready var slider : Slider = $"Speed Controls/SpeedSlider"
-@onready var chatlog: TextEdit = $ChatLogControl/MarginContainer/ChatLog
+@onready var chatlog: TextEdit = $ChatLogControl/MarginContainer/ChatLogTextEdit
 
 
 func _ready() -> void:
+	#var highlighter : CodeHighlighter = CodeHighlighter.new()
+	#highlighter.add_keyword_color("CacheHit", Color.CHARTREUSE)
+	#highlighter.add_keyword_color("Cache Miss", Color.FIREBRICK)
+	#chatlog.syntax_highlighter = highlighter
 	pass
 
 func update_score(hitRate:float, missRate:float) -> void:
@@ -15,14 +19,21 @@ func update_score(hitRate:float, missRate:float) -> void:
 
 func update_timer_label(time:float) -> void:
 	if time == 0.0: 
-		$LoopTimerLabel.text = "   Loop has started (repeating addresses now)"
+		$LoopTimerLabel.text = ""
 	else:
 		$LoopTimerLabel.text = "   Time until start of loop: %.0fs" % time
 		
 		
 func display_chat_message(msg:String) -> void:
 	chatlog.text += msg + "\n"
-	chatlog.scroll_vertical = chatlog.get_line_count()		# for autoscroll to bottom, e.g. newest message
+	var lineCount :int = chatlog.get_line_count()
+	# Limit the amount of messages (otherwise steady increase of memory use and potentially performance drops)
+	# To see impact of limiting: While the game is running, open Debugger->Monitors in the Editor, check Memory(Static) and Objects
+	var msgLimit :int = 500
+	if lineCount > msgLimit:
+		chatlog.text = chatlog.text.substr(lineCount-msgLimit)	# Keep only the most recent 500 messages, cut off the rest (older ones)
+	chatlog.scroll_vertical = lineCount		# For autoscroll to bottom, e.g. newest message
+	
 		
 
 ## Changes the game speed based on slider input (0x -- 4x possible)

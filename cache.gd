@@ -102,8 +102,9 @@ func _ready() -> void:
 		
 	
 	
-#------------- Public functions ------------------	
+#------------- Public functions ---------------------------------------------	
 	
+## The primary function of the [Cache] class.	
 ## This function sorts the given [param addressString] into the [Cache] scene. It calculates various parameters and extracts tag, index and offset from the address.
 func sort_address_into_cache(addressString:String) -> void:
 	# input validation: hex address must not be longer than 8 digits and must be a hex number
@@ -187,8 +188,9 @@ func sort_address_into_cache(addressString:String) -> void:
 	#print("metadata:	",_metadata)
 	# ------------- end debuggin/testing -------------------------------------
 					
+#--------------------------------------------------------------------------------------------------------
 		
-#---------- "Private"/Internal functions, do not call from outside (usually) ----------------
+#---------- "Private"/Internal functions, do not call from outside (usually) ----------------------------
 
 ## Adds the line consisting of parameters [param block] ... [param info] to the end of the cache. Ignores new lines exceeding the [member blockNumber] limit
 func _add_cache_line(block:String="0", set:String="0", tag:String="0x0", info:String="...") -> void:
@@ -393,3 +395,14 @@ func _helper_update_cache_line(lineIdx:int, line:Dictionary, address:String, tag
 				_metadata[lineIdx]["timestampUnix"] = timestampUnix		# precise time stored in metadata
 			_: 	print("Other replacement strategies than Random, LFU, LRU are not implemented!")
 			
+
+
+# Internal helper function that returns tag/index/offset-bits to the caller (for event log or debugging)
+# E.g. use combination with function "_get_tag_index_offset":
+# _get_tag_index_offset(address, _get_cache_bitnumbers()) => {"tag"=..., "index"=..., "offset"=...}
+func _get_cache_bitnumbers() -> Dictionary:
+	var setNumber :int = blockNumber / associativityDegree
+	var offsetBits :int = log(blockSize) / log(2)			# equivalent to log2(blockSize)
+	var indexBits :int = log(setNumber) / log(2)
+	var tagBits :int = 32 - (indexBits + offsetBits)		# 32-bit address
+	return {"tagbits"=tagBits, "indexbits"=indexBits, "offsetbits"=offsetBits}

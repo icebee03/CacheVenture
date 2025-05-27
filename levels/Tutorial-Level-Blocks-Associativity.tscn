@@ -32,7 +32,6 @@ offset_left = 861.0
 offset_top = 363.0
 offset_right = 1483.0
 offset_bottom = 555.0
-blockNumber = 8
 associativityDegree = 1
 replacementPolicy = "LFU"
 columnWidth = 100
