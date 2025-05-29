@@ -135,9 +135,6 @@ mouse_filter = 2
 script = ExtResource("1_37p78")
 
 [node name="ScoreLabel" type="RichTextLabel" parent="."]
-show_behind_parent = true
-z_index = -2
-z_as_relative = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -157,9 +154,6 @@ Miss Rate: yy.y%"
 
 [node name="LoopTimerLabel" type="RichTextLabel" parent="."]
 visible = false
-show_behind_parent = true
-z_index = -2
-z_as_relative = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
