@@ -4,6 +4,7 @@ class_name TheMemory extends Node2D
 # Signals
 ## Emitted when health drops to zero. Game Over.
 signal dead()
+signal damaged(who:String, damage:int)
 
 # Have references to crystals to hide when health drops
 @onready var crystalBlue_small1 = 	$"Crystals/CrystalBlue Small 1"
@@ -30,6 +31,8 @@ signal dead()
 @onready var damagebar = $Healthbar/DamageBar
 @onready var showDamageTimer = $Healthbar/ShowDamageTimer
 
+@onready var animationPlayer = $AnimationPlayer
+
 
 # Variables
 ## Health of the memory. 
@@ -39,25 +42,35 @@ var health :float
 
 func _ready() -> void:
 	health = healthbar.max_value
-	await get_tree().create_timer(3).timeout
-	subtract_health(3)
+	# For Debugging:
+	#await get_tree().create_timer(3).timeout
+	#subtract_health(7)
+	#for i in range(100):
+		#add_health(5)
+		#await get_tree().create_timer(0.5).timeout
+		#subtract_health(7)
 	
 	
 
 ## When an address hits the crystals.
 ## Calls handler functions.
 func _on_hitbox_area_entered(area: Area2D) -> void:
+	var floatingAddress = area.get_parent()
+	if floatingAddress is not RichTextLabel: return
+	var address = floatingAddress.text
 	subtract_health(5.0)
-	play_damage_animation()
+	damaged.emit(address, 5.0)
 	
 
 ## Adds [amount] health to the healt of the memory.
 ## Possible use-case: regeneration of health
 func add_health(amount:float) -> void:
 	if health + amount >= healthbar.max_value:
-		return	# do nothing
+		health = healthbar.max_value
+		return
 	health += amount
 	update_healthbar()
+	update_damagebar()
 	update_crystals_visible()
 	
 	
@@ -67,8 +80,9 @@ func subtract_health(amount:float) -> void:
 	update_healthbar() 
 	update_damagebar()
 	update_crystals_visible()
+	play_damage_animation()
 	if health <= 0:
-		emit_signal("dead")		# Game Over.
+		dead.emit()		# Game Over.
 		print("Game Over.")
 	
 
@@ -90,14 +104,46 @@ func update_crystals_visible() -> void:
 	elif health >= 92: 
 		for e in visibilityOrder.slice(0, 1): e.visible = false
 		for e in visibilityOrder.slice(1): e.visible = true
-	#TODO: do this for every stage
-	#elif health >= 92: 
-		#for e in visibilityOrder.slice(0, 1): e.visible = false
-		#for e in visibilityOrder.slice(1): e.visible = true
-	elif health == 0: for e in visibilityOrder: e.visible = false
+	elif health >= 85: 
+		for e in visibilityOrder.slice(0, 2): e.visible = false
+		for e in visibilityOrder.slice(2): e.visible = true
+	elif health >= 77: 
+		for e in visibilityOrder.slice(0, 3): e.visible = false
+		for e in visibilityOrder.slice(3): e.visible = true
+	elif health >= 69: 
+		for e in visibilityOrder.slice(0, 4): e.visible = false
+		for e in visibilityOrder.slice(4): e.visible = true
+	elif health >= 62: 
+		for e in visibilityOrder.slice(0, 5): e.visible = false
+		for e in visibilityOrder.slice(5): e.visible = true
+	elif health >= 54: 
+		for e in visibilityOrder.slice(0, 6): e.visible = false
+		for e in visibilityOrder.slice(6): e.visible = true
+	elif health >= 46: 
+		for e in visibilityOrder.slice(0, 7): e.visible = false
+		for e in visibilityOrder.slice(7): e.visible = true
+	elif health >= 38: 
+		for e in visibilityOrder.slice(0, 8): e.visible = false
+		for e in visibilityOrder.slice(8): e.visible = true
+	elif health >= 31: 
+		for e in visibilityOrder.slice(0, 9): e.visible = false
+		for e in visibilityOrder.slice(9): e.visible = true
+	elif health >= 23: 
+		for e in visibilityOrder.slice(0, 10): e.visible = false
+		for e in visibilityOrder.slice(10): e.visible = true
+	elif health >= 15: 
+		for e in visibilityOrder.slice(0, 11): e.visible = false
+		for e in visibilityOrder.slice(11): e.visible = true
+	elif health >= 8: 
+		for e in visibilityOrder.slice(0, 12): e.visible = false
+		for e in visibilityOrder.slice(12): e.visible = true
+	elif health >= 1: 
+		for e in visibilityOrder.slice(0, 13): e.visible = false
+		for e in visibilityOrder.slice(13): e.visible = true
+	elif health <= 0: for e in visibilityOrder: e.visible = false
 			
 	
 	
 ## Plays a red animation on the crystals and shakes the screen
 func play_damage_animation() -> void:
-	pass
+	animationPlayer.play("damage_flash")

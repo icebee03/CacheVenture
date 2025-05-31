@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bkptrrb2oxrui"]
+[gd_scene load_steps=13 format=3 uid="uid://bkptrrb2oxrui"]
 
 [ext_resource type="Script" uid="uid://de3rvcc4d4g47" path="res://levels/tutorial_level_blocks_associativity.gd" id="1_0afkn"]
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_p3yn1"]
 [ext_resource type="Texture2D" uid="uid://cl6ur7r10j0js" path="res://images/Backgrounds/nature_8/origbig.png" id="2_lvtrs"]
 [ext_resource type="Texture2D" uid="uid://cmls8d7o827q4" path="res://images/Backgrounds/nature_6/origbig.png" id="3_0afkn"]
+[ext_resource type="Texture2D" uid="uid://dk38vtftlybo8" path="res://images/Backgrounds/nature_4/origbig.png" id="4_47yjf"]
 [ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_hhfb3"]
 [ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_8i1qm"]
 
@@ -43,6 +44,15 @@ offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("3_0afkn")
+expand_mode = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Background Forest" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_47yjf")
 expand_mode = 3
 metadata/_edit_use_anchors_ = true
 

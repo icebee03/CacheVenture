@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://cclcos7a74oho"]
+[gd_scene load_steps=22 format=3 uid="uid://cclcos7a74oho"]
 
 [ext_resource type="Script" uid="uid://dcdhyxbh3pff6" path="res://objects/the_memory.gd" id="1_5qdkx"]
 [ext_resource type="Texture2D" uid="uid://c1v3w3k7wv435" path="res://images/Crystals/crystals_blue/crystal_blue2.png" id="1_7l2eo"]
 [ext_resource type="Texture2D" uid="uid://ooild3ma8s8s" path="res://images/Crystals/crystals_blue/crystal_blue1.png" id="1_dnwve"]
 [ext_resource type="Texture2D" uid="uid://di1m4lyno8e7n" path="res://images/Crystals/crystals_green/crystal_green1.png" id="1_rjrsn"]
+[ext_resource type="Shader" uid="uid://blr3tnp4t7lvm" path="res://objects/the_memory.gdshader" id="2_7wj23"]
 [ext_resource type="Texture2D" uid="uid://nqkqiy4q1xv0" path="res://images/Crystals/crystals_violet/crystal_violet1.png" id="2_n2anh"]
 [ext_resource type="Texture2D" uid="uid://c6o0q7u4wp68b" path="res://images/Crystals/crystals_blue/crystal_blue3.png" id="3_bhj8g"]
 [ext_resource type="Texture2D" uid="uid://dghabfvp2erqh" path="res://images/Crystals/crystals_blue/crystal_blue4.png" id="4_yttv3"]
@@ -11,6 +12,14 @@
 [ext_resource type="Texture2D" uid="uid://d0cje22hccntc" path="res://images/Crystals/crystals_blue/crystal_blue5.png" id="5_rjrsn"]
 [ext_resource type="Texture2D" uid="uid://besf7f7183b65" path="res://images/Crystals/crystals_green/crystal_green5.png" id="8_ypert"]
 [ext_resource type="Texture2D" uid="uid://bup6wnivk5dam" path="res://images/Crystals/crystals_violet/crystal_violet5.png" id="9_ypert"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1t2ec"]
+shader = ExtResource("2_7wj23")
+shader_parameter/opacity = 1.0
+shader_parameter/red = 1.0
+shader_parameter/green = 0.0
+shader_parameter/blue = 0.0
+shader_parameter/mix_color = 0.0
 
 [sub_resource type="SystemFont" id="SystemFont_5qdkx"]
 font_names = PackedStringArray("Garamond", "Rockwell")
@@ -34,75 +43,123 @@ shadow_offset = Vector2(0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apdrx"]
 bg_color = Color(0.678541, 0.0745944, 0.0742721, 1)
 
+[sub_resource type="Animation" id="Animation_apdrx"]
+resource_name = "damage_flash"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crystals:material:shader_parameter/mix_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.15, 0, 0.0417393, 0.266667, 0.5, -0.15, 0, 0.15, 0, 0, -0.0664286, 0.327273, 0.15, 0),
+"times": PackedFloat32Array(0, 0.140185, 0.3)
+}
+
+[sub_resource type="Animation" id="Animation_j5dqb"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crystals:material:shader_parameter/mix_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_trjdp"]
+_data = {
+&"RESET": SubResource("Animation_j5dqb"),
+&"damage_flash": SubResource("Animation_apdrx")
+}
+
 [node name="The Memory" type="Node2D"]
 script = ExtResource("1_5qdkx")
 
 [node name="Crystals" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_1t2ec")
 
 [node name="CrystalBlue Small 1" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(972, 506)
 rotation = 0.184471
 texture = ExtResource("4_yttv3")
 
 [node name="CrystalGreen Big" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(1017, 581)
 texture = ExtResource("1_rjrsn")
 
 [node name="CrystalViolet Big" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(877, 584)
 texture = ExtResource("2_n2anh")
 
 [node name="CrystalBlue Medium 1" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(899, 597)
 scale = Vector2(1.42982, 1.42982)
 texture = ExtResource("3_bhj8g")
 
 [node name="CrystalBlue Medium 2" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(1019, 596)
 texture = ExtResource("1_7l2eo")
 
 [node name="CrystalLime Small" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(867, 627)
 texture = ExtResource("5_n2anh")
 
 [node name="MAIN CrystalBlue" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(952, 540.92)
 scale = Vector2(1.47727, 1.65676)
 texture = ExtResource("1_dnwve")
 
 [node name="CrystalBlue Small 2" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(1016, 619)
 texture = ExtResource("4_yttv3")
 
 [node name="CrystalBlue Small 3" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(982, 619.341)
 texture = ExtResource("4_yttv3")
 
 [node name="CrystalBlue Small 4" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(999, 629)
 texture = ExtResource("5_rjrsn")
 
 [node name="CrystalViolet Small" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(875, 604)
 rotation = -0.57774
 texture = ExtResource("9_ypert")
 
 [node name="CrystalBlue Medium 3" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(904, 596)
 scale = Vector2(1.02632, 1.02632)
 texture = ExtResource("1_7l2eo")
 
 [node name="CrystalBlue Small 5" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(889, 628)
 texture = ExtResource("5_rjrsn")
 
 [node name="CrystalGreen Small" type="Sprite2D" parent="Crystals"]
+use_parent_material = true
 position = Vector2(949, 629)
 texture = ExtResource("8_ypert")
 
 [node name="Area2D" type="Area2D" parent="."]
-metadata/_edit_lock_ = true
-metadata/_edit_group_ = true
 
 [node name="Hitbox" type="CollisionPolygon2D" parent="Area2D"]
 visible = false
@@ -120,6 +177,7 @@ text = "The Memory"
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Healthbar" type="ProgressBar" parent="."]
 z_index = 1
@@ -146,7 +204,11 @@ value = 100.0
 show_percentage = false
 
 [node name="ShowDamageTimer" type="Timer" parent="Healthbar"]
-wait_time = 0.5
 one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_trjdp")
+}
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_hitbox_area_entered"]

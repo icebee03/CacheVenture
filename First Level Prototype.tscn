@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdnkndic6vr55"]
+[gd_scene load_steps=15 format=3 uid="uid://bdnkndic6vr55"]
 
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
 [ext_resource type="Script" uid="uid://xv82acc211l6" path="res://first_level_prototype.gd" id="1_fjlrh"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bda455b75pwni" path="res://images/Backgrounds/nature_5/origbig.png" id="4_q0hjd"]
 [ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_ad4gw"]
 [ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_mah6i"]
+[ext_resource type="PackedScene" uid="uid://cclcos7a74oho" path="res://objects/the_memory.tscn" id="10_o85p1"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
 
@@ -110,6 +111,9 @@ metadata/_edit_lock_ = true
 [node name="Pause Menu" parent="." instance=ExtResource("6_mah6i")]
 visible = false
 z_as_relative = false
+
+[node name="The Memory" parent="." instance=ExtResource("10_o85p1")]
+position = Vector2(-288, -243)
 
 [connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]
 [connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
