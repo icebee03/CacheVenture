@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bdnkndic6vr55"]
+[gd_scene load_steps=16 format=3 uid="uid://bdnkndic6vr55"]
 
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
 [ext_resource type="Script" uid="uid://xv82acc211l6" path="res://first_level_prototype.gd" id="1_fjlrh"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_ad4gw"]
 [ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_mah6i"]
 [ext_resource type="PackedScene" uid="uid://cclcos7a74oho" path="res://objects/the_memory.tscn" id="10_o85p1"]
+[ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="11_r5tn1"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
 
@@ -105,16 +106,24 @@ rotation = -0.907571
 position = Vector2(18, 113)
 curve = SubResource("Curve2D_22nqy")
 
+[node name="The Memory" parent="." instance=ExtResource("10_o85p1")]
+position = Vector2(359, 442)
+
 [node name="HUD" parent="." instance=ExtResource("5_ad4gw")]
 metadata/_edit_lock_ = true
 
 [node name="Pause Menu" parent="." instance=ExtResource("6_mah6i")]
 visible = false
-z_as_relative = false
+z_index = 1
 
-[node name="The Memory" parent="." instance=ExtResource("10_o85p1")]
-position = Vector2(-288, -243)
+[node name="Game Over Menu" parent="." instance=ExtResource("11_r5tn1")]
+process_mode = 3
+visible = false
+z_index = 1
+metadata/_edit_lock_ = true
 
 [connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]
 [connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
 [connection signal="area_entered" from="Cache/Hitbox" to="." method="_on_area_2d_area_entered"]
+[connection signal="damaged" from="The Memory" to="." method="_on_the_memory_damaged"]
+[connection signal="dead" from="The Memory" to="." method="_on_the_memory_dead"]

@@ -20,11 +20,14 @@ var missCount:int = 0
 var missRate:float = 0.0				# in %
 
 
+@onready var the_memory : TheMemory = $"The Memory"
 @onready var cache :Cache = $Cache
 @onready var hitbox :CollisionShape2D = $Cache/Hitbox/CollisionShape2D
 @onready var pathToCache: PathFollow2D = $Path2D/PathFollow2D
 @onready var path: Path2D = $Path2D
 @onready var pathFromCache: Path2D = $PathFromCache
+@onready var pauseMenu = $"Pause Menu"
+@onready var gameOverMenu = $"Game Over Menu"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -48,6 +51,14 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	$HUD.update_timer_label(timerToLoop.time_left)
+	
+	if gameOverMenu.is_visible_in_tree(): return	# to prevent showing Pause Menu behing Game Over screen
+	if Input.is_action_just_pressed("ui_cancel") and not pauseMenu.is_visible_in_tree():
+		#await get_tree().create_timer(0.2).timeout
+		pauseMenu.pause()
+	elif Input.is_action_just_pressed("ui_cancel") and pauseMenu.is_visible_in_tree():
+		#await get_tree().create_timer(0.2).timeout
+		pauseMenu.unpause()
 
 
 ## Fits the hitbox to the dynamic size of the cache
@@ -81,6 +92,16 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	var pathFollow: Node = floatingAddress.get_parent()
 	if pathFollow is not PathFollow2D: return
 	pathFollow.queue_free()
+	
+
+func _on_the_memory_damaged(who: String, damage: int) -> void:
+	$HUD.display_chat_message("The Memory took -"+str(damage)+" HP damage from address "+who)
+	
+	
+func _on_the_memory_dead() -> void:
+	$HUD.display_chat_message("Game Over.")
+	get_tree().paused = true
+	$"Game Over Menu".visible = true
 		
 		
 		

@@ -43,6 +43,20 @@ shadow_offset = Vector2(0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apdrx"]
 bg_color = Color(0.678541, 0.0745944, 0.0742721, 1)
 
+[sub_resource type="Animation" id="Animation_j5dqb"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crystals:material:shader_parameter/mix_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.15, 0, 0.15, 0),
+"times": PackedFloat32Array(0)
+}
+
 [sub_resource type="Animation" id="Animation_apdrx"]
 resource_name = "damage_flash"
 length = 0.3
@@ -56,20 +70,6 @@ tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0, -0.15, 0, 0.0417393, 0.266667, 0.5, -0.15, 0, 0.15, 0, 0, -0.0664286, 0.327273, 0.15, 0),
 "times": PackedFloat32Array(0, 0.140185, 0.3)
-}
-
-[sub_resource type="Animation" id="Animation_j5dqb"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Crystals:material:shader_parameter/mix_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.15, 0, 0.15, 0),
-"times": PackedFloat32Array(0)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_trjdp"]

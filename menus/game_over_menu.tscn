@@ -1,0 +1,128 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3qjexsdqadao"]
+
+[ext_resource type="Script" uid="uid://1lbwypfwc2nu" path="res://menus/game_over_menu.gd" id="1_17k2n"]
+[ext_resource type="Texture2D" uid="uid://bc0uoqeehx3b4" path="res://images/Line Divider White.png" id="1_p4gbp"]
+[ext_resource type="Texture2D" uid="uid://c5c1u88vvq4n" path="res://images/Logo White.png" id="2_17k2n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_duaj0"]
+bg_color = Color(0.05, 0.05, 0.05, 0.862745)
+
+[sub_resource type="SystemFont" id="SystemFont_j3yah"]
+font_names = PackedStringArray("Garamond", "Rockwell")
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_1j35a"]
+font_names = PackedStringArray("Rockwell")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sbetn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sh4cq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_157kg"]
+
+[node name="Game Over Menu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_17k2n")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_duaj0")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(645, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.482353, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = SubResource("SystemFont_j3yah")
+theme_override_font_sizes/normal_font_size = 70
+text = "GAME OVER"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlocksIcon" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.07
+texture = ExtResource("1_p4gbp")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="RestartButton" type="Button" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_fonts/font = SubResource("SystemFont_1j35a")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sbetn")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sh4cq")
+text = "Restart"
+
+[node name="BlocksIcon2" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32.147)
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.07
+texture = ExtResource("1_p4gbp")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MainMenuButton" type="Button" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_fonts/font = SubResource("SystemFont_1j35a")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sbetn")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sh4cq")
+text = "Main Menu"
+
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_fonts/font = SubResource("SystemFont_1j35a")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sbetn")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sh4cq")
+text = "Quit"
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_157kg")
+
+[node name="LogoFancyV2Transparent" type="Sprite2D" parent="."]
+position = Vector2(1757, 949)
+scale = Vector2(0.132029, 0.132029)
+texture = ExtResource("2_17k2n")
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

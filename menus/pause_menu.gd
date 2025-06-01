@@ -1,15 +1,6 @@
 extends Control
 
-@onready var this = $"."
-
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_cancel") and not is_visible_in_tree():
-		#await get_tree().create_timer(0.2).timeout
-		pause()
-	elif Input.is_action_just_pressed("ui_cancel") and is_visible_in_tree():
-		#await get_tree().create_timer(0.2).timeout
-		unpause()
-		
+@onready var this = $"."		
 
 
 # HINT/WARNING: always use get_tree().paused = true/false ONLY before changing scenes (else: crashes)
