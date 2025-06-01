@@ -133,7 +133,7 @@ func sort_address_into_cache(addressString:String) -> void:
 	var possibleLines :Array[int] = _get_line_indices_for_set(index)
 	var wasLinePlaced :bool = false
 	
-	# first attempt to place tag:
+	# First attempt to place tag:
 	for lineIdx in possibleLines:
 		var line :Dictionary = _get_cache_line(lineIdx)
 		
@@ -149,7 +149,7 @@ func sort_address_into_cache(addressString:String) -> void:
 			wasLinePlaced = true
 			break
 			
-	# second attempt to place tag, in case of a cache miss due to CONFLICT or CAPACITY in first attempt:  Replaces another tag/line	
+	# Second attempt to place tag, in case of a cache miss due to CONFLICT or CAPACITY in first attempt:  Replaces another tag/line	
 	var replacedLine :Dictionary
 	if wasLinePlaced == false:	
 		# choose which of the existing lines must be replaced and update that line
@@ -406,3 +406,32 @@ func _get_cache_bitnumbers() -> Dictionary:
 	var indexBits :int = log(setNumber) / log(2)
 	var tagBits :int = 32 - (indexBits + offsetBits)		# 32-bit address
 	return {"tagbits"=tagBits, "indexbits"=indexBits, "offsetbits"=offsetBits}
+
+
+# Internal helper function that returns whether the access for address will be a hit or a miss, given the current state of the cache.
+# Purely for gameplay / level use.
+# If true is returned, the given address will be a cache hit, else a miss.
+func _will_be_hit(addressString:String) -> bool:
+	# ESSENTIALLY the first half of sort_address_into_cache()
+	var address :int = addressString.hex_to_int()
+	# cache parameter calculations:
+	var setNumber :int = blockNumber / associativityDegree
+	var offsetBits :int = log(blockSize) / log(2)			# equivalent to log2(blockSize)
+	var indexBits :int = log(setNumber) / log(2)
+	var tagBits :int = 32 - (indexBits + offsetBits)		# 32-bit addres
+	
+	var results :Dictionary = _get_tag_index_offset(address, tagBits, indexBits, offsetBits)
+	var tag :int = results["tag"]
+	var index :int = results["index"]
+	var offset :int = results["offset"]
+		
+	# Find address (tag) in one of the 'possibleLines':
+	var possibleLines :Array[int] = _get_line_indices_for_set(index)
+	
+	# Try to find tag:
+	for lineIdx in possibleLines:
+		var line :Dictionary = _get_cache_line(lineIdx)
+		if line["tag"] == "0x%x" % tag:	# cache HIT
+			return true
+	# If the addresses tag was not found, then return false
+	return false

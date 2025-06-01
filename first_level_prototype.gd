@@ -88,10 +88,13 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	var floatingAddress = area.get_parent()
 	if floatingAddress is not RichTextLabel: return
 	var address = floatingAddress.text
-	cache.sort_address_into_cache(address)
-	var pathFollow: Node = floatingAddress.get_parent()
-	if pathFollow is not PathFollow2D: return
-	pathFollow.queue_free()
+	if not cache._will_be_hit(address):	# Let miss'ed addresses pass through the cache
+		cache.sort_address_into_cache(address)
+	else: # Cache Hit -> delete addresses from path
+		cache.sort_address_into_cache(address)
+		var pathFollow: Node = floatingAddress.get_parent()
+		if pathFollow is not PathFollow2D: return
+		pathFollow.queue_free()
 	
 
 func _on_the_memory_damaged(who: String, damage: int) -> void:
@@ -131,6 +134,7 @@ func _on_timerToLoop_timeout() -> void:
 	
 ## Update score and put message in event log
 func _on_cache_cache_hit(address:String) -> void:
+	# Score count & calculation
 	totalAccessCount += 1
 	hitCount += 1
 	hitRate = float(hitCount) / float(totalAccessCount)
@@ -145,6 +149,7 @@ func _on_cache_cache_hit(address:String) -> void:
 ## Place replacedAddress on pathFromCache, update score and put message in event log
 # TODO: some error with adding the pathFollow to the scene
 func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) -> void:
+	# Score count & calculation
 	totalAccessCount += 1
 	missCount += 1
 	hitRate = float(hitCount) / float(totalAccessCount)
@@ -162,13 +167,13 @@ func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) ->
 	elif type == cache.cacheMissType.CAPACITY:
 		$HUD.display_chat_message("Miss (Capacity) address " + replacedAddress+" was in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
 	# Display address coming out of cache, delete it and path after animation is done
-	var newAddress: Node = preload("res://floating_address.tscn").instantiate()
-	var pathFollow: PathFollow2D = PathFollow2D.new()
-	var tween = get_tree().create_tween()
-	newAddress.text = replacedAddress
-	newAddress.set_position(Vector2(0,0))
-	pathFromCache.add_child(pathFollow)
-	pathFollow.add_child(newAddress)					# This line seems to have this error: "Cant change this state while flushing queries" # for now works without though (Godot 4.4.stable.mono)
-	pathFollow.rotates = false
-	tween.tween_property(pathFollow, "progress_ratio", 1.0, 4.0)
-	tween.finished.connect(func(): pathFollow.queue_free())
+	#var newAddress: Node = preload("res://floating_address.tscn").instantiate()
+	#var pathFollow: PathFollow2D = PathFollow2D.new()
+	#var tween = get_tree().create_tween()
+	#newAddress.text = replacedAddress
+	#newAddress.set_position(Vector2(0,0))
+	#pathFromCache.add_child(pathFollow)
+	#pathFollow.add_child(newAddress)					# This line seems to have this error: "Cant change this state while flushing queries" # for now works without though (Godot 4.4.stable.mono)
+	#pathFollow.rotates = false
+	#tween.tween_property(pathFollow, "progress_ratio", 1.0, 4.0)
+	#tween.finished.connect(func(): pathFollow.queue_free())
