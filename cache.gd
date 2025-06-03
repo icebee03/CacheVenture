@@ -62,43 +62,13 @@ var _metadata :Array[Dictionary]
 
 ## Initializes the cache and fills it with [member blockNumber] many empty lines.
 func _ready() -> void:	
-	var setTmp :int = 0
-	var setCounter :int = 0
+	update_layout()
 	
-	# varying "Info" field text depending on replacementPolicy:
-	match replacementPolicy:
-		"Random": 	cacheHeader.set_item_text(3, "Random Replacement")
-		"LFU":		cacheHeader.set_item_text(3, "Access Count")
-		"LRU": 		cacheHeader.set_item_text(3, "Last Access")
-		_: 			print("Other replacement strategies than Random, LFU, LRU are not implemented!")
-		
-	# set same width for Cache Header and Body:
+	# Set same width for Cache Header and Body:
 	cacheHeader.set_fixed_column_width(columnWidth)
 	cacheBody.set_fixed_column_width(columnWidth)
-	# set maximum height of Cache, measured in rows (before you need to scroll):
-	# those pixel counts should be good, but could break in other resolutions(?!)
-	const PIXELS_PER_BLOCK :int = 26
-	const HEADER_PIXELS :int = 55
-	maxShownBlocks = 16 if maxShownBlocks > 16 else maxShownBlocks		# upper bound of 16 rendered blocks on screen
-	if blockNumber <= maxShownBlocks:								
-		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * blockNumber))	
-	else:
-		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * maxShownBlocks))
-			
-	# cache creation depending on @blockNumber and @associativityDegree
-	for i in blockNumber:
-		if (setTmp == associativityDegree):
-			setCounter += 1
-			setTmp = 0
-		setTmp += 1
-		_add_cache_line(str(i), str(setCounter), "", "")	
-		
-	# initialize timestamps array to ensure safe access
-	# _timestampsUnix.resize(blockNumber)
-	# initialize metadata array that holds dictionaries with more info about each cache line.
-	_metadata.resize(blockNumber)
-	for i in blockNumber:
-		_metadata[i] = {"block":i, "address":"", "timestampUnix":-1.0}
+	
+	
 		
 	
 	
@@ -187,6 +157,45 @@ func sort_address_into_cache(addressString:String) -> void:
 	#print("tag:		%d" % debugtag)
 	#print("metadata:	",_metadata)
 	# ------------- end debuggin/testing -------------------------------------
+	
+	
+## Updates the cache layout, given that the parameters have changed (implicitly)
+## Essentially emties it and initializes it anew	
+func update_layout() -> void:
+	var setTmp :int = 0
+	var setCounter :int = 0
+	cacheBody.clear()
+	
+	# Cache creation depending on @blockNumber and @associativityDegree
+	_blockCount = 0	
+	for i in blockNumber:
+		if (setTmp == associativityDegree):
+			setCounter += 1
+			setTmp = 0
+		setTmp += 1
+		_add_cache_line(str(i), str(setCounter), "", "")
+	
+	# Initialize metadata array that holds dictionaries with more info about each cache line.
+	_metadata.resize(blockNumber)
+	for i in blockNumber:
+		_metadata[i] = {"block":i, "address":"", "timestampUnix":-1.0}
+		
+	# varying "Info" field text depending on replacementPolicy:
+	match replacementPolicy:
+		"Random": 	cacheHeader.set_item_text(3, "Random Replacement")
+		"LFU":		cacheHeader.set_item_text(3, "Access Count")
+		"LRU": 		cacheHeader.set_item_text(3, "Last Access")
+		_: 			print("Other replacement strategies than Random, LFU, LRU are not implemented!")
+		
+	# Set maximum height of Cache, measured in rows (before you need to scroll):
+	# those pixel counts should be fine, but could break in other resolutions(?!)
+	const PIXELS_PER_BLOCK :int = 26
+	const HEADER_PIXELS :int = 55
+	maxShownBlocks = 16 if maxShownBlocks > 16 else maxShownBlocks		# upper bound of 16 rendered blocks on screen
+	if blockNumber <= maxShownBlocks:								
+		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * blockNumber))	
+	else:
+		_set_size(Vector2(get_size()[0], HEADER_PIXELS + PIXELS_PER_BLOCK * maxShownBlocks))
 					
 #--------------------------------------------------------------------------------------------------------
 		
