@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=27 format=3 uid="uid://dgbm0i8vhobms"]
 
 [ext_resource type="Script" uid="uid://bqfsuhedtqxd5" path="res://menus/upgrade_menu_2.gd" id="1_oihe7"]
 [ext_resource type="StyleBox" uid="uid://ci71f4gwuodso" path="res://upgrade option styling.tres" id="2_t5rd5"]
@@ -23,73 +23,6 @@ corner_radius_bottom_left = 10
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oihe7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_057qa"]
-
-[sub_resource type="GDScript" id="GDScript_t5rd5"]
-script/source = "extends VBoxContainer
-	
-var root	
-var arrow : Label
-var focus_outline : PanelContainer
-var info_and_buy : VBoxContainer
-var upgrade_title : RichTextLabel
-@onready var block_number_module = $\"Module Selector/Margin/HBox/Blocknumber\"
-@onready var block_size_module = $\"Module Selector/Margin/HBox/Blocksize\"
-@onready var associativity_module = $\"Module Selector/Margin/HBox/Associativity\"
-
-func _ready() -> void:
-	root = get_tree().root
-	arrow = root.get_node(\"Upgrade Menu 2/Module Arrow\")
-	focus_outline = root.get_node(\"Upgrade Menu 2/Focus Outline\")
-	info_and_buy = root.get_node(\"Upgrade Menu 2/VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button\")
-	upgrade_title = root.get_node(\"Upgrade Menu 2/VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Title\")
-	
-func _process(delta: float) -> void:
-	set_focus_outline()
-	
-	
-## Draws the focus outline around the currently focused upgrade option	
-func set_focus_outline() -> void:
-	var focused :Control =  get_viewport().gui_get_focus_owner()
-	if focused == null: return
-	if focused is not PanelContainer: return
-	var pos : Vector2 = focused.global_position
-	var offset : Vector2 = (focus_outline.size - focused.size) / 2
-	# animate the movement of the focus rectangle
-	var tween : Tween = get_tree().create_tween()
-	tween.tween_property(focus_outline, \"position\", pos-offset, 0.1)
-	
-	
-func _on_blocknbr_v_box_container_focus_entered() -> void:
-	print(\"Focus on block number!\")
-	var x_pos = block_number_module.global_position[0]
-	x_pos += (block_number_module.size[0] / 2) - (arrow.size[0]/2)
-	arrow.set_position(Vector2(x_pos, 400))
-	upgrade_title.text = \"Block Number\"
-	$\"Upgrade Options/Block Number Upgrades\".visible = 	true
-	$\"Upgrade Options/Block Size Upgrades\".visible = 		false
-	$\"Upgrade Options/Associativity Upgrades\".visible = 	false
-	
-func _on_blocksize_v_box_container_2_focus_entered() -> void:
-	print(\"Focus on block size!\")
-	var x_pos = block_size_module.global_position[0]
-	x_pos += (block_size_module.size[0]/2) - arrow.size[0]/2
-	arrow.set_position(Vector2(x_pos, 400))
-	upgrade_title.text = \"Block Size\"
-	$\"Upgrade Options/Block Number Upgrades\".visible = 	false
-	$\"Upgrade Options/Block Size Upgrades\".visible = 		true
-	$\"Upgrade Options/Associativity Upgrades\".visible = 	false
-	
-func _on_assoc_v_box_container_3_focus_entered() -> void:
-	print(\"Focus on associativity!\")
-	var x_pos = associativity_module.global_position[0]
-	x_pos += (associativity_module.size[0]/2) - arrow.size[0]/2
-	arrow.set_position(Vector2(x_pos, 400))
-	upgrade_title.text = \"Degree of Associativity\"
-	$\"Upgrade Options/Block Number Upgrades\".visible = 	false
-	$\"Upgrade Options/Block Size Upgrades\".visible = 		false
-	$\"Upgrade Options/Associativity Upgrades\".visible = 	true
-	
-"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t5rd5"]
 bg_color = Color(0.413333, 0.3, 0.5, 1)
@@ -135,62 +68,10 @@ bg_color = Color(0.801867, 0.582, 0.97, 1)
 bg_color = Color(0.1748, 0.38, 0.18848, 1)
 corner_radius_bottom_left = 25
 
-[sub_resource type="GDScript" id="GDScript_s6ngt"]
-script/source = "extends Label
-
-
-# just for testing
-# TODO: use stored coin values for displaying
-func _on_upgrade_button_upgrade_bought(price: int) -> void:
-	var new_text:String = $\".\".text
-	var first_slice:String = new_text.get_slice(\" \", 0)
-	var coins = first_slice.to_int()
-	coins = coins - price
-	new_text = new_text.replace(first_slice, str(coins))
-	$\".\".text = new_text
-	
-"
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ir0uh"]
 bg_color = Color(0.317647, 0.698039, 0.345098, 1)
 corner_radius_top_left = 25
 corner_radius_bottom_left = 25
-
-[sub_resource type="GDScript" id="GDScript_oihe7"]
-script/source = "extends VBoxContainer
-
-var upgrade_type : String 
-@onready var upgrade_icon : Label = $\"Icon/Upgrade Icon/Upgrade Label\"
-@onready var upgrade_info_text : Label = $\"Upgrade Info Text\"
-@onready var upgrade_cost : Label = $\"Upgrade Cost & Button/Upgrade Cost\"
-
-
-func _process(delta: float) -> void:
-	display_focused_info()
-	
-
-func display_focused_info() -> void:
-	var focused :Control =  get_viewport().gui_get_focus_owner()
-	if focused == null: return
-	if focused is not PanelContainer: return
-	var focused_child_0 = focused.get_child(0)
-	if focused_child_0 == null: return
-	var upgrade_text : String = focused_child_0.text
-	upgrade_icon.text = upgrade_text
-	upgrade_type = $\"Upgrade Title\".text
-	if upgrade_type == \"Block Number\":
-		var info_text : String = \"%s\" % upgrade_text
-		upgrade_info_text.text = info_text
-		upgrade_cost.text = \"Upgrade Cost: 5 🪙\"
-	elif upgrade_type == \"Block Size\":
-		var info_text : String = \"Stores %syte of Data in each block.\\n\\n+SPATIAL PERFORMANCE\" % upgrade_text
-		upgrade_info_text.text = info_text
-		upgrade_cost.text = \"Upgrade Cost: 2 🪙\"
-	elif upgrade_type == \"Degree of Associativity\":
-		var info_text : String = \"%s\" % upgrade_text
-		upgrade_info_text.text = info_text
-		upgrade_cost.text = \"Upgrade Cost: 10 🪙\"
-"
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_c8he8"]
 color = Color(1, 1, 1, 1)
@@ -226,6 +107,7 @@ corner_radius_bottom_left = 10
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wa6nd"]
 
 [node name="Upgrade Menu 2" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -314,7 +196,6 @@ mouse_filter = 2
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
-script = SubResource("GDScript_t5rd5")
 
 [node name="Modules Text" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer"]
 layout_mode = 2
@@ -368,7 +249,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber/PanelContainer"]
+[node name="BlockNumberLabel" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -405,7 +286,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize/PanelContainer"]
+[node name="BlockSizeLabel" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -441,7 +322,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 
-[node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity/PanelContainer"]
+[node name="AssociativityLabel" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -470,7 +351,6 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
 
 [node name="Block Number Upgrades" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 125
@@ -1388,7 +1268,6 @@ theme_override_font_sizes/font_size = 50
 text = "13 🪙 /  20 🪙"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = SubResource("GDScript_s6ngt")
 
 [node name="Info & Buy Button" type="PanelContainer" parent="VBox/Bottom/Right Side/Details"]
 layout_mode = 2
@@ -1404,7 +1283,6 @@ theme_override_constants/margin_bottom = 10
 
 [node name="Info & Buy Button" type="VBoxContainer" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
-script = SubResource("GDScript_oihe7")
 
 [node name="Upgrade Title" type="RichTextLabel" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
@@ -1543,12 +1421,12 @@ focus_mode = 2
 theme_override_styles/panel = ExtResource("3_oihe7")
 
 [connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Back Button/BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocknbr_v_box_container_focus_entered"]
+[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="." method="_on_blocknumber_focus_entered"]
 [connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocknbr_v_box_container_mouse_entered"]
-[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocksize_v_box_container_2_focus_entered"]
+[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize" to="." method="_on_blocksize_focus_entered"]
 [connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocksize_v_box_container_2_mouse_entered"]
-[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_assoc_v_box_container_3_focus_entered"]
+[connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity" to="." method="_on_associativity_focus_entered"]
 [connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_assoc_v_box_container_3_mouse_entered"]
 [connection signal="button_down" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" method="_on_button_down"]
 [connection signal="button_up" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" method="_on_button_up"]
-[connection signal="upgrade_bought" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="VBox/Bottom/Right Side/Details/Coins Display/Currency Label" method="_on_upgrade_button_upgrade_bought"]
+[connection signal="upgrade_bought" from="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar/Upgrade Button" to="." method="_on_upgrade_button_upgrade_bought"]
