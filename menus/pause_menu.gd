@@ -1,6 +1,13 @@
 extends Control
 
+signal showUpgradeMenu()
+
 @onready var this = $"."		
+
+
+#func _process(delta: float) -> void:
+	#if Input.is_action_just_pressed("ui_cancel") and is_visible_in_tree():
+		#unpause()
 
 
 # HINT/WARNING: always use get_tree().paused = true/false ONLY before changing scenes (else: crashes)
@@ -18,8 +25,9 @@ func _on_resume_button_pressed() -> void:
 
 
 func _on_upgrades_button_pressed() -> void:
-	get_tree().paused = false
-	get_tree().change_scene_to_file("res://upgrade_menu_2.tscn")
+	#get_tree().paused = false
+	#get_tree().change_scene_to_file("res://upgrade_menu_2.tscn")
+	showUpgradeMenu.emit()
 
 
 func _on_main_menu_button_pressed() -> void:

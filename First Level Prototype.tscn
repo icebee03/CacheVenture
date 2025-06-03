@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bdnkndic6vr55"]
+[gd_scene load_steps=18 format=3 uid="uid://bdnkndic6vr55"]
 
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
 [ext_resource type="Script" uid="uid://xv82acc211l6" path="res://first_level_prototype.gd" id="1_fjlrh"]
@@ -10,7 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_ad4gw"]
 [ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_mah6i"]
 [ext_resource type="PackedScene" uid="uid://cclcos7a74oho" path="res://objects/the_memory.tscn" id="10_o85p1"]
+[ext_resource type="PackedScene" uid="uid://b5e85l3ryvj1w" path="res://menus/stage_passed_menu.tscn" id="11_gh6ux"]
 [ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="11_r5tn1"]
+[ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://upgrade_menu_2.tscn" id="12_w5lyq"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
 
@@ -65,15 +67,14 @@ expand_mode = 3
 
 [node name="Cache" parent="." instance=ExtResource("1_7u17q")]
 process_mode = 3
-offset_left = 861.0
-offset_top = 363.0
-offset_right = 1390.0
-offset_bottom = 555.0
+offset_left = 856.0
+offset_top = 277.0
+offset_right = 1385.0
+offset_bottom = 425.0
 blockNumber = 4
-associativityDegree = 2
 replacementPolicy = "LFU"
 columnWidth = 120
-maxShownBlocks = 16
+maxShownBlocks = 10
 
 [node name="Hitbox" type="Area2D" parent="Cache"]
 material = SubResource("CanvasItemMaterial_jh4da")
@@ -117,14 +118,66 @@ metadata/_edit_lock_ = true
 visible = false
 z_index = 1
 
+[node name="Stage Passed Menu" parent="." instance=ExtResource("11_gh6ux")]
+visible = false
+z_index = 1
+
 [node name="Game Over Menu" parent="." instance=ExtResource("11_r5tn1")]
-process_mode = 3
 visible = false
 z_index = 1
 metadata/_edit_lock_ = true
+
+[node name="Upgrade Menu" parent="." instance=ExtResource("12_w5lyq")]
+visible = false
+z_index = 1
+
+[node name="Stage1Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="Stage2Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage3Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage4Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage5Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage6Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage7Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage8Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage9Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage10Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
 
 [connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]
 [connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
 [connection signal="area_entered" from="Cache/Hitbox" to="." method="_on_area_2d_area_entered"]
 [connection signal="damaged" from="The Memory" to="." method="_on_the_memory_damaged"]
 [connection signal="dead" from="The Memory" to="." method="_on_the_memory_dead"]
+[connection signal="showUpgradeMenu" from="Pause Menu" to="." method="_on_pause_menu_show_upgrade_menu"]
+[connection signal="continueToNextStage" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_continue_to_next_stage"]
+[connection signal="showUpgradeMenu" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_show_upgrade_menu"]
+[connection signal="timeout" from="Stage1Timer" to="." method="_on_stage_1_timer_timeout"]

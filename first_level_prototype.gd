@@ -12,12 +12,14 @@ var prevAddresses:Array[String] = ["0x1228"]
 var timerToLoop: Timer = Timer.new()
 var loopTimerFinished:bool = false				# After that timer is finished, only spawn previous addresses (simulates loop)
 
-#--- for score calculation ---
+#--- for score calculation -----
 var totalAccessCount:int = 0
 var hitCount:int = 0
 var hitRate:float = 0.0				# in %
 var missCount:int = 0
 var missRate:float = 0.0				# in %
+
+var current_stage : int = 1
 
 
 @onready var the_memory : TheMemory = $"The Memory"
@@ -27,7 +29,9 @@ var missRate:float = 0.0				# in %
 @onready var path: Path2D = $Path2D
 @onready var pathFromCache: Path2D = $PathFromCache
 @onready var pauseMenu = $"Pause Menu"
+@onready var stagePassedMenu = $"Stage Passed Menu"
 @onready var gameOverMenu = $"Game Over Menu"
+@onready var upgradeMenu = $"Upgrade Menu"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,7 +41,7 @@ func _ready() -> void:
 	
 	timer.wait_time = spawnRate
 	timer.autostart = true
-	timer.one_shot = false
+	timer.one_shot = false		# spawn timer will continuously restart
 	timer.timeout.connect(_on_timer_timeout)
 	add_child(timer)
 	
@@ -46,6 +50,10 @@ func _ready() -> void:
 	timerToLoop.one_shot = true
 	timerToLoop.timeout.connect(_on_timerToLoop_timeout)
 	add_child(timerToLoop)
+	
+	upgradeMenu.current_blocknumber = cache.blockNumber
+	upgradeMenu.current_blocksize = cache.blockSize
+	upgradeMenu.current_associativity = cache.associativityDegree
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,6 +67,7 @@ func _process(delta: float) -> void:
 	elif Input.is_action_just_pressed("ui_cancel") and pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.unpause()
+
 
 
 ## Fits the hitbox to the dynamic size of the cache
@@ -177,3 +186,36 @@ func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) ->
 	#pathFollow.rotates = false
 	#tween.tween_property(pathFollow, "progress_ratio", 1.0, 4.0)
 	#tween.finished.connect(func(): pathFollow.queue_free())
+
+
+func _on_pause_menu_show_upgrade_menu() -> void:
+	upgradeMenu.show()
+
+
+func _on_stage_passed_menu_show_upgrade_menu() -> void:
+	upgradeMenu.show()
+
+
+func _on_stage_passed_menu_continue_to_next_stage() -> void:
+	get_tree().paused = false
+	stagePassedMenu.hide()
+	stagePassedMenu.stage += 1
+	# TODO: reset damage and basically entire level for next stage
+	cache.update_layout()
+	$HUD.reset()
+	the_memory.add_health(100)
+	timerToLoop.start(timeToLoop)
+	totalAccessCount = 0
+	hitCount = 0
+	hitRate = 0.0				# in %
+	missCount = 0
+	missRate = 0.0				# in %
+	prevAddresses.resize(1)
+	var deleteList = path.get_children()
+	for e in deleteList: e.queue_free()
+	# TODO: use current_stage to start the next stage timer
+
+
+func _on_stage_1_timer_timeout() -> void:
+	get_tree().paused = true
+	stagePassedMenu.show()

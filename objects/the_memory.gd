@@ -58,17 +58,20 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	var floatingAddress = area.get_parent()
 	if floatingAddress is not RichTextLabel: return
 	var address = floatingAddress.text
+	var pathFollow = floatingAddress.get_parent()
+	if pathFollow is not PathFollow2D: return
+	pathFollow.queue_free()
 	subtract_health(5.0)
 	damaged.emit(address, 5.0)
-	
+		
 
 ## Adds [amount] health to the healt of the memory.
 ## Possible use-case: regeneration of health
 func add_health(amount:float) -> void:
 	if health + amount >= healthbar.max_value:
 		health = healthbar.max_value
-		return
-	health += amount
+	else:
+		health += amount
 	update_healthbar()
 	update_damagebar()
 	update_crystals_visible()

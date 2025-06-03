@@ -1,0 +1,114 @@
+[gd_scene load_steps=10 format=3 uid="uid://b5e85l3ryvj1w"]
+
+[ext_resource type="Texture2D" uid="uid://bc0uoqeehx3b4" path="res://images/Line Divider White.png" id="1_57502"]
+[ext_resource type="Script" uid="uid://d4mlwbh6smrbq" path="res://menus/stage_passed_menu.gd" id="1_xsx3o"]
+[ext_resource type="Texture2D" uid="uid://c5c1u88vvq4n" path="res://images/Logo White.png" id="2_xsx3o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x6afj"]
+bg_color = Color(0.05, 0.05, 0.05, 0.862745)
+
+[sub_resource type="SystemFont" id="SystemFont_ddlc4"]
+font_names = PackedStringArray("Garamond", "Rockwell")
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_0wv6w"]
+font_names = PackedStringArray("Rockwell")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0wv6w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qlf07"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aiq41"]
+
+[node name="Stage Passed Menu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xsx3o")
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_x6afj")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(645, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = SubResource("SystemFont_ddlc4")
+theme_override_font_sizes/normal_font_size = 70
+text = "PASSED STAGE"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlocksIcon" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.07
+texture = ExtResource("1_57502")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="UpgradesButton" type="Button" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_fonts/font = SubResource("SystemFont_0wv6w")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+text = "Upgrades"
+
+[node name="BlocksIcon2" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32.147)
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.07
+texture = ExtResource("1_57502")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="ContinueButton" type="Button" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_fonts/font = SubResource("SystemFont_0wv6w")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+text = "Continue To Next Stage"
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_aiq41")
+
+[node name="LogoFancyV2Transparent" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1757, 949)
+scale = Vector2(0.132029, 0.132029)
+texture = ExtResource("2_xsx3o")
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/UpgradesButton" to="." method="_on_upgrades_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]

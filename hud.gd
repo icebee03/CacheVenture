@@ -75,3 +75,12 @@ func _on_speed_multiplier_value_changed(value: float) -> void:
 	#debouncing timer (hopefully works)
 	await get_tree().create_timer(0.01).timeout
 	change_game_speed(value)
+	
+	
+## Restores Hit and Miss rates, empties Event Log, sets speed to 1
+func reset() -> void:
+	update_score(0.0, 0.0)
+	chatlog.text = ""
+	slider.value = 1.0
+	change_game_speed(1.0)
+	

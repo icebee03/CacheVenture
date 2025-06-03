@@ -204,6 +204,7 @@ value = 100.0
 show_percentage = false
 
 [node name="ShowDamageTimer" type="Timer" parent="Healthbar"]
+wait_time = 0.4
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -65,7 +65,6 @@ offset_bottom = 555.0
 associativityDegree = 1
 replacementPolicy = "LFU"
 columnWidth = 100
-maxShownBlocks = 16
 
 [node name="Hitbox" type="Area2D" parent="Cache"]
 material = SubResource("CanvasItemMaterial_p3yn1")

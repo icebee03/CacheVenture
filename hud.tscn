@@ -4,6 +4,7 @@
 
 [sub_resource type="SystemFont" id="SystemFont_37p78"]
 font_names = PackedStringArray("Rockwell")
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37p78"]
 skew = Vector2(0.695, 0)
@@ -94,6 +95,7 @@ shadow_color = Color(0, 0, 0, 0)
 [sub_resource type="SystemFont" id="SystemFont_64ctp"]
 font_names = PackedStringArray("Cascadia Mono", "Monospace", "Rockwell", "Consolas")
 font_weight = 600
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64ctp"]
 content_margin_left = 20.0
