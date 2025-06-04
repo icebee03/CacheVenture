@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bdnkndic6vr55"]
+[gd_scene load_steps=20 format=3 uid="uid://bdnkndic6vr55"]
 
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_7u17q"]
 [ext_resource type="Script" uid="uid://xv82acc211l6" path="res://first_level_prototype.gd" id="1_fjlrh"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b5e85l3ryvj1w" path="res://menus/stage_passed_menu.tscn" id="11_gh6ux"]
 [ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="11_r5tn1"]
 [ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://upgrade_menu_2.tscn" id="12_w5lyq"]
+[ext_resource type="Texture2D" uid="uid://c8vjxmkngb0v0" path="res://images/ui/progress-bar-circle2.png" id="14_3sap3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
 
@@ -29,6 +30,9 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 1674, 370, 0, 0, 0, 0, 1776, 369, 0, 0, 0, 0, 1840, 487, 0, 0, 0, 0, 1824, 657, 0, 0, 0, 0, 1812, 899, 0, 0, 0, 0, 1537, 940, 0, 0, 0, 0, 1185, 945)
 }
 point_count = 7
+
+[sub_resource type="SystemFont" id="SystemFont_3hogd"]
+font_names = PackedStringArray("Rockwell")
 
 [node name="First Level" type="Node"]
 script = ExtResource("1_fjlrh")
@@ -121,6 +125,7 @@ z_index = 1
 [node name="Stage Passed Menu" parent="." instance=ExtResource("11_gh6ux")]
 visible = false
 z_index = 1
+totalStages = 1
 
 [node name="Game Over Menu" parent="." instance=ExtResource("11_r5tn1")]
 visible = false
@@ -172,6 +177,33 @@ one_shot = true
 wait_time = 20.0
 one_shot = true
 
+[node name="StageProgressBar" type="TextureProgressBar" parent="."]
+offset_left = 610.0
+offset_top = 1028.0
+offset_right = 738.0
+offset_bottom = 1156.0
+scale = Vector2(0.352367, 0.352367)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.0
+fill_mode = 4
+texture_under = ExtResource("14_3sap3")
+texture_progress = ExtResource("14_3sap3")
+tint_under = Color(0, 0, 0, 0.117647)
+tint_progress = Color(0.653105, 0.644694, 0.81381, 1)
+
+[node name="StageLabel" type="RichTextLabel" parent="."]
+offset_left = 676.0
+offset_top = 1027.0
+offset_right = 1058.0
+offset_bottom = 1067.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/normal_font = SubResource("SystemFont_3hogd")
+theme_override_font_sizes/normal_font_size = 30
+text = "Stage 1"
+
 [connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]
 [connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
 [connection signal="area_entered" from="Cache/Hitbox" to="." method="_on_area_2d_area_entered"]
@@ -180,4 +212,3 @@ one_shot = true
 [connection signal="showUpgradeMenu" from="Pause Menu" to="." method="_on_pause_menu_show_upgrade_menu"]
 [connection signal="continueToNextStage" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_continue_to_next_stage"]
 [connection signal="showUpgradeMenu" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_show_upgrade_menu"]
-[connection signal="timeout" from="Stage1Timer" to="." method="_on_stage_1_timer_timeout"]

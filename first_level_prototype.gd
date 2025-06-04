@@ -32,6 +32,23 @@ var current_stage : int = 1
 @onready var stagePassedMenu = $"Stage Passed Menu"
 @onready var gameOverMenu = $"Game Over Menu"
 @onready var upgradeMenu = $"Upgrade Menu"
+@onready var stageProgressBar = $StageProgressBar
+@onready var stageLabel = $StageLabel
+
+
+# Timers for all different stages
+@onready var stage1Timer = $Stage1Timer
+@onready var stage2Timer = $Stage2Timer
+@onready var stage3Timer = $Stage3Timer
+@onready var stage4Timer = $Stage4Timer
+@onready var stage5Timer = $Stage5Timer
+@onready var stage6Timer = $Stage6Timer
+@onready var stage7Timer = $Stage7Timer
+@onready var stage8Timer = $Stage8Timer
+@onready var stage9Timer = $Stage9Timer
+@onready var stage10Timer = $Stage10Timer
+@onready var stageTimers = [null, stage1Timer, stage2Timer, stage3Timer, 	#dummy entry at index 0 to be able access via current_stage which starts at 1
+	stage4Timer, stage5Timer, stage6Timer, stage7Timer, stage8Timer, stage9Timer, stage10Timer]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -55,6 +72,11 @@ func _ready() -> void:
 	upgradeMenu.current_blocksize = cache.blockSize
 	upgradeMenu.current_associativity = cache.associativityDegree
 	
+	# Connect stage timer timeouts
+	for stageTimer in stageTimers:
+		if stageTimer == null: continue
+		stageTimer.timeout.connect(_on_stage_timer_timeout)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -67,6 +89,9 @@ func _process(delta: float) -> void:
 	elif Input.is_action_just_pressed("ui_cancel") and pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.unpause()
+		
+	stageProgressBar.value = 1 - (stageTimers[current_stage].time_left / stageTimers[current_stage].wait_time)
+	stageLabel.text = "Stage "+str(current_stage)
 
 
 
@@ -200,6 +225,7 @@ func _on_stage_passed_menu_continue_to_next_stage() -> void:
 	get_tree().paused = false
 	stagePassedMenu.hide()
 	stagePassedMenu.stage += 1
+	current_stage += 1
 	# TODO: reset damage and basically entire level for next stage
 	cache.update_layout()
 	$HUD.reset()
@@ -213,9 +239,37 @@ func _on_stage_passed_menu_continue_to_next_stage() -> void:
 	prevAddresses.resize(1)
 	var deleteList = path.get_children()
 	for e in deleteList: e.queue_free()
-	# TODO: use current_stage to start the next stage timer
+	if current_stage == 10: return
+	stageTimers[current_stage].start()
 
 
-func _on_stage_1_timer_timeout() -> void:
+func _on_stage_timer_timeout() -> void:
 	get_tree().paused = true
+	await get_tree().create_timer(1).timeout
 	stagePassedMenu.show()
+
+
+## Changes the levels settings (spawning speed, etc.) depending on the current stage
+func set_stage_settings() -> void:
+	match current_stage:
+		1:
+			pass
+		2:
+			pass # a little bit harder/faster
+		3: 
+			pass # even faster / more challenging, need better upgrades now at the least
+		4:
+			pass
+		5: 
+			pass
+		6: 
+			pass
+		7:
+			pass
+		8:
+			pass
+		9:
+			pass
+		10:
+			pass # very hard, much is going on!
+	pass

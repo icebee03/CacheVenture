@@ -99,6 +99,19 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
 text = "Continue To Next Stage"
 
+[node name="MainMenuButton" type="Button" parent="PanelContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
+theme_override_fonts/font = SubResource("SystemFont_0wv6w")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+text = "Main Menu"
+
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
@@ -112,3 +125,4 @@ texture = ExtResource("2_xsx3o")
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
