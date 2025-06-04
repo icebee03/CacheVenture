@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ilgtuvsnokah"]
+[gd_scene load_steps=30 format=3 uid="uid://ilgtuvsnokah"]
 
 [ext_resource type="Script" uid="uid://dwiryy3cxhxpc" path="res://menus/main_menu.gd" id="1_7vrkn"]
 [ext_resource type="Texture2D" uid="uid://gohxhknol14k" path="res://images/Logo particles experimental trans.png" id="2_7vrkn"]
@@ -53,6 +53,11 @@ font_names = PackedStringArray("Rockwell")
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7vrkn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j5v2v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nc6jr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_caclp"]
+content_margin_left = 10.0
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
@@ -304,6 +309,24 @@ offset_bottom = 1080.0
 texture = ExtResource("8_hswy5")
 expand_mode = 2
 stretch_mode = 5
+
+[node name="SurveyTokenLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -58.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 2
+theme_override_font_sizes/normal_font_size = 36
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nc6jr")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_caclp")
+bbcode_enabled = true
+text = "Survey Token: [color=red]LOCKED[/color] (Play all levels to unlock)"
+vertical_alignment = 1
+selection_enabled = true
 
 [connection signal="pressed" from="PanelContainer/HBoxContainer/LeftSide/PanelContainer/MarginContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/LeftSide/PanelContainer4/MarginContainer/QuitButton" to="." method="_on_quit_button_pressed"]

@@ -43,6 +43,23 @@ text = "Level
 1"
 metadata/_edit_use_anchors_ = true
 
+[node name="Lvl2Button" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.565104
+anchor_top = 0.367593
+anchor_right = 0.669271
+anchor_bottom = 0.552778
+offset_right = -6.10352e-05
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = SubResource("SystemFont_mcy63")
+theme_override_font_sizes/font_size = 66
+text = "Level
+2"
+metadata/_edit_use_anchors_ = true
+
 [node name="TutLvl1Button" type="Button" parent="."]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 1
@@ -62,13 +79,14 @@ Associativity"
 metadata/_edit_use_anchors_ = true
 
 [node name="UpgradeMenuButton" type="Button" parent="."]
+visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.628646
-anchor_top = 0.321296
-anchor_right = 0.771875
-anchor_bottom = 0.537037
+anchor_left = 0.7625
+anchor_top = 0.343519
+anchor_right = 0.905729
+anchor_bottom = 0.55926
 offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -95,7 +113,8 @@ theme_override_fonts/font = SubResource("SystemFont_mcy63")
 theme_override_font_sizes/font_size = 30
 text = "Back"
 
-[connection signal="pressed" from="Lvl1Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Lvl1Button" to="." method="_on_lvl_1_button_pressed"]
+[connection signal="pressed" from="Lvl2Button" to="." method="_on_lvl_2_button_pressed"]
 [connection signal="pressed" from="TutLvl1Button" to="." method="_on_tut_lvl_1_button_pressed"]
 [connection signal="pressed" from="UpgradeMenuButton" to="." method="_on_upgrade_menu_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
