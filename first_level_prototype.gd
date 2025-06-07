@@ -1,12 +1,14 @@
 class_name FirstLevel extends Node
 
 ## Time between address spawns
-@export var spawnRate: float
+@export var spawnRate: float = 1.0
 ## Time between spawn and cache contact
-@export var pathSpeed: float
+@export var pathSpeed: float = 3.0
 ## Time until imaginary loop starts and no more sequential addresses are added
 @export var timeToLoop:float = 90
 
+
+## Spawn timer, after timeout spawning new addresses on path
 var timer: Timer = Timer.new()
 var prevAddresses:Array[String] = ["0x1228"]
 var timerToLoop: Timer = Timer.new()
@@ -68,9 +70,22 @@ func _ready() -> void:
 	timerToLoop.timeout.connect(_on_timerToLoop_timeout)
 	add_child(timerToLoop)
 	
-	upgradeMenu.current_blocknumber = cache.blockNumber
-	upgradeMenu.current_blocksize = cache.blockSize
-	upgradeMenu.current_associativity = cache.associativityDegree
+	Global.level1Stats["blocknumber"] = cache.blockNumber
+	Global.level1Stats["blocksize"] = cache.blockSize
+	Global.level1Stats["associativity"] = cache.associativityDegree
+	for u in Global.level1Upgrades:
+		if (u["type"]=="Block Number" and not u["quantity"]==cache.blockNumber): 
+			u["unlocked"] = false
+			u["bought"] = false
+		elif (u["type"]=="Block Size" and not u["quantity"]==cache.blockSize): 
+			u["unlocked"] = false
+			u["bought"] = false
+		elif (u["type"]=="Associativity" and not u["quantity"]==cache.associativityDegree): 
+			u["unlocked"] = false
+			u["bought"] = false
+		else:
+			u["unlocked"] = true
+			u["bought"] = true 
 	
 	# Connect stage timer timeouts
 	for stageTimer in stageTimers:
@@ -226,7 +241,10 @@ func _on_stage_passed_menu_continue_to_next_stage() -> void:
 	stagePassedMenu.hide()
 	stagePassedMenu.stage += 1
 	current_stage += 1
-	# TODO: reset damage and basically entire level for next stage
+	# Reset damage and basically entire level for next stage:
+	cache.blockNumber = Global.level1Stats["blocknumber"]
+	cache.blockSize = Global.level1Stats["blocksize"]
+	cache.associativityDegree = Global.level1Stats["associativity"]
 	cache.update_layout()
 	$HUD.reset()
 	the_memory.add_health(100)
@@ -241,12 +259,17 @@ func _on_stage_passed_menu_continue_to_next_stage() -> void:
 	for e in deleteList: e.queue_free()
 	if current_stage == 10: return
 	stageTimers[current_stage].start()
+	set_stage_settings()
 
 
 func _on_stage_timer_timeout() -> void:
+	Engine.time_scale = 1.0
 	get_tree().paused = true
 	await get_tree().create_timer(1).timeout
 	stagePassedMenu.show()
+	Global.level1Stats["coins"] += 5
+	Global.level1Stats["max_coins"] += 5
+	upgradeMenu.unlockUpgrades(current_stage)
 
 
 ## Changes the levels settings (spawning speed, etc.) depending on the current stage
@@ -255,21 +278,43 @@ func set_stage_settings() -> void:
 		1:
 			pass
 		2:
+			spawnRate = 0.9
+			pathSpeed = 2.9
 			pass # a little bit harder/faster
 		3: 
+			spawnRate = 0.8
+			pathSpeed = 2.7
 			pass # even faster / more challenging, need better upgrades now at the least
 		4:
+			spawnRate = 0.5
+			pathSpeed = 2.7
 			pass
 		5: 
+			spawnRate = 0.3
+			pathSpeed = 2.0
 			pass
 		6: 
+			spawnRate = 0.3
+			pathSpeed = 1.7
 			pass
 		7:
+			spawnRate = 0.2
+			pathSpeed = 1.5
 			pass
 		8:
+			spawnRate = 0.1
+			pathSpeed = 1.2
 			pass
 		9:
+			spawnRate = 0.08
+			pathSpeed = 1.2
 			pass
 		10:
+			spawnRate = 0.05
+			pathSpeed = 1.0
 			pass # very hard, much is going on!
-	pass
+	timer.wait_time = spawnRate
+
+
+func _on_game_over_menu_restart() -> void:
+	get_tree().change_scene_to_file("res://First Level Prototype.tscn")

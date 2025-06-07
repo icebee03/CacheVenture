@@ -1,9 +1,12 @@
-[gd_scene load_steps=27 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=28 format=3 uid="uid://dgbm0i8vhobms"]
 
 [ext_resource type="Script" uid="uid://bqfsuhedtqxd5" path="res://menus/upgrade_menu_2.gd" id="1_oihe7"]
+[ext_resource type="PackedScene" uid="uid://cf5avdttd3swx" path="res://menus/upgrade_template.tscn" id="2_057qa"]
 [ext_resource type="StyleBox" uid="uid://ci71f4gwuodso" path="res://upgrade option styling.tres" id="2_t5rd5"]
 [ext_resource type="StyleBox" uid="uid://df4klqe0t1atr" path="res://focus_box.tres" id="3_oihe7"]
 [ext_resource type="Script" uid="uid://34h7gr6j1sjc" path="res://upgrade_button.gd" id="3_s6ngt"]
+[ext_resource type="StyleBox" uid="uid://bewmo4oe16iu2" path="res://menus/progressBarFillStyleboxNotOwned.tres" id="4_yp6h7"]
+[ext_resource type="StyleBox" uid="uid://dodo68ul02p4n" path="res://menus/upgradeButton.tres" id="5_814of"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_057qa"]
 bg_color = Color(0.1488, 0.108, 0.18, 1)
@@ -78,31 +81,6 @@ color = Color(1, 1, 1, 1)
 thickness = 5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6ngt"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83xxv"]
-bg_color = Color(0.92, 0.75256, 0.2024, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.91, 0.667333, 0.3276, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.247059)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cs8on"]
-draw_center = false
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.91, 0.667333, 0.3276, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wa6nd"]
 
@@ -350,7 +328,12 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
 
+[node name="Template" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options" instance=ExtResource("2_057qa")]
+visible = false
+layout_mode = 2
+
 [node name="Block Number Upgrades" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 125
@@ -364,6 +347,7 @@ theme_override_constants/v_separation = 100
 columns = 6
 
 [node name="2 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -380,6 +364,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="4 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -396,6 +381,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="8 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -412,6 +398,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="16 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -428,6 +415,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="32 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -444,6 +432,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="64 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -460,6 +449,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="128 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -476,6 +466,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="256 Blocks" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -509,6 +500,7 @@ theme_override_constants/v_separation = 100
 columns = 6
 
 [node name="4B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -525,6 +517,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="8B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -541,6 +534,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="16B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -557,6 +551,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="32B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -573,6 +568,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="64B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -589,6 +585,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="128B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -605,6 +602,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="256B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -621,6 +619,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="512B" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -637,6 +636,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="1KiB" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -668,6 +668,7 @@ theme_override_constants/v_separation = 100
 columns = 6
 
 [node name="1x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -686,6 +687,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="2x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -704,6 +706,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="4x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -722,6 +725,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="8x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -740,6 +744,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="16x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -758,6 +763,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="32x" type="PanelContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1261,7 +1267,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_70i5d")
 
-[node name="Currency Label" type="Label" parent="VBox/Bottom/Right Side/Details/Coins Display"]
+[node name="CoinsLabel" type="Label" parent="VBox/Bottom/Right Side/Details/Coins Display"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 50
@@ -1290,7 +1296,6 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.45
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-text = "Block Size"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1315,22 +1320,18 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = ExtResource("2_t5rd5")
 
-[node name="Upgrade Label" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Icon/Upgrade Icon"]
+[node name="UpgradeQuantityLabel" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Icon/Upgrade Icon"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 100
-text = "32 B"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Upgrade Info Text" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
+[node name="UpgradeDescriptionLabel" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.37
 theme_override_font_sizes/font_size = 25
-text = "Stores 32 Byte of Data in each block.
-
-+ SPATIAL PERFORMANCE"
 
 [node name="Underline Divider2" type="Panel" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
@@ -1348,7 +1349,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 25
-text = "Upgrade Cost: 5 🪙"
+text = "Upgrade Cost:"
 vertical_alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button"]
@@ -1356,8 +1357,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxEmpty_s6ngt")
-theme_override_styles/fill = SubResource("StyleBoxFlat_83xxv")
-value = 68.95
+theme_override_styles/fill = ExtResource("4_yp6h7")
 show_percentage = false
 
 [node name="Upgrade Button" type="Button" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar"]
@@ -1379,12 +1379,12 @@ theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 25
-theme_override_styles/focus = SubResource("StyleBoxFlat_cs8on")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_cs8on")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_cs8on")
-theme_override_styles/hover = SubResource("StyleBoxFlat_cs8on")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cs8on")
-theme_override_styles/normal = SubResource("StyleBoxFlat_cs8on")
+theme_override_styles/focus = ExtResource("5_814of")
+theme_override_styles/disabled = ExtResource("5_814of")
+theme_override_styles/hover_pressed = ExtResource("5_814of")
+theme_override_styles/hover = ExtResource("5_814of")
+theme_override_styles/pressed = ExtResource("5_814of")
+theme_override_styles/normal = ExtResource("5_814of")
 toggle_mode = true
 text = "Purchase"
 script = ExtResource("3_s6ngt")
@@ -1417,7 +1417,7 @@ offset_left = 622.0
 offset_top = 798.0
 offset_right = 762.0
 offset_bottom = 938.0
-focus_mode = 2
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("3_oihe7")
 
 [connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Back Button/BackButton" to="." method="_on_back_button_pressed"]
