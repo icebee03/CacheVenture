@@ -9,7 +9,7 @@ func _on_back_button_pressed() -> void:
 
 # If all 3 (current) levels were played, display the token to unlock the survey
 func _on_tut_lvl_1_button_pressed() -> void:
-	#get_tree().change_scene_to_file("res://levels/Tutorial-Level-Blocks-Associativity.tscn")
+	get_tree().change_scene_to_file("res://levels/Tutorial-Level-Blocks-Associativity.tscn")
 	Global.tutorialPlayed = true
 	if not Global.tokenExists and Global.tutorialPlayed and Global.level1Played and Global.level2Played:
 		Global.show_survey_token()
@@ -28,8 +28,3 @@ func _on_lvl_2_button_pressed() -> void:
 	Global.level2Played = true
 	if not Global.tokenExists and Global.tutorialPlayed and Global.level1Played and Global.level2Played:
 		Global.show_survey_token()
-
-
-
-#func _on_upgrade_menu_button_pressed() -> void:
-	#get_tree().change_scene_to_file("res://upgrade_menu_2.tscn")

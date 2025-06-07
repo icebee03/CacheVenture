@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bkptrrb2oxrui"]
+[gd_scene load_steps=24 format=3 uid="uid://bkptrrb2oxrui"]
 
 [ext_resource type="Script" uid="uid://de3rvcc4d4g47" path="res://levels/tutorial_level_blocks_associativity.gd" id="1_0afkn"]
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_p3yn1"]
@@ -7,27 +7,51 @@
 [ext_resource type="Texture2D" uid="uid://dk38vtftlybo8" path="res://images/Backgrounds/nature_4/origbig.png" id="4_47yjf"]
 [ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_hhfb3"]
 [ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_8i1qm"]
+[ext_resource type="PackedScene" uid="uid://cclcos7a74oho" path="res://objects/the_memory.tscn" id="6_rkuhi"]
+[ext_resource type="PackedScene" uid="uid://b5e85l3ryvj1w" path="res://menus/stage_passed_menu.tscn" id="9_sbkxt"]
+[ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="10_tvgy1"]
+[ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://upgrade_menu_2.tscn" id="11_t1n37"]
+[ext_resource type="Texture2D" uid="uid://c8vjxmkngb0v0" path="res://images/ui/progress-bar-circle2.png" id="12_7a0bw"]
+[ext_resource type="Texture2D" uid="uid://8kdtfvqkpa2n" path="res://images/Guardian.png" id="13_3d1rq"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_p3yn1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g7w0o"]
 
-[sub_resource type="Curve2D" id="Curve2D_j6kx5"]
+[sub_resource type="Curve2D" id="Curve2D_e8q2s"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 26.641, 126.529, 0, 0, 0, 0, 94.641, 212.529, 0, 0, 0, 0, 219.641, 278.529, 0, 0, 0, 0, 291.641, 282.529, 0, 0, 0, 0, 352.641, 261.529, 0, 0, 0, 0, 378.641, 215.529, 0, 0, 0, 0, 384.375, 77.3045, 0, 0, 0, 0, 404.641, 32.5289, 0, 0, 0, 0, 430.641, 17.5289, 0, 0, 0, 0, 474.641, 6.52888, 0, 0, 0, 0, 535.641, 10.5289, 0, 0, 0, 0, 597.641, 34.5289, 0, 0, 0, 0, 629.641, 63.5289, 0, 0, 0, 0, 647.641, 126.529, 0, 0, 0, 0, 661.641, 209.529, 0, 0, 0, 0, 709.641, 259.529, 0, 0, 0, 0, 775.641, 274.529, 0, 0, 0, 0, 865.641, 264.529)
+"points": PackedVector2Array(0, 0, 0, 0, 26.641, 126.529, 0, 0, 0, 0, 94.641, 212.529, 0, 0, 0, 0, 219.641, 278.529, 0, 0, 0, 0, 291.641, 282.529, 0, 0, 0, 0, 352.641, 261.529, 0, 0, 0, 0, 378.641, 215.529, 0, 0, 0, 0, 384.375, 77.3045, 0, 0, 0, 0, 404.641, 32.5289, 0, 0, 0, 0, 430.641, 17.5289, 0, 0, 0, 0, 474.641, 6.52888, 0, 0, 0, 0, 535.641, 10.5289, 0, 0, 0, 0, 597.641, 34.5289, 0, 0, 0, 0, 629.641, 63.5289, 0, 0, 0, 0, 647.641, 126.529, 0, 0, 0, 0, 661.641, 209.529, 0, 0, 0, 0, 709.641, 259.529, 0, 0, 0, 0, 775.641, 274.529, 0, 0, 0, 0, 861.318, 324.813, 0, 0, 0, 0, 1552.27, 347.267, 0, 0, 0, 0, 1731.29, 337.644, 0, 0, 0, 0, 1749.01, 471.681, 0, 0, 0, 0, 1729.45, 739.641, 0, 0, 0, 0, 1674.17, 872.525, 0, 0, 0, 0, 1303.18, 866.744)
 }
-point_count = 18
-
-[sub_resource type="Curve2D" id="Curve2D_mwdbl"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1674, 370, 0, 0, 0, 0, 1776, 369, 0, 0, 0, 0, 1840, 487, 0, 0, 0, 0, 1824, 657, 0, 0, 0, 0, 1812, 899, 0, 0, 0, 0, 1537, 940, 0, 0, 0, 0, 1185, 945)
-}
-point_count = 7
+point_count = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0afkn"]
 
+[sub_resource type="SystemFont" id="SystemFont_oyomr"]
+font_names = PackedStringArray("Rockwell")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkuhi"]
+bg_color = Color(0.91, 0.667, 0.328, 0.524)
+shadow_size = 5
+
+[sub_resource type="SystemFont" id="SystemFont_sbkxt"]
+font_names = PackedStringArray("Garamond")
+
+[sub_resource type="SystemFont" id="SystemFont_rkuhi"]
+font_names = PackedStringArray("Rockwell")
+
+[sub_resource type="SystemFont" id="SystemFont_tvgy1"]
+font_names = PackedStringArray("Rockwell")
+font_italic = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rkuhi"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+
 [node name="Tutorial Level - Blocks & Associativity" type="Node2D"]
 script = ExtResource("1_0afkn")
+pathSpeed = 3.0
 
 [node name="Background Ocean" type="TextureRect" parent="."]
 offset_right = 1920.0
@@ -58,11 +82,13 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Cache" parent="." instance=ExtResource("1_p3yn1")]
 process_mode = 3
-offset_left = 861.0
-offset_top = 363.0
-offset_right = 1483.0
-offset_bottom = 555.0
-associativityDegree = 1
+visible = false
+offset_left = 811.0
+offset_top = 229.0
+offset_right = 1433.0
+offset_bottom = 421.0
+blockNumber = 4
+blockSize = 4
 replacementPolicy = "LFU"
 columnWidth = 100
 
@@ -76,23 +102,25 @@ debug_color = Color(0.764676, 0.324319, 0.785679, 0.42)
 [node name="PathToCache" type="Path2D" parent="."]
 position = Vector2(-4, 127)
 rotation = -0.00210429
-curve = SubResource("Curve2D_j6kx5")
+curve = SubResource("Curve2D_e8q2s")
 metadata/_edit_group_ = true
 
-[node name="PathFromCache" type="Path2D" parent="."]
-position = Vector2(18, 113)
-curve = SubResource("Curve2D_mwdbl")
+[node name="The Memory" parent="." instance=ExtResource("6_rkuhi")]
+visible = false
+position = Vector2(359, 442)
 
 [node name="HUD" parent="." instance=ExtResource("5_hhfb3")]
 offset_right = 1920.0
 offset_bottom = 1080.0
+metadata/_edit_lock_ = true
 
 [node name="ContinueButton" type="Button" parent="."]
+process_mode = 3
 custom_minimum_size = Vector2(200, 80)
-offset_left = 595.0
-offset_top = 655.0
-offset_right = 795.0
-offset_bottom = 735.0
+offset_left = 801.0
+offset_top = 24.0
+offset_right = 1001.0
+offset_bottom = 104.0
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_0afkn")
 text = "Continue"
@@ -103,4 +131,116 @@ z_as_relative = false
 offset_right = 1920.0
 offset_bottom = 1080.0
 
+[node name="Stage Passed Menu" parent="." instance=ExtResource("9_sbkxt")]
+visible = false
+z_index = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Game Over Menu" parent="." instance=ExtResource("10_tvgy1")]
+visible = false
+z_index = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+metadata/_edit_lock_ = true
+
+[node name="Upgrade Menu" parent="." instance=ExtResource("11_t1n37")]
+visible = false
+z_index = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Stage1Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="StageProgressBar" type="TextureProgressBar" parent="."]
+visible = false
+offset_left = 610.0
+offset_top = 1028.0
+offset_right = 738.0
+offset_bottom = 1156.0
+scale = Vector2(0.352367, 0.352367)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.0
+fill_mode = 4
+texture_under = ExtResource("12_7a0bw")
+texture_progress = ExtResource("12_7a0bw")
+tint_under = Color(0, 0, 0, 0.117647)
+tint_progress = Color(0.653105, 0.644694, 0.81381, 1)
+
+[node name="StageLabel" type="RichTextLabel" parent="."]
+visible = false
+offset_left = 676.0
+offset_top = 1027.0
+offset_right = 1058.0
+offset_bottom = 1067.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/normal_font = SubResource("SystemFont_oyomr")
+theme_override_font_sizes/normal_font_size = 30
+text = "Stage 1"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+z_index = 2
+offset_left = 15.0
+offset_top = 558.0
+offset_right = 955.0
+offset_bottom = 812.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rkuhi")
+metadata/_edit_group_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.32
+
+[node name="Name" type="RichTextLabel" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.24
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = SubResource("SystemFont_sbkxt")
+theme_override_font_sizes/normal_font_size = 40
+text = "Guardian"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Guardian" type="TextureRect" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("13_3d1rq")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="DialogueBox" type="RichTextLabel" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/normal_font = SubResource("SystemFont_rkuhi")
+theme_override_fonts/italics_font = SubResource("SystemFont_tvgy1")
+theme_override_font_sizes/italics_font_size = 25
+theme_override_font_sizes/normal_font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rkuhi")
+bbcode_enabled = true
+text = "Now this is the real reason we do all of this.
+You are looking at The Memory of this world, and we are its protectors.
+The Memory knows all and it provides all knowledge to us.
+
+The cache is a kind of shield to protect The Memory from unnecessary accesses and our task is to perfectly adapt it to all circumstances.
+
+Let me show you what happens when an address miss happens [color=violet][Press Continue]"
+
+[connection signal="damaged" from="The Memory" to="." method="_on_the_memory_damaged"]
+[connection signal="dead" from="The Memory" to="." method="_on_the_memory_dead"]
 [connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="showUpgradeMenu" from="Pause Menu" to="." method="_on_pause_menu_show_upgrade_menu"]
+[connection signal="showUpgradeMenu" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_show_upgrade_menu"]
+[connection signal="restart" from="Game Over Menu" to="." method="_on_game_over_menu_restart"]

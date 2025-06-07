@@ -1,15 +1,13 @@
 extends Control
 
+@export var eventLogVisible :bool = true
+@export var scoreVisible :bool = true
+@export var speedControlVisible :bool = true
+
+
 @onready var slider : Slider = $"Speed Controls/SpeedSlider"
 @onready var chatlog: TextEdit = $ChatLogControl/MarginContainer/ChatLogTextEdit
-
-
-func _ready() -> void:
-	#var highlighter : CodeHighlighter = CodeHighlighter.new()
-	#highlighter.add_keyword_color("CacheHit", Color.CHARTREUSE)
-	#highlighter.add_keyword_color("Cache Miss", Color.FIREBRICK)
-	#chatlog.syntax_highlighter = highlighter
-	pass
+	
 
 func update_score(hitRate:float, missRate:float) -> void:
 	hitRate = hitRate * 100 			# eg: 0.33333 -> 33.333
