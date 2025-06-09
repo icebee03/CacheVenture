@@ -70,6 +70,8 @@ func _ready() -> void:
 	timerToLoop.timeout.connect(_on_timerToLoop_timeout)
 	add_child(timerToLoop)
 	
+	Global.level1Stats["coins"] = 0
+	Global.level1Stats["max_coins"] = 0
 	Global.level1Stats["blocknumber"] = cache.blockNumber
 	Global.level1Stats["blocksize"] = cache.blockSize
 	Global.level1Stats["associativity"] = cache.associativityDegree
@@ -257,19 +259,22 @@ func _on_stage_passed_menu_continue_to_next_stage() -> void:
 	prevAddresses.resize(1)
 	var deleteList = path.get_children()
 	for e in deleteList: e.queue_free()
-	if current_stage == 10: return
+	if current_stage == 11: return
 	stageTimers[current_stage].start()
 	set_stage_settings()
 
 
 func _on_stage_timer_timeout() -> void:
 	Engine.time_scale = 1.0
+	$HUD.display_chat_message("Earned 5 coins.")
+	upgradeMenu.unlockUpgrades(current_stage)
+	$HUD.display_chat_message("Unlocked new upgrades.")
 	get_tree().paused = true
 	await get_tree().create_timer(1).timeout
 	stagePassedMenu.show()
 	Global.level1Stats["coins"] += 5
 	Global.level1Stats["max_coins"] += 5
-	upgradeMenu.unlockUpgrades(current_stage)
+	
 
 
 ## Changes the levels settings (spawning speed, etc.) depending on the current stage

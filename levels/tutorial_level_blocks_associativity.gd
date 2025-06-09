@@ -29,8 +29,10 @@ var missRate:float = 0.0				# in %
 @onready var stageLabel = $StageLabel
 
 # Timers for all different stages
+var current_stage : int = 1
 @onready var stage1Timer = $Stage1Timer
-@onready var stageTimers = [null, stage1Timer]
+@onready var stage2Timer = $Stage2Timer
+@onready var stageTimers = [null, stage1Timer, stage2Timer]
 
 
 # For tutorial pacing and storytelling:
@@ -48,6 +50,26 @@ func _ready() -> void:
 	$"HUD/Speed Controls".visible = false
 	$HUD/ChatLogControl.visible = false
 	$HUD/ScoreLabel.visible = false
+	
+	Global.tutorial1Stats["coins"] = 0
+	Global.tutorial1Stats["max_coins"] = 0
+	Global.tutorial1Stats["blocknumber"] = cache.blockNumber
+	Global.tutorial1Stats["blocksize"] = cache.blockSize
+	Global.tutorial1Stats["associativity"] = cache.associativityDegree
+	
+	for u in Global.tutorial1Upgrades:
+		if (u["type"]=="Block Number" and not u["quantity"]==cache.blockNumber): 
+			u["unlocked"] = false
+			u["bought"] = false
+		elif (u["type"]=="Block Size" and not u["quantity"]==cache.blockSize): 
+			u["unlocked"] = false
+			u["bought"] = false
+		elif (u["type"]=="Associativity" and not u["quantity"]==cache.associativityDegree): 
+			u["unlocked"] = false
+			u["bought"] = false
+		else:
+			u["unlocked"] = true
+			u["bought"] = true 
 	
 	$Cache/Hitbox.area_entered.connect(_on_cache_hitbox_area_entered)		# Connect Hitbox signal to sorting method
 	cache.cacheHit.connect(_on_cache_cache_hit)
@@ -72,9 +94,13 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and not pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.pause()
+		if continueCount == 17: dialoguePanel.set_position(Vector2(490, 720))
 	elif Input.is_action_just_pressed("ui_cancel") and pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.unpause()
+		
+	stageProgressBar.value = 1 - (stageTimers[current_stage].time_left / stageTimers[current_stage].wait_time)
+	stageLabel.text = "Stage "+str(current_stage)
 	
 
 ## Fits the hitbox to the dynamic size of the cache
@@ -109,6 +135,7 @@ func _on_the_memory_damaged(who: String, damage: int) -> void:
 func _on_the_memory_dead() -> void:
 	$HUD.display_chat_message("Game Over.")
 	get_tree().paused = true
+	await get_tree().create_timer(2.0).timeout
 	$"Game Over Menu".visible = true
 	
 	
@@ -116,18 +143,57 @@ func _on_pause_menu_show_upgrade_menu() -> void:
 	upgradeMenu.show()
 	
 	
+# Called when the Back button of the upgrade menu is pressed
+func _on_upgrade_menu_continue_tutorial() -> void:
+	if continueCount == 12: _on_continue_button_pressed()
+	
+	
 func _on_stage_timer_timeout() -> void:
 	Engine.time_scale = 1.0
+	Global.tutorial1Stats["coins"] += 17
+	Global.tutorial1Stats["max_coins"] += 17
+	$HUD.display_chat_message("Earned 17 Coins.")
+	upgradeMenu.unlockUpgrades(1)
+	$HUD.display_chat_message("Unlocked new upgrades.")
 	get_tree().paused = true
 	await get_tree().create_timer(1).timeout
 	stagePassedMenu.show()
-	Global.tutorial1Stats["coins"] += 5
-	Global.tutorial1Stats["max_coins"] += 5
-	upgradeMenu.unlockUpgrades(1)
+	_on_continue_button_pressed()
+	
+	
 
 
 func _on_stage_passed_menu_show_upgrade_menu() -> void:
+	if continueCount == 10: _on_continue_button_pressed()
+	dialoguePanel.set_position(Vector2(9, 815))
 	upgradeMenu.show()
+	
+	
+func _on_stage_passed_menu_continue_to_next_stage() -> void:
+	if continueCount <= 11: return		# To force players to open the upgrade menu in the first stages of tutorial
+	get_tree().paused = false
+	stagePassedMenu.hide()
+	stagePassedMenu.stage += 1
+	current_stage += 1
+	# Reset damage and basically entire level for next stage:
+	cache.blockNumber = Global.tutorial1Stats["blocknumber"]
+	cache.blockSize = Global.tutorial1Stats["blocksize"]
+	cache.associativityDegree = Global.tutorial1Stats["associativity"]
+	cache.update_layout()
+	$HUD.reset()
+	the_memory.add_health(100)
+	totalAccessCount = 0
+	hitCount = 0
+	hitRate = 0.0				# in %
+	missCount = 0
+	missRate = 0.0				# in %
+	addressIndex = 0
+	var deleteList = path.get_children()
+	for e in deleteList: e.queue_free()
+	#stageTimers[current_stage].start()
+	
+	_on_continue_button_pressed()
+	#set_stage_settings()
 	
 
 func _on_game_over_menu_restart() -> void:
@@ -216,6 +282,7 @@ func send_address_to_cache() -> void:
 ## When pressing this button, advance the level, e.g. send new address on the path to the cache	or reveal new elements/game mechanics
 func _on_continue_button_pressed() -> void:
 	continueCount += 1
+	continueButton.hide()
 	await get_tree().create_timer(0.2).timeout
 	dialogueBox.text =""
 	match continueCount:
@@ -236,8 +303,8 @@ The blocks are also grouped together into sets.
 How many blocks go into a set we call [i]associativity[/i].
 We can see that each set contains 2 blocks here so this is our associativity!
 
-To see how data is stored in action, [color=violet][Press Continue]
-"
+To see how data is stored in action, [color=violet][Press Continue]"
+			continueButton.show()
 		2:
 			dialoguePanel.set_position(Vector2(700, 808))
 			$HUD/ChatLogControl.visible = true
@@ -245,7 +312,7 @@ To see how data is stored in action, [color=violet][Press Continue]
 			dialogueBox.text = "This event log on the left will help you keep track of everything!"
 			await get_tree().create_timer(1.0).timeout
 			dialogueBox.text += "\n\n I will now show you how addresses and their data is stored inside the cache! [color=violet][Press Continue]"
-		
+			continueButton.show()
 		3:
 			# Send address towards cache
 			send_address_to_cache()			
@@ -261,10 +328,10 @@ To determine in which block an address must be stored, it is first decomposed in
 			dialogueBox.text += "\n\nAnd the remaining bits of the address is just the tag."
 			dialogueBox.text += "\n\nThankfully, the cache does the math on its own, but it is nice to know what happens."
 			await get_tree().create_timer(1.0).timeout
-			dialogueBox.text += "\n\nBut you probably noticed that this was a [color=red]miss[/color], right? \nCome on, I want so show you what really happens. [color=violet][Press Continue]"
-			pass
+			dialogueBox.text += "\n\nBut you probably noticed that this was a [color=red]miss[/color], right? \nCome on, I want so show you what really happens then. [color=violet][Press Continue]"
+			continueButton.show()
 		4: 
-			dialoguePanel.set_position(Vector2(15, 560))
+			dialoguePanel.set_position(Vector2(15, 590))
 			await get_tree().create_timer(1.0).timeout
 			the_memory.add_health(100)
 			the_memory.show()
@@ -274,31 +341,132 @@ You are looking at The Memory of this world, and we are its protectors.
 The Memory knows all and it provides all knowledge to us.
 
 The cache is a kind of shield to protect The Memory from unnecessary accesses and our task is to perfectly adapt it to all circumstances.
+By unnecessary I mean misses that would have been avoidable if the caching was better.
 
 Let me show you what happens when an address miss occurs [color=violet][Press Continue]"
+			continueButton.show()
 		5:
 			send_address_to_cache()
-			await get_tree().create_timer(1.0).timeout
+			await get_tree().create_timer(pathSpeed).timeout
 			dialogueBox.text = "We must at all costs prevent that."
-			dialogueBox.text += "\n\nIf enough misses occure and the health bar of The Memory reaches zero, we are all doomed."
-			await get_tree().create_timer(4.0).timeout
+			await get_tree().create_timer(2.0).timeout
+			dialogueBox.text += "\n\nIf enough misses occur and the health bar of The Memory reaches zero, we are all doomed."
+			await get_tree().create_timer(5.0).timeout
+			$HUD.display_chat_message("The Memory took -95 HP damage from DEMONSTRATION PURPOSES")
 			the_memory.subtract_health(100)
-			await get_tree().create_timer(1.0).timeout
-			dialogueBox.text += "\n\nI will now show you how we prevent this. [color=violet][Press Restart]"
+			await get_tree().create_timer(2.0).timeout
+			dialogueBox.text += "\n\nI will now show you how we prevent this. [color=violet][Press Restart][/color] to restart the level."
 		6:
 			the_memory.add_health(100)
 			$HUD/ScoreLabel.show()
 			$"HUD/Speed Controls".show()
-			dialogueBox.text = "To keep track of how well it's going, you can see the hit rate in the top right corner. It tells you the percent of accesses are hits."
-			dialogueBox.text += "\nIn the top left corner, you can manipulate the gameplay speed. [color=violet][Press Continue]"
+			dialogueBox.text = "To keep track of how well it's going, you can see the hit rate in the top right corner. It tells you the ratio of all accesses that are hits.
+And the miss rate is exactly the opposite of the hit rate.
+Remember: we always want to keep the hit rate as high as possible, because when the hit rate is high enough, The Memory will take less damage and survive!"
+			dialogueBox.text += "\n\nIn the top left corner, you can slow down or speed up the gameplay speed. [color=violet][Press Continue]"
+			continueButton.show()
 		7:
 			stageProgressBar.show()
 			stageLabel.show()
-			dialogueBox.text = "Each level consists of address accesses that must be cached perfectly, or else The Memory dies.\n\n"
-			dialogueBox.text += "But there are stages in each level. At first it starts slow, but higher stages mean more and faster accesses so you need to be prepared for that.\n\n"
+			dialogueBox.text = "Each level consists of address accesses that must be cached perfectly, or else The Memory will take damage and eventually die.\n\n"
+			dialogueBox.text += "But there are stages in each level. At first it starts slow, but higher stages mean more and faster accesses so you need to be prepared for that:\n\n"
 			dialogueBox.text += "For passing a stage, you get coins which you can invest into cache upgrades which will help you survive higher stages! [color=violet][Press Continue]"
+			continueButton.show()
 		8:
-			#TODO: simulate some accesses, start stage timer, open upgrade menu and then finish tutorial
-			pass
+			dialogueBox.text = "[color=violet][Press Continue][/color] to play the first stage!"	
+			continueButton.show()	
+		9:
+			stage1Timer.start()
+			send_address_to_cache()
+			await get_tree().create_timer(1.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(1.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(1.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(1.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(1.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(1.0).timeout
+		10: # Coming from stage timer timout function here
+			dialogueBox.text = "Great, you defended the memory in the first stage!
+But as I mentioned, the next stages will not be so easy anymore. You will encounter more accesses which are also faster.
+
+I gave you 17 coins to upgrade your cache, so please open the upgrade menu to spend them. [color=violet][Press Upgrades]"
+		11: # Coming from opening upgrade menu signal
+			dialoguePanel.set_position(Vector2(700, 250))
+			dialogueBox.text = "Welcome to the place where you will be spending quite some time thinking about upgrade choices and their effects.
+
+You can see the current cache configuration in the middle row right here. [color=violet][Press Continue]"
+			continueButton.show()
+
+		12:
+			dialoguePanel.set_position(Vector2(9, 815))
+			dialogueBox.text = "When you click on any of them, it will show you all the upgrades that you have unlocked so far.
+As you see, every module currently has exactly one new upgrade unlocked that you can buy, in addition to your starting equipment.
+
+I gave you exactly 17 coins to buy all of them now.
+Please [color=violet][Buy All Upgrades][/color] and then return to the previous screen by pressing the [color=violet][Back Button][/color] in the top right corner."
+			#TODO: place this panel somewhere else or hide it after pressing continue
 			
+		13:	# Coming from Back button of Upgrade Menu (signal continueTutorial)
+			dialoguePanel.set_position(Vector2(490, 620))
+			if Global.tutorial1Stats["coins"] > 0:
+				dialogueBox.text = "Please buy all unlocked upgrades before continuing."
+				continueCount -= 1		# If there is still stuff to do, do not let the player advance (reminder: continueCount +=1 at the top of this method)
+			else:
+				dialogueBox.text = "Great! Now click [color=violet][Continue To Next Stage][/color] to see what your upgrades did."
+		14:	# Coming from Continue To Next Stage button, ergo now in stage 2
+			dialoguePanel.set_position(Vector2(15, 590))
+			dialogueBox.text = "Look, your upgrades have been applied!
+			
+You now have twice the amount of blocks which also all now have twice the capacity than before!
+The increased block size will mean that now, instead of storing just one integer, the cache will additionally store the next one too.
+This is very good for accesses with spatial locality.
+
+The amount of blocks that can be freely placed in each set is now doubled which should help reduce conflict misses. [color=violet][Press Continue][/color]"
+			continueButton.show()
+		15:
+			dialogueBox.text = "[color=violet][Press Continue][/color] to see how the same addresses are now cached."
+			continueButton.show()
+		16:
+			stage2Timer.start()
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			await get_tree().create_timer(2.0).timeout
+			send_address_to_cache()
+			stage2Timer.stop()
+			dialogueBox.text = "Notice how much more hits there were!
+Apart from compulsory misses which we can't prevent (except maybe with magic) there are now much less misses!
+This means that our upgrades actually work! [color=violet][Press Continue][/color]"
+			continueButton.show()
+		17:
+			dialogueBox.text = "I think you're ready now for the first challenge!
+Play Level 1 and survive until the last stage to prove your abilities as a future guardian.
+
+To play the first level, [color=violet][Press ESC][/color], return to the [color=violet][Main Menu][/color] and click [color=violet][Play/Level 1][/color].
+
+After that, you can strenghten your prowess by playing Level 2.
+
+[i](Creator: And don't forget to fill out the feedback questionnaire for which you need the ingame token. Your answers will help us improve the quality of this game and decide on next features :) )[/i]"
+			
+			
+			
+		#TODO: simulate some accesses, start stage timer, open upgrade menu and then finish tutorial		
+	
+		
 			

@@ -314,6 +314,7 @@ shortcut = SubResource("Shortcut_61f8s")
 text = "4x"
 
 [node name="ChatLogControl" type="Control" parent="."]
+z_index = 3
 anchors_preset = 0
 offset_left = 5.0
 offset_top = 844.0

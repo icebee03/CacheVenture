@@ -24,8 +24,6 @@ _data = {
 }
 point_count = 24
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0afkn"]
-
 [sub_resource type="SystemFont" id="SystemFont_oyomr"]
 font_names = PackedStringArray("Rockwell")
 
@@ -48,6 +46,8 @@ content_margin_left = 5.0
 content_margin_top = 5.0
 content_margin_right = 5.0
 content_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0afkn"]
 
 [node name="Tutorial Level - Blocks & Associativity" type="Node2D"]
 script = ExtResource("1_0afkn")
@@ -114,17 +114,6 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 metadata/_edit_lock_ = true
 
-[node name="ContinueButton" type="Button" parent="."]
-process_mode = 3
-custom_minimum_size = Vector2(200, 80)
-offset_left = 801.0
-offset_top = 24.0
-offset_right = 1001.0
-offset_bottom = 104.0
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_0afkn")
-text = "Continue"
-
 [node name="Pause Menu" parent="." instance=ExtResource("6_8i1qm")]
 visible = false
 z_as_relative = false
@@ -151,11 +140,15 @@ visible = false
 z_index = 1
 offset_right = 1920.0
 offset_bottom = 1080.0
+insideLevel = "Tutorial 1"
 
 [node name="Stage1Timer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
-autostart = true
+
+[node name="Stage2Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
 
 [node name="StageProgressBar" type="TextureProgressBar" parent="."]
 visible = false
@@ -187,11 +180,12 @@ theme_override_font_sizes/normal_font_size = 30
 text = "Stage 1"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+process_mode = 3
 z_index = 2
-offset_left = 15.0
-offset_top = 558.0
-offset_right = 955.0
-offset_bottom = 812.0
+offset_left = 490.0
+offset_top = 720.21
+offset_right = 1430.0
+offset_bottom = 974.21
 theme_override_styles/panel = SubResource("StyleBoxFlat_rkuhi")
 metadata/_edit_group_ = true
 
@@ -238,9 +232,23 @@ The cache is a kind of shield to protect The Memory from unnecessary accesses an
 
 Let me show you what happens when an address miss happens [color=violet][Press Continue]"
 
+[node name="ContinueButton" type="Button" parent="."]
+process_mode = 3
+z_index = 1
+custom_minimum_size = Vector2(200, 80)
+offset_left = 801.0
+offset_top = 24.0
+offset_right = 1001.0
+offset_bottom = 104.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_0afkn")
+text = "Continue"
+
 [connection signal="damaged" from="The Memory" to="." method="_on_the_memory_damaged"]
 [connection signal="dead" from="The Memory" to="." method="_on_the_memory_dead"]
-[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="showUpgradeMenu" from="Pause Menu" to="." method="_on_pause_menu_show_upgrade_menu"]
+[connection signal="continueToNextStage" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_continue_to_next_stage"]
 [connection signal="showUpgradeMenu" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_show_upgrade_menu"]
 [connection signal="restart" from="Game Over Menu" to="." method="_on_game_over_menu_restart"]
+[connection signal="continueTutorial" from="Upgrade Menu" to="." method="_on_upgrade_menu_continue_tutorial"]
+[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]

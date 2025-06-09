@@ -35,7 +35,7 @@ func show_survey_token() -> void:
 	
 	
 func _ready() -> void:
-	# Initialize available upgrades
+	# Initialize available upgrades for each level
 	register_upgrade("Level 1", "Block Number", 2, 2, true, false)
 	register_upgrade("Level 1", "Block Number", 4, 2, false, false)
 	register_upgrade("Level 1", "Block Number", 8, 2, false, false)
@@ -61,6 +61,15 @@ func _ready() -> void:
 	register_upgrade("Level 1", "Associativity", 8, 10, false, false)
 	register_upgrade("Level 1", "Associativity", 16, 10, false, false)
 	register_upgrade("Level 1", "Associativity", 32, 10, false, false)
+	
+	register_upgrade("Tutorial 1", "Block Number", 4, 2, false, false)
+	register_upgrade("Tutorial 1", "Block Number", 8, 2, false, false)
+	
+	register_upgrade("Tutorial 1", "Block Size", 4, 5, true, false)
+	register_upgrade("Tutorial 1", "Block Size", 8, 5, false, false)
+	
+	register_upgrade("Tutorial 1", "Associativity", 2, 10, false, false)
+	register_upgrade("Tutorial 1", "Associativity", 4, 10, false, false)
 	
 	
 func register_upgrade(level:String, type:String, quantity:int, cost:int, unlocked:bool, bought:bool) -> void:

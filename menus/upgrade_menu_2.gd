@@ -1,7 +1,14 @@
 extends Control
 
+
+## Used only inside the tutorial to advance the checkbox
+signal continueTutorial
+
+
 ## Valid: "Level 1", "Level 2" or "Tutorial 1"
 @export var insideLevel :String = "Level 1"
+var levelStats			# e.g. if inside "Level 1", then this is level1Stats
+var levelUpgrades		# e.g. if inside "Level 1", then this is level1Upgrades
 
 # Widgets that display the current selected setting
 @onready var blocknumberLabel = $"VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber/PanelContainer/BlockNumberLabel"
@@ -33,10 +40,19 @@ const UpgradeTemplate = preload("res://menus/upgrade_template.tscn")
 
 
 func _ready() -> void:
+	if insideLevel == "Level 1":
+		levelStats = Global.level1Stats
+		levelUpgrades = Global.level1Upgrades
+	elif insideLevel == "Level 2":
+		levelStats = Global.level2Stats
+		levelUpgrades = Global.level2Upgrades
+	elif insideLevel == "Tutorial 1":
+		levelStats = Global.tutorial1Stats
+		levelUpgrades = Global.tutorial1Upgrades
 	update_displays()
 	init_upgrades()
 	_on_blocknumber_focus_entered()
-	coins_label.text = str(Global.level1Stats["coins"])+" 🪙 / "+str(Global.level1Stats["max_coins"])+" 🪙"
+	coins_label.text = str(levelStats["coins"])+" 🪙 / "+str(levelStats["max_coins"])+" 🪙"
 	
 	
 
@@ -44,13 +60,13 @@ func _process(delta: float) -> void:
 	update_displays()
 	display_focused_info()
 	set_focus_outline()
-	coins_label.text = str(Global.level1Stats["coins"])+" 🪙 / "+str(Global.level1Stats["max_coins"])+" 🪙"
+	coins_label.text = str(levelStats["coins"])+" 🪙 / "+str(levelStats["max_coins"])+" 🪙"
 	
 
 func update_displays() -> void:
-	blocknumberLabel.text = str(Global.level1Stats["blocknumber"])
-	blocksizeLabel.text = str(Global.level1Stats["blocksize"])+" B"
-	associativityLabel.text = str(Global.level1Stats["associativity"])+"x"
+	blocknumberLabel.text = str(levelStats["blocknumber"])
+	blocksizeLabel.text = str(levelStats["blocksize"])+" B"
+	associativityLabel.text = str(levelStats["associativity"])+"x"
 	
 	
 ## Adds the upgrades from Global.levelXUpgrades to the scene with appropiate settings.
@@ -61,6 +77,8 @@ func init_upgrades() -> void:
 	free_list.append_array($"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades/GridContainer".get_children())
 	free_list.append_array($"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer".get_children())
 	for e in free_list: e.queue_free()
+	#TODO: suggestion: refactor this, at least move the for loop outside of the first if
+	#TODO: see update_displays() for how it should look cleaner and with less copy-paste code
 	if insideLevel == "Level 1":
 		for upgrade in Global.level1Upgrades:
 			if upgrade["type"] == "Block Number":
@@ -85,10 +103,30 @@ func init_upgrades() -> void:
 		pass	# TODO: do the same as for Level 1, but use Global.level2Upgrades
 	elif insideLevel == "Tutorial 1":
 		pass	# TODO: do the same as for Level 1, but use Global.tutorial1Upgrades
+		for upgrade in Global.tutorial1Upgrades:
+			if upgrade["type"] == "Block Number":
+				var new = UpgradeTemplate.instantiate()
+				new.set_text(str(upgrade["quantity"]))
+				new.visible = upgrade["unlocked"]
+				new.upgrade = upgrade
+				blocknumberUpgrades.get_child(0).add_child(new)
+			elif upgrade["type"] == "Block Size":
+				var new = UpgradeTemplate.instantiate()
+				new.set_text(str(upgrade["quantity"])+" B")
+				new.visible = upgrade["unlocked"]
+				new.upgrade = upgrade
+				blocksizeUpgrades.get_child(0).add_child(new)
+			elif upgrade["type"] == "Associativity":
+				var new = UpgradeTemplate.instantiate()
+				new.set_text(str(upgrade["quantity"])+"x")
+				new.visible = upgrade["unlocked"]
+				new.upgrade = upgrade
+				associativityUpgrades.get_child(0).add_child(new)
 
 
 func _on_back_button_pressed() -> void:
 	visible = false
+	continueTutorial.emit()
 	
 	
 func display_focused_info() -> void:
@@ -132,17 +170,18 @@ func display_focused_info() -> void:
 		upgrade_quantity.text = str(quantity)
 		upgrade_description.text = "Upgrades the amount of blocks the cache can hold."
 		upgrade_cost.text = "Upgrade Cost: %d 🪙" % cost
-	if type == "Block Size":
+	elif type == "Block Size":
 		upgrade_quantity.text = str(quantity)+" B"
 		upgrade_description.text = "Upgrades the amount of data each block can hold."
 		upgrade_cost.text = "Upgrade Cost: %d 🪙" % cost
-	if type == "Associativity":
+	elif type == "Associativity":
 		upgrade_quantity.text = str(quantity)+"x"
 		upgrade_description.text = "Upgrades the amount of blocks each set holds."
 		upgrade_cost.text = "Upgrade Cost: %d 🪙" % cost
+		
 	if bought: upgrade_button.set_owned()
 	else: 
-		if Global.level1Stats["coins"] - cost < 0:
+		if levelStats["coins"] - cost < 0:
 			upgrade_button.set_prohibited()		# Then you cannot buy the upgrade
 			#TODO: maybe add other constraints such as that associativity cannot be larger than blocknumber
 		else:
@@ -285,7 +324,14 @@ func unlockUpgrades(stage:int) -> void:
 	elif insideLevel == "Level 2":
 		pass
 	elif insideLevel == "Tutorial 1":
-		pass
+		if stage == 1:
+			for u in Global.tutorial1Upgrades: 
+				if u["type"] == "Block Number":
+					u["unlocked"] = true if u["quantity"] <= 8 else false
+				elif u["type"] == "Block Size":
+					u["unlocked"] = true if u["quantity"] <= 8 else false
+				elif u["type"] == "Associativity":
+					u["unlocked"] = true if u["quantity"] <= 4 else false
 	init_upgrades()
 	
 	
