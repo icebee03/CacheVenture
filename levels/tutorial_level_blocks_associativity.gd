@@ -460,9 +460,9 @@ Play Level 1 and survive until the last stage to prove your abilities as a futur
 
 To play the first level, [color=violet][Press ESC][/color], return to the [color=violet][Main Menu][/color] and click [color=violet][Play/Level 1][/color].
 
-After that, you can strenghten your prowess by playing Level 2.
+After that, you can strenghten your prowess by playing Level 2 which simulates the access pattern of matrix multiplication.
 
-[i](Creator: And don't forget to fill out the feedback questionnaire for which you need the ingame token. Your answers will help us improve the quality of this game and decide on next features :) )[/i]"
+[i](Creator: And don't forget to fill out the feedback questionnaire for which you need the ingame token. Your answers will help us improve the quality of this game and decide on upcoming features :) )[/i]"
 			
 			
 			

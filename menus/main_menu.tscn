@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ilgtuvsnokah"]
+[gd_scene load_steps=31 format=3 uid="uid://ilgtuvsnokah"]
 
 [ext_resource type="Script" uid="uid://dwiryy3cxhxpc" path="res://menus/main_menu.gd" id="1_7vrkn"]
 [ext_resource type="Texture2D" uid="uid://gohxhknol14k" path="res://images/Logo particles experimental trans.png" id="2_7vrkn"]
@@ -9,26 +9,20 @@
 [ext_resource type="Texture2D" uid="uid://c5im7lht5ciiv" path="res://images/Logo fancy v2 transparent.png" id="4_nlkkf"]
 [ext_resource type="Texture2D" uid="uid://duwvy4gjjkk4w" path="res://images/Clouds/background 3/orig_big.png" id="4_vmd75"]
 [ext_resource type="Texture2D" uid="uid://dw4yguuh40tnk" path="res://images/Clouds/background 4/orig_big.png" id="5_caclp"]
+[ext_resource type="FontFile" uid="uid://cqpjq3yfm4j6n" path="res://menus/fonts/Rockwell/ROCKI.TTF" id="7_rx1ud"]
 [ext_resource type="Texture2D" uid="uid://c5c1u88vvq4n" path="res://images/Logo White.png" id="8_hswy5"]
+[ext_resource type="Theme" uid="uid://odcvd68u8bby" path="res://menus/themes/ingameMenuButton.tres" id="8_wcdpt"]
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="13_rx1ud"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pwbes"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rhts7"]
-
-[sub_resource type="SystemFont" id="SystemFont_7vrkn"]
-font_names = PackedStringArray("Rockwell")
-font_italic = true
-font_stretch = 200
-subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vrkn"]
 bg_color = Color(0.317647, 0.698039, 0.345098, 1)
 border_width_bottom = 5
 border_color = Color(0.92, 0.75256, 0.2024, 1)
 corner_radius_bottom_right = 20
-
-[sub_resource type="SystemFont" id="SystemFont_06t4h"]
-font_names = PackedStringArray("Rockwell")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_06t4h"]
 
@@ -155,7 +149,7 @@ expand_mode = 2
 custom_minimum_size = Vector2(228.695, 0)
 layout_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = SubResource("SystemFont_7vrkn")
+theme_override_fonts/normal_font = ExtResource("7_rx1ud")
 theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
 text = "MAIN MENU"
@@ -174,9 +168,7 @@ theme_override_constants/margin_left = 40
 custom_minimum_size = Vector2(600, 75)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_06t4h")
-theme_override_font_sizes/font_size = 36
+theme = ExtResource("8_wcdpt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_06t4h")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_jix8l")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_glbon")
@@ -199,9 +191,7 @@ theme_override_constants/margin_left = 40
 custom_minimum_size = Vector2(600, 75)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_06t4h")
-theme_override_font_sizes/font_size = 36
+theme = ExtResource("8_wcdpt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_06t4h")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_8qtwp")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_dy7ct")
@@ -224,9 +214,7 @@ theme_override_constants/margin_left = 40
 custom_minimum_size = Vector2(600, 75)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_06t4h")
-theme_override_font_sizes/font_size = 36
+theme = ExtResource("8_wcdpt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_06t4h")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_8qtwp")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_dy7ct")
@@ -249,9 +237,7 @@ theme_override_constants/margin_left = 40
 custom_minimum_size = Vector2(600, 75)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_06t4h")
-theme_override_font_sizes/font_size = 36
+theme = ExtResource("8_wcdpt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_06t4h")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_8qtwp")
 theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_dy7ct")
@@ -320,6 +306,7 @@ offset_top = -58.0
 grow_horizontal = 2
 grow_vertical = 0
 focus_mode = 2
+theme_override_fonts/normal_font = ExtResource("13_rx1ud")
 theme_override_font_sizes/normal_font_size = 36
 theme_override_styles/focus = SubResource("StyleBoxEmpty_nc6jr")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_caclp")

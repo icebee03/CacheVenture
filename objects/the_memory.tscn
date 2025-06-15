@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://d0cje22hccntc" path="res://images/Crystals/crystals_blue/crystal_blue5.png" id="5_rjrsn"]
 [ext_resource type="Texture2D" uid="uid://besf7f7183b65" path="res://images/Crystals/crystals_green/crystal_green5.png" id="8_ypert"]
 [ext_resource type="Texture2D" uid="uid://bup6wnivk5dam" path="res://images/Crystals/crystals_violet/crystal_violet5.png" id="9_ypert"]
+[ext_resource type="FontFile" uid="uid://c1art8r6ttf36" path="res://menus/fonts/Garamond/GARA.TTF" id="13_1t2ec"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1t2ec"]
 shader = ExtResource("2_7wj23")
@@ -20,10 +21,6 @@ shader_parameter/red = 1.0
 shader_parameter/green = 0.0
 shader_parameter/blue = 0.0
 shader_parameter/mix_color = 0.0
-
-[sub_resource type="SystemFont" id="SystemFont_5qdkx"]
-font_names = PackedStringArray("Garamond", "Rockwell")
-subpixel_positioning = 0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5qdkx"]
 
@@ -171,7 +168,7 @@ offset_left = 763.0
 offset_top = 335.0
 offset_right = 1131.0
 offset_bottom = 393.0
-theme_override_fonts/normal_font = SubResource("SystemFont_5qdkx")
+theme_override_fonts/normal_font = ExtResource("13_1t2ec")
 theme_override_font_sizes/normal_font_size = 51
 text = "The Memory"
 fit_content = true

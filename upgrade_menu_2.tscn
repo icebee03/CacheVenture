@@ -1,12 +1,17 @@
-[gd_scene load_steps=28 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=34 format=3 uid="uid://dgbm0i8vhobms"]
 
 [ext_resource type="Script" uid="uid://bqfsuhedtqxd5" path="res://menus/upgrade_menu_2.gd" id="1_oihe7"]
+[ext_resource type="FontFile" uid="uid://v53ohntxanai" path="res://menus/fonts/Rockwell/ROCKB.TTF" id="2_2si5a"]
 [ext_resource type="PackedScene" uid="uid://cf5avdttd3swx" path="res://menus/upgrade_template.tscn" id="2_057qa"]
 [ext_resource type="StyleBox" uid="uid://ci71f4gwuodso" path="res://upgrade option styling.tres" id="2_t5rd5"]
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="3_70i5d"]
 [ext_resource type="StyleBox" uid="uid://df4klqe0t1atr" path="res://focus_box.tres" id="3_oihe7"]
 [ext_resource type="Script" uid="uid://34h7gr6j1sjc" path="res://upgrade_button.gd" id="3_s6ngt"]
+[ext_resource type="Theme" uid="uid://c7twfhvgk41th" path="res://menus/themes/upgradeOption.tres" id="4_ir0uh"]
 [ext_resource type="StyleBox" uid="uid://bewmo4oe16iu2" path="res://menus/progressBarFillStyleboxNotOwned.tres" id="4_yp6h7"]
 [ext_resource type="StyleBox" uid="uid://dodo68ul02p4n" path="res://menus/upgradeButton.tres" id="5_814of"]
+[ext_resource type="Texture2D" uid="uid://ckudg3dvj0jsh" path="res://images/Crystals/simple/15.png" id="10_83xxv"]
+[ext_resource type="Texture2D" uid="uid://mv47wk1lrwqc" path="res://images/ui/white-arrow-png-41955.png" id="11_cs8on"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_057qa"]
 bg_color = Color(0.1488, 0.108, 0.18, 1)
@@ -45,6 +50,10 @@ corner_radius_bottom_left = 55
 shadow_color = Color(0, 0, 0, 0.054902)
 shadow_size = 1
 shadow_offset = Vector2(-6.825, 4.665)
+
+[sub_resource type="Theme" id="Theme_wa6nd"]
+default_font = ExtResource("3_70i5d")
+default_font_size = 26
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c8he8"]
 
@@ -122,6 +131,7 @@ theme_override_constants/separation = 25
 [node name="Cache Upgrades Label" type="Label" parent="VBox/Top/Top MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_2si5a")
 theme_override_font_sizes/font_size = 64
 text = "Cache Upgrades"
 
@@ -137,6 +147,7 @@ custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.28, 0.28, 0.28, 1)
+theme_override_fonts/font = ExtResource("3_70i5d")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxEmpty_oihe7")
 text = "Reset"
@@ -154,6 +165,7 @@ custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.28, 0.28, 0.28, 1)
+theme_override_fonts/font = ExtResource("3_70i5d")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxEmpty_057qa")
 text = "Back"
@@ -191,6 +203,7 @@ theme_override_constants/margin_bottom = 25
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Modules Text/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("3_70i5d")
 theme_override_font_sizes/font_size = 45
 text = "Modules"
 
@@ -230,7 +243,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 [node name="BlockNumberLabel" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 40
+theme = ExtResource("4_ir0uh")
 text = "256"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -238,7 +251,7 @@ vertical_alignment = 1
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber"]
 layout_mode = 2
 size_flags_vertical = 2
-theme_override_font_sizes/font_size = 22
+theme = SubResource("Theme_wa6nd")
 text = "Block Number
 "
 horizontal_alignment = 1
@@ -267,7 +280,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 [node name="BlockSizeLabel" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 40
+theme = ExtResource("4_ir0uh")
 text = "32 B"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -275,7 +288,7 @@ vertical_alignment = 1
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocksize"]
 layout_mode = 2
 size_flags_vertical = 2
-theme_override_font_sizes/font_size = 22
+theme = SubResource("Theme_wa6nd")
 text = "Block Size
 "
 horizontal_alignment = 1
@@ -303,7 +316,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
 [node name="AssociativityLabel" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 40
+theme = ExtResource("4_ir0uh")
 text = "4x"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -311,7 +324,7 @@ vertical_alignment = 1
 [node name="Label" type="Label" parent="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Associativity"]
 layout_mode = 2
 size_flags_vertical = 2
-theme_override_font_sizes/font_size = 22
+theme = SubResource("Theme_wa6nd")
 text = "Associativity
 "
 horizontal_alignment = 1
@@ -1270,8 +1283,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_70i5d")
 [node name="CoinsLabel" type="Label" parent="VBox/Bottom/Right Side/Details/Coins Display"]
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("3_70i5d")
 theme_override_font_sizes/font_size = 50
-text = "13 🪙 /  20 🪙"
+text = "13 / 20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1294,8 +1308,10 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.45
-theme_override_font_sizes/normal_font_size = 40
+theme_override_fonts/normal_font = ExtResource("3_70i5d")
+theme_override_font_sizes/normal_font_size = 60
 bbcode_enabled = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1323,6 +1339,7 @@ theme_override_styles/panel = ExtResource("2_t5rd5")
 [node name="UpgradeQuantityLabel" type="Label" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Icon/Upgrade Icon"]
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("3_70i5d")
 theme_override_font_sizes/font_size = 100
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1331,7 +1348,9 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.37
-theme_override_font_sizes/font_size = 25
+theme_override_fonts/font = ExtResource("3_70i5d")
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 3
 
 [node name="Underline Divider2" type="Panel" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button"]
 layout_mode = 2
@@ -1348,8 +1367,9 @@ size_flags_stretch_ratio = 0.2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 25
-text = "Upgrade Cost:"
+theme_override_fonts/font = ExtResource("3_70i5d")
+theme_override_font_sizes/font_size = 30
+text = "Upgrade Cost: 10 "
 vertical_alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button"]
@@ -1378,7 +1398,8 @@ theme_override_colors/font_color = Color(0.278431, 0.278431, 0.278431, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
-theme_override_font_sizes/font_size = 25
+theme_override_fonts/font = ExtResource("3_70i5d")
+theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = ExtResource("5_814of")
 theme_override_styles/disabled = ExtResource("5_814of")
 theme_override_styles/hover_pressed = ExtResource("5_814of")
@@ -1389,13 +1410,28 @@ toggle_mode = true
 text = "Purchase"
 script = ExtResource("3_s6ngt")
 
+[node name="15" type="Sprite2D" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button"]
+position = Vector2(274, 35)
+scale = Vector2(0.192187, 0.192187)
+texture = ExtResource("10_83xxv")
+
 [node name="HSeparator" type="HSeparator" parent="VBox/Bottom/Right Side/Details"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.08
 theme_override_styles/separator = SubResource("StyleBoxEmpty_wa6nd")
 
-[node name="Module Arrow" type="Label" parent="."]
+[node name="Module Arrow" type="TextureRect" parent="."]
+offset_left = 31.0
+offset_top = 560.0
+offset_right = 184.0
+offset_bottom = 713.0
+rotation = -1.5708
+texture = ExtResource("11_cs8on")
+expand_mode = 1
+
+[node name="Module Arrow3" type="Label" parent="."]
+visible = false
 clip_contents = true
 layout_mode = 0
 offset_left = 65.5
@@ -1419,6 +1455,11 @@ offset_right = 762.0
 offset_bottom = 938.0
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("3_oihe7")
+
+[node name="15" type="Sprite2D" parent="."]
+position = Vector2(1712, 210)
+scale = Vector2(0.308333, 0.308333)
+texture = ExtResource("10_83xxv")
 
 [connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Back Button/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="." method="_on_blocknumber_focus_entered"]

@@ -251,12 +251,13 @@ func _on_stage_passed_menu_continue_to_next_stage() -> void:
 	$HUD.reset()
 	the_memory.add_health(100)
 	timerToLoop.start(timeToLoop)
+	loopTimerFinished = false
 	totalAccessCount = 0
 	hitCount = 0
 	hitRate = 0.0				# in %
 	missCount = 0
 	missRate = 0.0				# in %
-	prevAddresses.resize(1)
+	prevAddresses = ["0x1228"]
 	var deleteList = path.get_children()
 	for e in deleteList: e.queue_free()
 	if current_stage == 11: return

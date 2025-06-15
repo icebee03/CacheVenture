@@ -1,15 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5e85l3ryvj1w"]
+[gd_scene load_steps=11 format=3 uid="uid://b5e85l3ryvj1w"]
 
 [ext_resource type="Texture2D" uid="uid://bc0uoqeehx3b4" path="res://images/Line Divider White.png" id="1_57502"]
 [ext_resource type="Script" uid="uid://d4mlwbh6smrbq" path="res://menus/stage_passed_menu.gd" id="1_xsx3o"]
+[ext_resource type="Theme" uid="uid://b4xt1mbqqb0m1" path="res://menus/themes/BigFancyText.tres" id="2_0wki1"]
 [ext_resource type="Texture2D" uid="uid://c5c1u88vvq4n" path="res://images/Logo White.png" id="2_xsx3o"]
+[ext_resource type="Theme" uid="uid://odcvd68u8bby" path="res://menus/themes/ingameMenuButton.tres" id="4_0wki1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x6afj"]
 bg_color = Color(0.05, 0.05, 0.05, 0.862745)
-
-[sub_resource type="SystemFont" id="SystemFont_ddlc4"]
-font_names = PackedStringArray("Garamond", "Rockwell")
-subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_0wv6w"]
 font_names = PackedStringArray("Rockwell")
@@ -50,8 +48,7 @@ size_flags_vertical = 4
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/normal_font = SubResource("SystemFont_ddlc4")
-theme_override_font_sizes/normal_font_size = 70
+theme = ExtResource("2_0wki1")
 text = "PASSED STAGE"
 fit_content = true
 horizontal_alignment = 1
@@ -71,11 +68,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("4_0wki1")
 text = "Upgrades"
 
 [node name="BlocksIcon2" type="TextureRect" parent="PanelContainer/VBoxContainer"]
@@ -92,11 +85,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("4_0wki1")
 text = "Continue To Next Stage"
 
 [node name="MainMenuButton" type="Button" parent="PanelContainer/VBoxContainer"]

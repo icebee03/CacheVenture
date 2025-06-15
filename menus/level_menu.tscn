@@ -1,12 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnsf2p6j80wxs"]
+[gd_scene load_steps=6 format=3 uid="uid://bnsf2p6j80wxs"]
 
 [ext_resource type="Script" uid="uid://bt2wkbyl2fgef" path="res://menus/level_menu.gd" id="1_pssaq"]
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="2_8guhm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tycui"]
 bg_color = Color(0.149071, 0.140273, 0.238736, 1)
 
-[sub_resource type="SystemFont" id="SystemFont_mcy63"]
-font_names = PackedStringArray("Rockwell")
+[sub_resource type="Theme" id="Theme_qrhdl"]
+default_font = ExtResource("2_8guhm")
+default_font_size = 66
+
+[sub_resource type="Theme" id="Theme_w8r8p"]
+default_font = ExtResource("2_8guhm")
+default_font_size = 66
 
 [node name="Level Menu" type="Control"]
 layout_mode = 3
@@ -26,56 +32,32 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_tycui")
 
-[node name="Lvl1Button" type="Button" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TutLvl1Button" type="Button" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.372396
-anchor_top = 0.356481
-anchor_right = 0.476563
-anchor_bottom = 0.541667
-offset_right = -6.10352e-05
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = SubResource("SystemFont_mcy63")
-theme_override_font_sizes/font_size = 66
-text = "Level
-1"
+layout_mode = 2
+theme = SubResource("Theme_qrhdl")
+text = "Tutorial"
 metadata/_edit_use_anchors_ = true
 
-[node name="Lvl2Button" type="Button" parent="."]
+[node name="Lvl1Button" type="Button" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.565104
-anchor_top = 0.367593
-anchor_right = 0.669271
-anchor_bottom = 0.552778
-offset_right = -6.10352e-05
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = SubResource("SystemFont_mcy63")
-theme_override_font_sizes/font_size = 66
-text = "Level
-2"
+layout_mode = 2
+theme = SubResource("Theme_w8r8p")
+text = "Level 1
+(Spatial and Temporal Locality)
+"
 metadata/_edit_use_anchors_ = true
 
-[node name="TutLvl1Button" type="Button" parent="."]
+[node name="Lvl2Button" type="Button" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 200)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.0947917
-anchor_top = 0.348148
-anchor_right = 0.298438
-anchor_bottom = 0.575
-offset_right = -6.10352e-05
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = SubResource("SystemFont_mcy63")
-theme_override_font_sizes/font_size = 66
-text = "Tutorial Lvl:
-Blocks
-Associativity"
+layout_mode = 2
+theme = SubResource("Theme_w8r8p")
+text = "Level 2
+(Matrix Multiplication - Nested Loops)"
 metadata/_edit_use_anchors_ = true
 
 [node name="BackButton" type="Button" parent="."]
@@ -91,11 +73,11 @@ offset_right = 923.0
 offset_bottom = -471.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = SubResource("SystemFont_mcy63")
+theme_override_fonts/font = ExtResource("2_8guhm")
 theme_override_font_sizes/font_size = 30
 text = "Back"
 
-[connection signal="pressed" from="Lvl1Button" to="." method="_on_lvl_1_button_pressed"]
-[connection signal="pressed" from="Lvl2Button" to="." method="_on_lvl_2_button_pressed"]
-[connection signal="pressed" from="TutLvl1Button" to="." method="_on_tut_lvl_1_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/TutLvl1Button" to="." method="_on_tut_lvl_1_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Lvl1Button" to="." method="_on_lvl_1_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Lvl2Button" to="." method="_on_lvl_2_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

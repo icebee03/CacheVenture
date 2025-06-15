@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="11_r5tn1"]
 [ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://upgrade_menu_2.tscn" id="12_w5lyq"]
 [ext_resource type="Texture2D" uid="uid://c8vjxmkngb0v0" path="res://images/ui/progress-bar-circle2.png" id="14_3sap3"]
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="15_3sap3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
 
@@ -31,12 +32,9 @@ _data = {
 }
 point_count = 7
 
-[sub_resource type="SystemFont" id="SystemFont_3hogd"]
-font_names = PackedStringArray("Rockwell")
-
 [node name="First Level" type="Node"]
 script = ExtResource("1_fjlrh")
-timeToLoop = 45.0
+timeToLoop = 15.0
 
 [node name="Background Mountains" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -129,8 +127,10 @@ metadata/_edit_lock_ = true
 [node name="Pause Menu" parent="." instance=ExtResource("6_mah6i")]
 visible = false
 z_index = 1
+insideLevel = "Level 1"
 
 [node name="Upgrade Menu" parent="." instance=ExtResource("12_w5lyq")]
+visible = false
 z_index = 3
 
 [node name="Stage1Timer" type="Timer" parent="."]
@@ -197,9 +197,10 @@ offset_right = 1058.0
 offset_bottom = 1067.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_fonts/normal_font = SubResource("SystemFont_3hogd")
+theme_override_fonts/normal_font = ExtResource("15_3sap3")
 theme_override_font_sizes/normal_font_size = 30
 text = "Stage 1"
+scroll_active = false
 
 [connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]
 [connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]

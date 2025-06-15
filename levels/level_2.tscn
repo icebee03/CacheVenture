@@ -1,0 +1,211 @@
+[gd_scene load_steps=20 format=3 uid="uid://coupircc7fojv"]
+
+[ext_resource type="Script" uid="uid://cr32gnrtax538" path="res://levels/level_2.gd" id="1_0ourt"]
+[ext_resource type="Texture2D" uid="uid://ckx1m5c6ox6yu" path="res://images/Backgrounds/nature_3/origbig.png" id="1_5orea"]
+[ext_resource type="Texture2D" uid="uid://by2hhl4d66s04" path="res://images/Backgrounds/nature_1/origbig.png" id="2_0ourt"]
+[ext_resource type="Texture2D" uid="uid://bda455b75pwni" path="res://images/Backgrounds/nature_5/origbig.png" id="3_w200a"]
+[ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="4_uo0vl"]
+[ext_resource type="Script" uid="uid://dyi1faiymp1b2" path="res://path_follow_2d.gd" id="5_k2aru"]
+[ext_resource type="Texture2D" uid="uid://cmls8d7o827q4" path="res://images/Backgrounds/nature_6/origbig.png" id="5_w200a"]
+[ext_resource type="PackedScene" uid="uid://bmvrjrr064whf" path="res://floating_address.tscn" id="6_ndgrd"]
+[ext_resource type="PackedScene" uid="uid://cclcos7a74oho" path="res://objects/the_memory.tscn" id="7_h351q"]
+[ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="8_dpc8t"]
+[ext_resource type="PackedScene" uid="uid://b5e85l3ryvj1w" path="res://menus/stage_passed_menu.tscn" id="9_ngvhw"]
+[ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="10_itbe0"]
+[ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="11_xrja0"]
+[ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://upgrade_menu_2.tscn" id="12_he6wg"]
+[ext_resource type="Texture2D" uid="uid://c8vjxmkngb0v0" path="res://images/ui/progress-bar-circle2.png" id="13_jqt73"]
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="14_00pa0"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jh4da"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bkajk"]
+
+[sub_resource type="Curve2D" id="Curve2D_rsvx3"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 26.641, 126.529, 0, 0, 0, 0, 94.641, 212.529, 0, 0, 0, 0, 219.641, 278.529, 0, 0, 0, 0, 291.641, 282.529, 0, 0, 0, 0, 352.641, 261.529, 0, 0, 0, 0, 378.641, 215.529, 0, 0, 0, 0, 384.375, 77.3045, 0, 0, 0, 0, 404.641, 32.5289, 0, 0, 0, 0, 430.641, 17.5289, 0, 0, 0, 0, 474.641, 6.52888, 0, 0, 0, 0, 535.641, 10.5289, 0, 0, 0, 0, 597.641, 34.5289, 0, 0, 0, 0, 629.641, 63.5289, 0, 0, 0, 0, 647.641, 126.529, 0, 0, 0, 0, 661.641, 209.529, 0, 0, 0, 0, 709.641, 259.529, 0, 0, 0, 0, 775.641, 274.529, 0, 0, 0, 0, 861.318, 324.813, 0, 0, 0, 0, 1552.27, 347.267, 0, 0, 0, 0, 1731.29, 337.644, 0, 0, 0, 0, 1749.01, 471.681, 0, 0, 0, 0, 1729.45, 739.641, 0, 0, 0, 0, 1674.17, 872.525, 0, 0, 0, 0, 1303.18, 866.744)
+}
+point_count = 24
+
+[node name="Level 2" type="Node"]
+script = ExtResource("1_0ourt")
+
+[node name="Background Mountains" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_5orea")
+expand_mode = 3
+
+[node name="Background2" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_0ourt")
+expand_mode = 3
+
+[node name="Background3" type="TextureRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_w200a")
+expand_mode = 3
+
+[node name="Background4" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_w200a")
+expand_mode = 3
+
+[node name="Cache" parent="." instance=ExtResource("4_uo0vl")]
+process_mode = 3
+offset_left = 856.0
+offset_top = 277.0
+offset_right = 1385.0
+offset_bottom = 425.0
+blockSize = 4
+associativityDegree = 1
+replacementPolicy = "LFU"
+columnWidth = 120
+maxShownBlocks = 10
+
+[node name="Hitbox" type="Area2D" parent="Cache"]
+material = SubResource("CanvasItemMaterial_jh4da")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cache/Hitbox"]
+shape = SubResource("RectangleShape2D_bkajk")
+debug_color = Color(0.764676, 0.324319, 0.785679, 0.42)
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(-4, 127)
+rotation = -0.00210429
+curve = SubResource("Curve2D_rsvx3")
+metadata/_edit_group_ = true
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(26.641, 126.529)
+rotation = 0.901753
+rotates = false
+script = ExtResource("5_k2aru")
+
+[node name="Floating Address" parent="Path2D/PathFollow2D" instance=ExtResource("6_ndgrd")]
+process_mode = 3
+offset_left = -27.505
+offset_top = -21.307
+offset_right = 82.495
+offset_bottom = 25.693
+rotation = -0.907571
+
+[node name="The Memory" parent="." instance=ExtResource("7_h351q")]
+position = Vector2(359, 442)
+
+[node name="HUD" parent="." instance=ExtResource("8_dpc8t")]
+metadata/_edit_lock_ = true
+
+[node name="Stage Passed Menu" parent="." instance=ExtResource("9_ngvhw")]
+visible = false
+z_index = 1
+
+[node name="Game Over Menu" parent="." instance=ExtResource("10_itbe0")]
+visible = false
+z_index = 1
+metadata/_edit_lock_ = true
+
+[node name="Pause Menu" parent="." instance=ExtResource("11_xrja0")]
+visible = false
+z_index = 1
+insideLevel = "Level 2"
+
+[node name="Upgrade Menu" parent="." instance=ExtResource("12_he6wg")]
+visible = false
+z_index = 3
+insideLevel = "Level 2"
+
+[node name="Stage1Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="Stage2Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage3Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage4Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage5Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage6Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage7Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage8Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage9Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="Stage10Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
+[node name="StageProgressBar" type="TextureProgressBar" parent="."]
+offset_left = 610.0
+offset_top = 1028.0
+offset_right = 738.0
+offset_bottom = 1156.0
+scale = Vector2(0.352367, 0.352367)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.0
+fill_mode = 4
+texture_under = ExtResource("13_jqt73")
+texture_progress = ExtResource("13_jqt73")
+tint_under = Color(0, 0, 0, 0.117647)
+tint_progress = Color(0.653105, 0.644694, 0.81381, 1)
+
+[node name="StageLabel" type="RichTextLabel" parent="."]
+offset_left = 676.0
+offset_top = 1027.0
+offset_right = 1058.0
+offset_bottom = 1067.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("14_00pa0")
+theme_override_font_sizes/normal_font_size = 30
+text = "Stage 1"
+scroll_active = false
+
+[connection signal="cacheHit" from="Cache" to="." method="_on_cache_cache_hit"]
+[connection signal="cacheMiss" from="Cache" to="." method="_on_cache_cache_miss"]
+[connection signal="area_entered" from="Cache/Hitbox" to="." method="_on_area_2d_area_entered"]
+[connection signal="damaged" from="The Memory" to="." method="_on_the_memory_damaged"]
+[connection signal="dead" from="The Memory" to="." method="_on_the_memory_dead"]
+[connection signal="continueToNextStage" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_continue_to_next_stage"]
+[connection signal="showUpgradeMenu" from="Stage Passed Menu" to="." method="_on_stage_passed_menu_show_upgrade_menu"]
+[connection signal="restart" from="Game Over Menu" to="." method="_on_game_over_menu_restart"]
+[connection signal="showUpgradeMenu" from="Pause Menu" to="." method="_on_pause_menu_show_upgrade_menu"]

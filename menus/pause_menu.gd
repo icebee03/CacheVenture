@@ -2,7 +2,9 @@ extends Control
 
 signal showUpgradeMenu()
 
-@onready var this = $"."		
+
+#@onready var this = $"."	
+@export var insideLevel :String	
 
 
 #func _process(delta: float) -> void:
@@ -41,7 +43,11 @@ func _on_quit_button_pressed() -> void:
 
 func _on_restart_button_pressed() -> void:
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://First Level Prototype.tscn")
+	if insideLevel == "Level 1": get_tree().change_scene_to_file("res://First Level Prototype.tscn")
+	if insideLevel == "Level 2": get_tree().change_scene_to_file("res://levels/level_2.tscn")
+	if insideLevel == "Tutorial 1": get_tree().change_scene_to_file("res://levels/Tutorial-Level-Blocks-Associativity.tscn")
+	
+	
 	
 
 

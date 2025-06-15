@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://upgrade_menu_2.tscn" id="11_t1n37"]
 [ext_resource type="Texture2D" uid="uid://c8vjxmkngb0v0" path="res://images/ui/progress-bar-circle2.png" id="12_7a0bw"]
 [ext_resource type="Texture2D" uid="uid://8kdtfvqkpa2n" path="res://images/Guardian.png" id="13_3d1rq"]
+[ext_resource type="FontFile" uid="uid://c1art8r6ttf36" path="res://menus/fonts/Garamond/GARA.TTF" id="13_t1n37"]
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="15_7a0bw"]
+[ext_resource type="FontFile" uid="uid://cqpjq3yfm4j6n" path="res://menus/fonts/Rockwell/ROCKI.TTF" id="16_3d1rq"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_p3yn1"]
 
@@ -30,16 +33,6 @@ font_names = PackedStringArray("Rockwell")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkuhi"]
 bg_color = Color(0.91, 0.667, 0.328, 0.524)
 shadow_size = 5
-
-[sub_resource type="SystemFont" id="SystemFont_sbkxt"]
-font_names = PackedStringArray("Garamond")
-
-[sub_resource type="SystemFont" id="SystemFont_rkuhi"]
-font_names = PackedStringArray("Rockwell")
-
-[sub_resource type="SystemFont" id="SystemFont_tvgy1"]
-font_names = PackedStringArray("Rockwell")
-font_italic = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rkuhi"]
 content_margin_left = 5.0
@@ -76,6 +69,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 texture = ExtResource("4_47yjf")
 expand_mode = 3
 metadata/_edit_use_anchors_ = true
@@ -119,6 +113,7 @@ visible = false
 z_as_relative = false
 offset_right = 1920.0
 offset_bottom = 1080.0
+insideLevel = "Tutorial 1"
 
 [node name="Stage Passed Menu" parent="." instance=ExtResource("9_sbkxt")]
 visible = false
@@ -137,7 +132,7 @@ metadata/_edit_lock_ = true
 
 [node name="Upgrade Menu" parent="." instance=ExtResource("11_t1n37")]
 visible = false
-z_index = 1
+z_index = 2
 offset_right = 1920.0
 offset_bottom = 1080.0
 insideLevel = "Tutorial 1"
@@ -178,6 +173,7 @@ size_flags_vertical = 4
 theme_override_fonts/normal_font = SubResource("SystemFont_oyomr")
 theme_override_font_sizes/normal_font_size = 30
 text = "Stage 1"
+scroll_active = false
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 process_mode = 3
@@ -202,7 +198,7 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.24
 theme_override_constants/outline_size = 10
-theme_override_fonts/normal_font = SubResource("SystemFont_sbkxt")
+theme_override_fonts/normal_font = ExtResource("13_t1n37")
 theme_override_font_sizes/normal_font_size = 40
 text = "Guardian"
 horizontal_alignment = 1
@@ -218,8 +214,8 @@ stretch_mode = 5
 [node name="DialogueBox" type="RichTextLabel" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/normal_font = SubResource("SystemFont_rkuhi")
-theme_override_fonts/italics_font = SubResource("SystemFont_tvgy1")
+theme_override_fonts/normal_font = ExtResource("15_7a0bw")
+theme_override_fonts/italics_font = ExtResource("16_3d1rq")
 theme_override_font_sizes/italics_font_size = 25
 theme_override_font_sizes/normal_font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxEmpty_rkuhi")
@@ -234,13 +230,14 @@ Let me show you what happens when an address miss happens [color=violet][Press C
 
 [node name="ContinueButton" type="Button" parent="."]
 process_mode = 3
-z_index = 1
+z_index = 2
 custom_minimum_size = Vector2(200, 80)
-offset_left = 801.0
+offset_left = 860.0
 offset_top = 24.0
-offset_right = 1001.0
+offset_right = 1060.0
 offset_bottom = 104.0
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("15_7a0bw")
+theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxFlat_0afkn")
 text = "Continue"
 

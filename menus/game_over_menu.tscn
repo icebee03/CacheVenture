@@ -3,17 +3,11 @@
 [ext_resource type="Script" uid="uid://1lbwypfwc2nu" path="res://menus/game_over_menu.gd" id="1_17k2n"]
 [ext_resource type="Texture2D" uid="uid://bc0uoqeehx3b4" path="res://images/Line Divider White.png" id="1_p4gbp"]
 [ext_resource type="Texture2D" uid="uid://c5c1u88vvq4n" path="res://images/Logo White.png" id="2_17k2n"]
+[ext_resource type="FontFile" uid="uid://c1art8r6ttf36" path="res://menus/fonts/Garamond/GARA.TTF" id="2_j3yah"]
+[ext_resource type="Theme" uid="uid://odcvd68u8bby" path="res://menus/themes/ingameMenuButton.tres" id="4_1j35a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_duaj0"]
 bg_color = Color(0.05, 0.05, 0.05, 0.862745)
-
-[sub_resource type="SystemFont" id="SystemFont_j3yah"]
-font_names = PackedStringArray("Garamond", "Rockwell")
-subpixel_positioning = 0
-
-[sub_resource type="SystemFont" id="SystemFont_1j35a"]
-font_names = PackedStringArray("Rockwell")
-subpixel_positioning = 0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sbetn"]
 
@@ -52,7 +46,7 @@ layout_mode = 2
 theme_override_colors/default_color = Color(0.482353, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
 theme_override_constants/outline_size = 10
-theme_override_fonts/normal_font = SubResource("SystemFont_j3yah")
+theme_override_fonts/normal_font = ExtResource("2_j3yah")
 theme_override_font_sizes/normal_font_size = 70
 text = "GAME OVER"
 fit_content = true
@@ -73,8 +67,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_1j35a")
+theme = ExtResource("4_1j35a")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_sbetn")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_sh4cq")
@@ -94,8 +87,8 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("4_1j35a")
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_1j35a")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_sbetn")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_sh4cq")
@@ -106,8 +99,8 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("4_1j35a")
 theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_1j35a")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/hover = SubResource("StyleBoxEmpty_sbetn")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_sh4cq")

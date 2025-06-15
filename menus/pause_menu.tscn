@@ -1,24 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://br63ueumubdwc"]
+[gd_scene load_steps=9 format=3 uid="uid://br63ueumubdwc"]
 
 [ext_resource type="Texture2D" uid="uid://dg6q4gqe0s4qv" path="res://icon.svg" id="1_qlf07"]
 [ext_resource type="Script" uid="uid://dluef78lgl6rd" path="res://menus/pause_menu.gd" id="1_ybqm1"]
 [ext_resource type="Texture2D" uid="uid://bc0uoqeehx3b4" path="res://images/Line Divider White.png" id="2_qlf07"]
 [ext_resource type="Texture2D" uid="uid://c5c1u88vvq4n" path="res://images/Logo White.png" id="3_0wv6w"]
+[ext_resource type="Theme" uid="uid://b4xt1mbqqb0m1" path="res://menus/themes/BigFancyText.tres" id="3_mtdpf"]
+[ext_resource type="Theme" uid="uid://odcvd68u8bby" path="res://menus/themes/ingameMenuButton.tres" id="5_emjh3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x6afj"]
 bg_color = Color(0.05, 0.05, 0.05, 0.862745)
-
-[sub_resource type="SystemFont" id="SystemFont_ddlc4"]
-font_names = PackedStringArray("Garamond", "Rockwell")
-subpixel_positioning = 0
-
-[sub_resource type="SystemFont" id="SystemFont_0wv6w"]
-font_names = PackedStringArray("Rockwell")
-subpixel_positioning = 0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0wv6w"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qlf07"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aiq41"]
 
@@ -65,7 +55,7 @@ size_flags_vertical = 4
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/normal_font = SubResource("SystemFont_ddlc4")
+theme = ExtResource("3_mtdpf")
 theme_override_font_sizes/normal_font_size = 70
 text = "GAME PAUSED"
 fit_content = true
@@ -86,11 +76,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("5_emjh3")
 text = "Resume"
 
 [node name="RestartButton" type="Button" parent="PanelContainer/VBoxContainer"]
@@ -98,11 +84,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("5_emjh3")
 text = "Restart"
 
 [node name="UpgradesButton" type="Button" parent="PanelContainer/VBoxContainer"]
@@ -110,11 +92,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("5_emjh3")
 text = "Upgrades"
 
 [node name="OptionsButton" type="Button" parent="PanelContainer/VBoxContainer"]
@@ -122,11 +100,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("5_emjh3")
 text = "Options"
 
 [node name="BlocksIcon2" type="TextureRect" parent="PanelContainer/VBoxContainer"]
@@ -143,11 +117,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("5_emjh3")
 text = "Main Menu"
 
 [node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer"]
@@ -155,11 +125,7 @@ custom_minimum_size = Vector2(400, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_hover_color = Color(0.92, 0.75256, 0.2024, 1)
-theme_override_fonts/font = SubResource("SystemFont_0wv6w")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/hover = SubResource("StyleBoxEmpty_0wv6w")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_qlf07")
+theme = ExtResource("5_emjh3")
 text = "Quit"
 
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]

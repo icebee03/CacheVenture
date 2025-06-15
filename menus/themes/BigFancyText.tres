@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b4xt1mbqqb0m1"]
+
+[ext_resource type="FontFile" uid="uid://c1art8r6ttf36" path="res://menus/fonts/Garamond/GARA.TTF" id="1_ia64h"]
+
+[resource]
+default_font = ExtResource("1_ia64h")
+default_font_size = 70

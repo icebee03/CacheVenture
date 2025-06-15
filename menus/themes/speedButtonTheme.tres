@@ -1,0 +1,27 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://undg187lyc2f"]
+
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="1_4u0sx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gpiub"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_amv7k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1fv7p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4u2vk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4q17s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2d608"]
+
+[resource]
+default_font = ExtResource("1_4u0sx")
+default_font_size = 20
+Button/colors/font_hover_color = Color(0.921569, 0.752941, 0.203922, 1)
+Button/colors/font_pressed_color = Color(0.921569, 0.752941, 0.203922, 1)
+Button/styles/disabled = SubResource("StyleBoxEmpty_gpiub")
+Button/styles/focus = SubResource("StyleBoxEmpty_amv7k")
+Button/styles/hover = SubResource("StyleBoxEmpty_1fv7p")
+Button/styles/hover_pressed = SubResource("StyleBoxEmpty_4u2vk")
+Button/styles/normal = SubResource("StyleBoxEmpty_4q17s")
+Button/styles/pressed = SubResource("StyleBoxEmpty_2d608")
