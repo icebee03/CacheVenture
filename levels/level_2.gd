@@ -120,9 +120,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and not pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.pause()
+		$HUD.disableSpeedControl()
 	elif Input.is_action_just_pressed("ui_cancel") and pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.unpause()
+		$HUD.enableSpeedControl()
 		
 	stageProgressBar.value = 1 - (stageTimers[current_stage].time_left / stageTimers[current_stage].wait_time)
 	stageLabel.text = "Stage "+str(current_stage)
@@ -221,6 +223,7 @@ func _on_the_memory_damaged(who: String, damage: int) -> void:
 func _on_the_memory_dead() -> void:
 	$HUD.display_chat_message("Game Over.")
 	get_tree().paused = true
+	$HUD.disableSpeedControl()
 	$"Game Over Menu".visible = true
 		
 		
@@ -333,6 +336,7 @@ func _on_stage_timer_timeout() -> void:
 	upgradeMenu.unlockUpgrades(current_stage)
 	$HUD.display_chat_message("Unlocked new upgrades.")
 	get_tree().paused = true
+	$HUD.disableSpeedControl()
 	await get_tree().create_timer(1).timeout
 	stagePassedMenu.show()
 	Global.level2Stats["coins"] += 5

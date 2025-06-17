@@ -22,7 +22,7 @@ func _ready() -> void:
 	timer.wait_time = buy_speed
 	timer.one_shot = true
 	timer.timeout.connect(_on_timer_timeout)
-	set_prohibited()
+	set_prohibited("Not enough coins!")
 	
 	
 func _process(delta: float) -> void:
@@ -61,10 +61,10 @@ func set_not_owned() -> void:
 	progress_bar.value = progress_bar.min_value
 	
 	
-func set_prohibited() -> void:
+func set_prohibited(text:String) -> void:
 	too_poor = true
 	button.disabled = false
-	button.text = "Not enough coins!"
+	button.text = text
 	button.add_theme_constant_override("outline_size", 0)
 	button.add_theme_stylebox_override("normal", buttonNotEnoughCoins)
 	button.add_theme_stylebox_override("focus", buttonNotEnoughCoins)

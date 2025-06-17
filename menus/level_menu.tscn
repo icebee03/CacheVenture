@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bnsf2p6j80wxs"]
+[gd_scene load_steps=7 format=3 uid="uid://bnsf2p6j80wxs"]
 
 [ext_resource type="Script" uid="uid://bt2wkbyl2fgef" path="res://menus/level_menu.gd" id="1_pssaq"]
 [ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="2_8guhm"]
+[ext_resource type="Texture2D" uid="uid://duwvy4gjjkk4w" path="res://images/Clouds/background 3/orig_big.png" id="2_qrhdl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tycui"]
-bg_color = Color(0.149071, 0.140273, 0.238736, 1)
+bg_color = Color(0.149, 0.14, 0.239, 0.648)
 
 [sub_resource type="Theme" id="Theme_qrhdl"]
 default_font = ExtResource("2_8guhm")
@@ -22,6 +23,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pssaq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qrhdl")
+expand_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1

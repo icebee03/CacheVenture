@@ -1,13 +1,55 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6ldy6xgaj1c2"]
+[gd_scene load_steps=9 format=3 uid="uid://b6ldy6xgaj1c2"]
 
 [ext_resource type="Script" uid="uid://bfhb0eg8lfr40" path="res://cache.gd" id="1_5k55u"]
 [ext_resource type="FontFile" uid="uid://toq5sh1l5666" path="res://menus/fonts/Cascadia Mono/CascadiaMono-Regular.ttf" id="1_kx0i0"]
+[ext_resource type="Shader" uid="uid://dp18cusi4yq0g" path="res://objects/Cache.gdshader" id="1_nlggh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nlggh"]
+shader = ExtResource("1_nlggh")
+shader_parameter/opacity = 1.0
+shader_parameter/mix_color = 0.0
 
 [sub_resource type="Theme" id="Theme_nlggh"]
 default_font = ExtResource("1_kx0i0")
 default_font_size = 16
 
+[sub_resource type="Animation" id="Animation_6usbu"]
+resource_name = "hit_flash"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/mix_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.15, 0, 0.0417393, 0.266667, 0.5, -0.15, 0, 0.15, 0, 0, -0.0664286, 0.327273, 0.15, 0),
+"times": PackedFloat32Array(0, 0.140185, 0.3)
+}
+
+[sub_resource type="Animation" id="Animation_4y7km"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/mix_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1br6k"]
+_data = {
+&"RESET": SubResource("Animation_4y7km"),
+&"hit_flash": SubResource("Animation_6usbu")
+}
+
 [node name="Cache" type="VBoxContainer"]
+material = SubResource("ShaderMaterial_nlggh")
 offset_left = 813.0
 offset_top = 187.0
 offset_right = 1581.0
@@ -23,6 +65,7 @@ maxShownBlocks = 16
 metadata/_edit_group_ = true
 
 [node name="CacheHeader" type="ItemList" parent="."]
+use_parent_material = true
 layout_mode = 2
 size_flags_stretch_ratio = 0.13
 auto_height = true
@@ -35,8 +78,14 @@ item_2/text = "Tag"
 item_3/text = "Info (LRU, LFU, Random)"
 
 [node name="CacheBody" type="ItemList" parent="."]
+use_parent_material = true
 layout_mode = 2
 size_flags_vertical = 3
 select_mode = 1
 max_columns = 4
 fixed_column_width = 100
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_1br6k")
+}

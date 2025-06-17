@@ -24,7 +24,11 @@ func unpause():
 
 func _on_resume_button_pressed() -> void:
 	unpause()
-
+	# TODO: connect to $HUD.enableSpeedControl() somehow
+	var level = get_parent()
+	level.get_node("HUD").enableSpeedControl()
+	
+	
 
 func _on_upgrades_button_pressed() -> void:
 	#get_tree().paused = false

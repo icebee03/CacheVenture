@@ -109,6 +109,7 @@ func sort_address_into_cache(addressString:String) -> void:
 		
 		if line["tag"] == "0x%x" % tag:	# cache HIT, no replacement. only update info field and emit the hit signal 
 			cacheHit.emit(addressString)	
+			$AnimationPlayer.play("hit_flash")
 			_helper_update_cache_line(lineIdx, line, addressString, tag, timestamp, timestampUnix, updateType.HIT)					
 			wasLinePlaced = true
 			break
@@ -444,3 +445,6 @@ func _will_be_hit(addressString:String) -> bool:
 			return true
 	# If the addresses tag was not found, then return false
 	return false
+
+func play_hit_animation() -> void:
+	pass

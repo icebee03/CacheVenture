@@ -146,10 +146,12 @@ func display_focused_info() -> void:
 		upgrade_cost.text = "Upgrade Cost: %d" % cost
 		
 	if bought: upgrade_button.set_owned()
-	else: 
-		if levelStats["coins"] - cost < 0:
-			upgrade_button.set_prohibited()		# Then you cannot buy the upgrade
-			#TODO: maybe add other constraints such as that associativity cannot be larger than blocknumber
+	else: # other button states/locks
+		if not levelUpgrades[idx-1]["bought"]:
+			upgrade_button.set_prohibited("Buy previous first!")
+		elif levelStats["coins"] - cost < 0:
+			upgrade_button.set_prohibited("Not enough coins!")		# Then you cannot buy the upgrade
+		#TODO: maybe add other constraints such as that associativity cannot be larger than blocknumber
 		else:
 			upgrade_button.set_not_owned()
 		

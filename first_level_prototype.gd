@@ -199,6 +199,7 @@ func _on_cache_cache_hit(address:String) -> void:
 	var tio :Dictionary = cache._get_tag_index_offset(address.hex_to_int(), bits["tagbits"], bits["indexbits"], bits["offsetbits"])
 	$HUD.update_score(hitRate, missRate)
 	$HUD.display_chat_message("Hit with address "+address+" in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
+	
 
 
 ## Place replacedAddress on pathFromCache, update score and put message in event log

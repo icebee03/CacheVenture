@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bkptrrb2oxrui"]
+[gd_scene load_steps=26 format=3 uid="uid://bkptrrb2oxrui"]
 
 [ext_resource type="Script" uid="uid://de3rvcc4d4g47" path="res://levels/tutorial_level_blocks_associativity.gd" id="1_0afkn"]
 [ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_p3yn1"]
@@ -42,9 +42,18 @@ content_margin_bottom = 5.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0afkn"]
 
+[sub_resource type="InputEventKey" id="InputEventKey_t1n37"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_7a0bw"]
+events = [SubResource("InputEventKey_t1n37")]
+
 [node name="Tutorial Level - Blocks & Associativity" type="Node2D"]
 script = ExtResource("1_0afkn")
 pathSpeed = 3.0
+color = Color(0.84, 0.80892, 0.2184, 1)
 
 [node name="Background Ocean" type="TextureRect" parent="."]
 offset_right = 1920.0
@@ -240,6 +249,7 @@ offset_bottom = 104.0
 theme_override_fonts/font = ExtResource("15_7a0bw")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxFlat_0afkn")
+shortcut = SubResource("Shortcut_7a0bw")
 text = "Continue"
 
 [connection signal="damaged" from="The Memory" to="." method="_on_the_memory_damaged"]
