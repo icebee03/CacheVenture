@@ -179,6 +179,7 @@ text = "Play"
 alignment = 0
 
 [node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/HBoxContainer/LeftSide"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7vrkn")
@@ -202,6 +203,7 @@ text = "Options"
 alignment = 0
 
 [node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/HBoxContainer/LeftSide"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7vrkn")
@@ -225,6 +227,7 @@ text = "Credits"
 alignment = 0
 
 [node name="PanelContainer4" type="PanelContainer" parent="PanelContainer/HBoxContainer/LeftSide"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7vrkn")

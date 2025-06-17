@@ -88,6 +88,7 @@ func _ready() -> void:
 		else:
 			u["unlocked"] = true
 			u["bought"] = true 
+			u["starter"] = true
 	
 	# Connect stage timer timeouts
 	for stageTimer in stageTimers:
@@ -103,9 +104,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and not pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.pause()
+		$HUD.disableSpeedControl()
 	elif Input.is_action_just_pressed("ui_cancel") and pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.unpause()
+		$HUD.enableSpeedControl()
 		
 	stageProgressBar.value = 1 - (stageTimers[current_stage].time_left / stageTimers[current_stage].wait_time)
 	stageLabel.text = "Stage "+str(current_stage)
@@ -154,6 +157,7 @@ func _on_the_memory_damaged(who: String, damage: int) -> void:
 	
 func _on_the_memory_dead() -> void:
 	$HUD.display_chat_message("Game Over.")
+	$HUD.disableSpeedControl()
 	get_tree().paused = true
 	$"Game Over Menu".visible = true
 		
@@ -217,25 +221,16 @@ func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) ->
 		$HUD.display_chat_message("Miss (Conflict) address " + replacedAddress+" was in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
 	elif type == cache.cacheMissType.CAPACITY:
 		$HUD.display_chat_message("Miss (Capacity) address " + replacedAddress+" was in set %d with tag 0x%x" % [tio["index"],tio["tag"]])
-	# Display address coming out of cache, delete it and path after animation is done
-	#var newAddress: Node = preload("res://floating_address.tscn").instantiate()
-	#var pathFollow: PathFollow2D = PathFollow2D.new()
-	#var tween = get_tree().create_tween()
-	#newAddress.text = replacedAddress
-	#newAddress.set_position(Vector2(0,0))
-	#pathFromCache.add_child(pathFollow)
-	#pathFollow.add_child(newAddress)					# This line seems to have this error: "Cant change this state while flushing queries" # for now works without though (Godot 4.4.stable.mono)
-	#pathFollow.rotates = false
-	#tween.tween_property(pathFollow, "progress_ratio", 1.0, 4.0)
-	#tween.finished.connect(func(): pathFollow.queue_free())
 
 
 func _on_pause_menu_show_upgrade_menu() -> void:
 	upgradeMenu.show()
+	upgradeMenu.update_focus()
 
 
 func _on_stage_passed_menu_show_upgrade_menu() -> void:
 	upgradeMenu.show()
+	upgradeMenu.update_focus()
 
 
 func _on_stage_passed_menu_continue_to_next_stage() -> void:
@@ -248,7 +243,7 @@ func _on_stage_passed_menu_continue_to_next_stage() -> void:
 	cache.blockSize = Global.level1Stats["blocksize"]
 	cache.associativityDegree = Global.level1Stats["associativity"]
 	cache.update_layout()
-	$HUD.reset()
+	$HUD.reset()						
 	the_memory.add_health(100)
 	timerToLoop.start(timeToLoop)
 	loopTimerFinished = false
@@ -271,6 +266,7 @@ func _on_stage_timer_timeout() -> void:
 	upgradeMenu.unlockUpgrades(current_stage)
 	$HUD.display_chat_message("Unlocked new upgrades.")
 	get_tree().paused = true
+	$HUD.disableSpeedControl()
 	await get_tree().create_timer(1).timeout
 	stagePassedMenu.show()
 	Global.level1Stats["coins"] += 5

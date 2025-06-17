@@ -14,7 +14,7 @@ var level2Played : bool = false
 var tutorial1Stats :Dictionary = {"coins" = 0, "max_coins" = 0, "blocknumber" = 0, "blocksize"=0, "associativity"=0}
 var level1Stats :Dictionary = {"coins" = 0, "max_coins" = 0, "blocknumber" = 0, "blocksize"=0, "associativity"=0}
 var level2Stats :Dictionary = {"coins" = 0, "max_coins" = 0, "blocknumber" = 0, "blocksize"=0, "associativity"=0}
-#var upgrade : Dictionary = {"type"="", "quantity"=0, "cost"=0, "unlocked"=false, "bought"=false}; levelXUpgrades are just Arrays of upgrades
+#var upgrade : Dictionary = {"type"="", "quantity"=0, "cost"=0, "unlocked"=false, "bought"=false, "starter"=false}; levelXUpgrades are just Arrays of upgrades
 var tutorial1Upgrades : Array[Dictionary] = []	
 var level1Upgrades :Array[Dictionary] = []	# List of upgrades, filled using register_update(), and initialized/modified (bought) in upgrade_menu_2.gd
 var level2Upgrades :Array[Dictionary] = []
@@ -102,7 +102,7 @@ func _ready() -> void:
 	
 	
 func register_upgrade(level:String, type:String, quantity:int, cost:int, unlocked:bool, bought:bool) -> void:
-	var upgrade : Dictionary = {"type"=type, "quantity"=quantity, "cost"=cost, "unlocked"=unlocked, "bought"=bought} # read e.g. quantity = 4 (B for type ="Block Size"), and cost = 5 (Coins)
+	var upgrade : Dictionary = {"type"=type, "quantity"=quantity, "cost"=cost, "unlocked"=unlocked, "bought"=bought, "starter"=false} # read e.g. quantity = 4 (B for type ="Block Size"), and cost = 5 (Coins)
 	match level:
 		"Tutorial 1":
 			tutorial1Upgrades.append(upgrade)

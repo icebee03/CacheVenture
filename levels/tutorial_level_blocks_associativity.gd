@@ -94,10 +94,12 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel") and not pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.pause()
+		$HUD.disableSpeedControl()
 		if continueCount == 17: dialoguePanel.set_position(Vector2(490, 720))
 	elif Input.is_action_just_pressed("ui_cancel") and pauseMenu.is_visible_in_tree():
 		#await get_tree().create_timer(0.2).timeout
 		pauseMenu.unpause()
+		$HUD.enableSpeedControl()
 		
 	stageProgressBar.value = 1 - (stageTimers[current_stage].time_left / stageTimers[current_stage].wait_time)
 	stageLabel.text = "Stage "+str(current_stage)
@@ -141,6 +143,7 @@ func _on_the_memory_dead() -> void:
 	
 func _on_pause_menu_show_upgrade_menu() -> void:
 	upgradeMenu.show()
+	upgradeMenu.update_focus()
 	
 	
 # Called when the Back button of the upgrade menu is pressed
@@ -167,6 +170,7 @@ func _on_stage_passed_menu_show_upgrade_menu() -> void:
 	if continueCount == 10: _on_continue_button_pressed()
 	dialoguePanel.set_position(Vector2(9, 815))
 	upgradeMenu.show()
+	upgradeMenu.update_focus()
 	
 	
 func _on_stage_passed_menu_continue_to_next_stage() -> void:

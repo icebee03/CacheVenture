@@ -79,12 +79,13 @@ process_mode = 3
 visible = false
 offset_left = 811.0
 offset_top = 229.0
-offset_right = 1433.0
+offset_right = 1341.0
 offset_bottom = 421.0
 blockNumber = 4
 blockSize = 4
 replacementPolicy = "LFU"
-columnWidth = 100
+columnWidth = 120
+maxShownBlocks = 10
 
 [node name="Hitbox" type="Area2D" parent="Cache"]
 material = SubResource("CanvasItemMaterial_p3yn1")

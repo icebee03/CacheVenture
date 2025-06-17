@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=35 format=3 uid="uid://dgbm0i8vhobms"]
 
 [ext_resource type="Script" uid="uid://bqfsuhedtqxd5" path="res://menus/upgrade_menu_2.gd" id="1_oihe7"]
 [ext_resource type="FontFile" uid="uid://v53ohntxanai" path="res://menus/fonts/Rockwell/ROCKB.TTF" id="2_2si5a"]
@@ -10,6 +10,7 @@
 [ext_resource type="Theme" uid="uid://c7twfhvgk41th" path="res://menus/themes/upgradeOption.tres" id="4_ir0uh"]
 [ext_resource type="StyleBox" uid="uid://bewmo4oe16iu2" path="res://menus/progressBarFillStyleboxNotOwned.tres" id="4_yp6h7"]
 [ext_resource type="StyleBox" uid="uid://dodo68ul02p4n" path="res://menus/upgradeButton.tres" id="5_814of"]
+[ext_resource type="StyleBox" uid="uid://c4ped8fj58xir" path="res://menus/upgradeNotBought.tres" id="6_cs8on"]
 [ext_resource type="Texture2D" uid="uid://ckudg3dvj0jsh" path="res://images/Crystals/simple/15.png" id="10_83xxv"]
 [ext_resource type="Texture2D" uid="uid://mv47wk1lrwqc" path="res://images/ui/white-arrow-png-41955.png" id="11_cs8on"]
 
@@ -150,7 +151,7 @@ theme_override_colors/font_color = Color(0.28, 0.28, 0.28, 1)
 theme_override_fonts/font = ExtResource("3_70i5d")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxEmpty_oihe7")
-text = "Reset"
+text = "Reset Upgrades"
 flat = true
 
 [node name="Back Button" type="PanelContainer" parent="VBox/Top/Top MarginContainer/HBoxContainer"]
@@ -344,6 +345,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_oihe7")
 [node name="Template" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options" instance=ExtResource("2_057qa")]
 visible = false
 layout_mode = 2
+theme_override_styles/panel = ExtResource("6_cs8on")
 
 [node name="Block Number Upgrades" type="MarginContainer" parent="VBox/Bottom/Left Side/VBoxContainer/Upgrade Options"]
 visible = false
@@ -1422,6 +1424,7 @@ size_flags_stretch_ratio = 0.08
 theme_override_styles/separator = SubResource("StyleBoxEmpty_wa6nd")
 
 [node name="Module Arrow" type="TextureRect" parent="."]
+layout_mode = 0
 offset_left = 31.0
 offset_top = 560.0
 offset_right = 184.0
@@ -1461,6 +1464,7 @@ position = Vector2(1712, 210)
 scale = Vector2(0.308333, 0.308333)
 texture = ExtResource("10_83xxv")
 
+[connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Reset Button/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Back Button/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="focus_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="." method="_on_blocknumber_focus_entered"]
 [connection signal="mouse_entered" from="VBox/Bottom/Left Side/VBoxContainer/Module Selector/Margin/HBox/Blocknumber" to="VBox/Bottom/Left Side/VBoxContainer" method="_on_blocknbr_v_box_container_mouse_entered"]

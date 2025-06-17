@@ -1,10 +1,19 @@
 extends Control
 
+# For Tutorial:
 @export var eventLogVisible :bool = true
 @export var scoreVisible :bool = true
 @export var speedControlVisible :bool = true
 
+## Toggle to disable speed inputs, if e.g. pause or stage passed menu is shown
+@export var disableSpeed :bool = false
 
+@onready var stopButton = $"Speed Controls/HBoxContainer/StopButton"
+@onready var halfSpeedButton = $"Speed Controls/HBoxContainer/HalfSpeedButton"
+@onready var normalSpeedButton = $"Speed Controls/HBoxContainer/NormalSpeedButton"
+@onready var twiceSpeedButton = $"Speed Controls/HBoxContainer/TwiceSpeedButton"
+@onready var tripleSpeedButton = $"Speed Controls/HBoxContainer/TripleSpeedButton"
+@onready var quadrupleSpeedButton = $"Speed Controls/HBoxContainer/QuadrupleSpeedButton"
 @onready var slider : Slider = $"Speed Controls/SpeedSlider"
 @onready var chatlog: TextEdit = $ChatLogControl/MarginContainer/ChatLogTextEdit
 	
@@ -32,7 +41,26 @@ func display_chat_message(msg:String) -> void:
 		chatlog.text = chatlog.text.substr(lineCount-msgLimit)	# Keep only the most recent 500 messages, cut off the rest (older ones)
 	chatlog.scroll_vertical = lineCount		# For autoscroll to bottom, e.g. newest message
 	
-		
+
+## Enables input to speed buttons and slider movement
+func enableSpeedControl() -> void:
+	stopButton.disabled = false
+	halfSpeedButton.disabled = false
+	normalSpeedButton.disabled = false
+	twiceSpeedButton.disabled = false
+	tripleSpeedButton.disabled = false
+	quadrupleSpeedButton.disabled = false
+
+## Disables input to speed buttons (e.g. by mistake from pause menu with shortcut) and slider movement
+func disableSpeedControl() -> void:
+	stopButton.disabled = true
+	halfSpeedButton.disabled = true
+	normalSpeedButton.disabled = true
+	twiceSpeedButton.disabled = true
+	tripleSpeedButton.disabled = true
+	quadrupleSpeedButton.disabled = true
+	
+
 
 ## Changes the game speed based on slider input (0x -- 4x possible)
 func change_game_speed(factor:float) -> void:
@@ -81,4 +109,5 @@ func reset() -> void:
 	chatlog.text = ""
 	slider.value = 1.0
 	change_game_speed(1.0)
+	enableSpeedControl()
 	

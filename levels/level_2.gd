@@ -104,6 +104,7 @@ func _ready() -> void:
 		else:
 			u["unlocked"] = true
 			u["bought"] = true 
+			u["starter"] = true
 	
 	# Connect stage timer timeouts
 	for stageTimer in stageTimers:
@@ -293,10 +294,12 @@ func _on_cache_cache_miss(type: Cache.cacheMissType, replacedAddress: String) ->
 
 func _on_pause_menu_show_upgrade_menu() -> void:
 	upgradeMenu.show()
+	upgradeMenu.update_focus()
 
 
 func _on_stage_passed_menu_show_upgrade_menu() -> void:
 	upgradeMenu.show()
+	upgradeMenu.update_focus()
 
 
 func _on_stage_passed_menu_continue_to_next_stage() -> void:

@@ -1,27 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://cf5avdttd3swx"]
 
+[ext_resource type="StyleBox" uid="uid://be4koidw1ucw3" path="res://menus/upgradeBought.tres" id="1_cgu63"]
 [ext_resource type="Script" uid="uid://cijxaucfpo3a7" path="res://menus/upgrade_template.gd" id="1_r1132"]
 [ext_resource type="Theme" uid="uid://c7twfhvgk41th" path="res://menus/themes/upgradeOption.tres" id="2_382uh"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wa6nd"]
-bg_color = Color(0.39256, 0.1736, 0.56, 1)
-border_width_left = 10
-border_width_bottom = 5
-border_color = Color(0.46, 0.46, 0.46, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 55
-shadow_color = Color(0, 0, 0, 0.054902)
-shadow_size = 1
-shadow_offset = Vector2(-6.825, 4.665)
 
 [node name="Template" type="PanelContainer"]
 custom_minimum_size = Vector2(120, 120)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_wa6nd")
+theme_override_styles/panel = ExtResource("1_cgu63")
 script = ExtResource("1_r1132")
 
 [node name="Label" type="Label" parent="."]

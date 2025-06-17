@@ -36,6 +36,8 @@ var upgrade_type : String
 @onready var blocksizeUpgrades = $"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades"
 @onready var associativityUpgrades = $"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades"
 const UpgradeTemplate = preload("res://menus/upgrade_template.tscn")
+const UpgradeNotBoughtStylebox = preload("res://menus/upgradeNotBought.tres")
+const UpgradeBoughtStylebox = preload("res://menus/upgradeBought.tres")
 
 
 
@@ -51,7 +53,8 @@ func _ready() -> void:
 		levelUpgrades = Global.tutorial1Upgrades
 	update_displays()
 	init_upgrades()
-	_on_blocknumber_focus_entered()
+	#_on_blocksize_focus_entered()
+	#set_focus_outline()
 	coins_label.text = str(levelStats["coins"])+" / "+str(levelStats["max_coins"])
 	
 	
@@ -59,6 +62,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	update_displays()
 	display_focused_info()
+	#TODO: display current purchase button state (needed after e.g. reset button)
 	set_focus_outline()
 	coins_label.text = str(levelStats["coins"])+" / "+str(levelStats["max_coins"])
 	
@@ -71,6 +75,7 @@ func update_displays() -> void:
 	
 ## Adds the upgrades from Global.levelXUpgrades to the scene with appropiate settings.
 ## Visible if unlocked.
+## Gold color if bought.
 func init_upgrades() -> void:
 	# Firstly, delete all previously existing / outdated upgrades
 	var free_list = $"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Number Upgrades/GridContainer".get_children()
@@ -78,20 +83,23 @@ func init_upgrades() -> void:
 	free_list.append_array($"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades/GridContainer".get_children())
 	for e in free_list: e.queue_free()	
 	for upgrade in levelUpgrades:
+		var new = UpgradeTemplate.instantiate()
+		if upgrade["bought"]: 
+			new.add_theme_stylebox_override("panel", UpgradeBoughtStylebox)
+		else:
+			new.add_theme_stylebox_override("panel", UpgradeNotBoughtStylebox)
+			
 		if upgrade["type"] == "Block Number":
-			var new = UpgradeTemplate.instantiate()
 			new.set_text(str(upgrade["quantity"]))
 			new.visible = upgrade["unlocked"]
 			new.upgrade = upgrade
 			blocknumberUpgrades.get_child(0).add_child(new)
 		elif upgrade["type"] == "Block Size":
-			var new = UpgradeTemplate.instantiate()
 			new.set_text(str(upgrade["quantity"])+" B")
 			new.visible = upgrade["unlocked"]
 			new.upgrade = upgrade
 			blocksizeUpgrades.get_child(0).add_child(new)
 		elif upgrade["type"] == "Associativity":
-			var new = UpgradeTemplate.instantiate()
 			new.set_text(str(upgrade["quantity"])+"x")
 			new.visible = upgrade["unlocked"]
 			new.upgrade = upgrade
@@ -107,6 +115,7 @@ func display_focused_info() -> void:
 	# Get current focus owner	
 	var upgradeChoice : Control = get_viewport().gui_get_focus_owner()
 	if upgradeChoice == null or upgradeChoice is not UpgradeTemplate: return	# Disregard any that are not valid upgrade choices (i.e. other ui elements)
+	#TODO: add logic to update Purchase Button Look even when upgrade option is not in focus; maybe like: get upgrade info from text that is currently displayed on the right (opposite to this function)
 	# Search for matching Global upgrade and save its index and contents for reference
 	var idx :int			# index of this upgrade inside of Global.levelXUpgrades
 	var type :String
@@ -147,21 +156,11 @@ func display_focused_info() -> void:
 
 
 func _on_upgrade_button_upgrade_bought(price: int) -> void:
-	# Get upgrade that is currently viewed and store its index for reference to Global.levelXUpgrades:
-	#var idx :int
-	#for i in range(len(Global.level1Upgrades)):
-		#if Global.level1Upgrades[i]["type"] == upgrade_title.text and Global.level1Upgrades[i]["quantity"] == upgrade_quantity.text.to_int():
-			#idx = i
-	#var type:String = Global.level1Upgrades[idx]["type"]
-	#var quantity:int = Global.level1Upgrades[idx]["quantity"]
-	#var cost:int = Global.level1Upgrades[idx]["cost"]
-	
 	var idx :int			# index of this upgrade inside of Global.levelXUpgrades
 	var type :String
 	var quantity :int
 	var cost :int
 	var bought :bool
-	#REFACTOR************************
 	for i in range(len(levelUpgrades)):
 		if levelUpgrades[i]["type"] == upgrade_title.text and levelUpgrades[i]["quantity"] == upgrade_quantity.text.to_int():
 			idx = i
@@ -176,6 +175,21 @@ func _on_upgrade_button_upgrade_bought(price: int) -> void:
 		levelStats["blocksize"] = quantity
 	elif type == "Associativity":
 		levelStats["associativity"] = quantity
+	init_upgrades()
+		
+
+## Resets the upgrades to the starting equipment, allowing for a redistribution of upgrades and coins
+func _on_reset_button_pressed() -> void:
+	for u in levelUpgrades:
+		if not u["starter"]:		# reset everything except the starter equipment
+			u["bought"] = false
+		elif u["starter"]:		# reset cache config to starting equipment
+			if u["type"] == "Block Number": levelStats["blocknumber"] = u["quantity"]
+			if u["type"] == "Block Size": levelStats["blocksize"] = u["quantity"]
+			if u["type"] == "Associativity": levelStats["associativity"] = u["quantity"]
+	levelStats["coins"] = levelStats["max_coins"]
+	init_upgrades()				# apply changes to shop
+	display_focused_info()
 		
 			
 		
@@ -335,6 +349,11 @@ func set_focus_outline() -> void:
 	var tween : Tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(focus_outline, "position", pos-offset, 0.1)
+	
+	
+## Called from within the levels which triggers the shop to update its focus outline.
+func update_focus() -> void:
+	_on_blocknumber_focus_entered()
 
 
 
@@ -346,6 +365,13 @@ func _on_blocknumber_focus_entered() -> void:
 	blocknumberUpgrades.visible = 	true
 	blocksizeUpgrades.visible = 		false
 	associativityUpgrades.visible = 	false
+	# Set focus to highest unlocked (visible) upgrade
+	var upgrades = blocknumberUpgrades.get_child(0).get_children()
+	var highestVisible :UpgradeTemplate
+	for u in upgrades:
+		if u.visible: highestVisible = u
+	highestVisible.grab_focus()
+	set_focus_outline()
 
 
 func _on_blocksize_focus_entered() -> void:
@@ -356,6 +382,14 @@ func _on_blocksize_focus_entered() -> void:
 	blocknumberUpgrades.visible = 	false
 	blocksizeUpgrades.visible = 		true
 	associativityUpgrades.visible = 	false
+	# Set focus to highest unlocked (visible) upgrade
+	var upgrades = blocksizeUpgrades.get_child(0).get_children()
+	var highestVisible :UpgradeTemplate
+	for u in upgrades:
+		if u.visible: highestVisible = u
+	highestVisible.grab_focus()
+	set_focus_outline()
+	
 
 
 func _on_associativity_focus_entered() -> void:
@@ -366,3 +400,10 @@ func _on_associativity_focus_entered() -> void:
 	blocknumberUpgrades.visible = 	false
 	blocksizeUpgrades.visible = 		false
 	associativityUpgrades.visible = 	true
+	# Set focus to highest unlocked (visible) upgrade
+	var upgrades = associativityUpgrades.get_child(0).get_children()
+	var highestVisible :UpgradeTemplate
+	for u in upgrades:
+		if u.visible: highestVisible = u
+	highestVisible.grab_focus()
+	set_focus_outline()
