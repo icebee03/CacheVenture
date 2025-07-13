@@ -1,8 +1,9 @@
 # cacheTestground.gd
+# This Scene can be used for testing address accesses and debugging
 class_name CacheTestground extends Node
 
 ## The [Cache] scene where incoming addresses are stored
-@onready var cache :VBoxContainer = $Cache		
+@onready var cache = $Cache		
 ## Pressing this button triggers the scene to sort the address from [member input] into the [member cache]
 @onready var button :Button = $Button
 ## Input field to write 32-bit hex addresses into

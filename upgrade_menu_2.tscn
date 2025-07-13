@@ -1468,7 +1468,8 @@ position = Vector2(1712, 210)
 scale = Vector2(0.308333, 0.308333)
 texture = ExtResource("10_83xxv")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="White Panel (for screenshots)" type="Panel" parent="."]
+visible = false
 z_index = 1
 layout_mode = 0
 offset_left = 1545.0

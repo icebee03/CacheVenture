@@ -445,6 +445,3 @@ func _will_be_hit(addressString:String) -> bool:
 			return true
 	# If the addresses tag was not found, then return false
 	return false
-
-func play_hit_animation() -> void:
-	pass
