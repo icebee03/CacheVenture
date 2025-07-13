@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dgbm0i8vhobms"]
+[gd_scene load_steps=36 format=3 uid="uid://dgbm0i8vhobms"]
 
 [ext_resource type="Script" uid="uid://bqfsuhedtqxd5" path="res://menus/upgrade_menu_2.gd" id="1_oihe7"]
 [ext_resource type="FontFile" uid="uid://v53ohntxanai" path="res://menus/fonts/Rockwell/ROCKB.TTF" id="2_2si5a"]
@@ -93,6 +93,9 @@ thickness = 5
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6ngt"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wa6nd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cs8on"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="Upgrade Menu 2" type="Control"]
 process_mode = 3
@@ -1383,6 +1386,7 @@ theme_override_styles/fill = ExtResource("4_yp6h7")
 show_percentage = false
 
 [node name="Upgrade Button" type="Button" parent="VBox/Bottom/Right Side/Details/Info & Buy Button/Info & Buy Button/Info & Buy Button/Upgrade Cost & Button/ProgressBar"]
+z_index = 2
 custom_minimum_size = Vector2(300, 60)
 layout_mode = 1
 anchors_preset = 15
@@ -1463,6 +1467,15 @@ theme_override_styles/panel = ExtResource("3_oihe7")
 position = Vector2(1712, 210)
 scale = Vector2(0.308333, 0.308333)
 texture = ExtResource("10_83xxv")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 1545.0
+offset_top = 961.0
+offset_right = 1918.0
+offset_bottom = 1079.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cs8on")
 
 [connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Reset Button/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="VBox/Top/Top MarginContainer/HBoxContainer/Back Button/BackButton" to="." method="_on_back_button_pressed"]
