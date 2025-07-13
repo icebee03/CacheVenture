@@ -230,7 +230,7 @@ func _on_the_memory_dead() -> void:
 		
 ## On timeout, spawn new address on Path to Cache
 func _on_timer_timeout() ->void:
-	var newAddress: Node = preload("res://floating_address.tscn").instantiate()
+	var newAddress: Node = preload("res://menus/floating_address.tscn").instantiate()
 	var pathFollow: PathFollow2D = PathFollow2D.new()
 	pathFollow.rotates = false
 	var tween = get_tree().create_tween()

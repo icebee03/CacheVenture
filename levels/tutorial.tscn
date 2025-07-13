@@ -1,21 +1,21 @@
 [gd_scene load_steps=26 format=3 uid="uid://bkptrrb2oxrui"]
 
-[ext_resource type="Script" uid="uid://de3rvcc4d4g47" path="res://levels/tutorial_level_blocks_associativity.gd" id="1_0afkn"]
-[ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="1_p3yn1"]
-[ext_resource type="Texture2D" uid="uid://cl6ur7r10j0js" path="res://images/Backgrounds/nature_8/origbig.png" id="2_lvtrs"]
-[ext_resource type="Texture2D" uid="uid://cmls8d7o827q4" path="res://images/Backgrounds/nature_6/origbig.png" id="3_0afkn"]
-[ext_resource type="Texture2D" uid="uid://dk38vtftlybo8" path="res://images/Backgrounds/nature_4/origbig.png" id="4_47yjf"]
-[ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://hud.tscn" id="5_hhfb3"]
-[ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="6_8i1qm"]
-[ext_resource type="PackedScene" uid="uid://cclcos7a74oho" path="res://objects/the_memory.tscn" id="6_rkuhi"]
-[ext_resource type="PackedScene" uid="uid://b5e85l3ryvj1w" path="res://menus/stage_passed_menu.tscn" id="9_sbkxt"]
-[ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="10_tvgy1"]
-[ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://upgrade_menu_2.tscn" id="11_t1n37"]
-[ext_resource type="Texture2D" uid="uid://c8vjxmkngb0v0" path="res://images/ui/progress-bar-circle2.png" id="12_7a0bw"]
-[ext_resource type="Texture2D" uid="uid://8kdtfvqkpa2n" path="res://images/Guardian.png" id="13_3d1rq"]
-[ext_resource type="FontFile" uid="uid://c1art8r6ttf36" path="res://menus/fonts/Garamond/GARA.TTF" id="13_t1n37"]
-[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="15_7a0bw"]
-[ext_resource type="FontFile" uid="uid://cqpjq3yfm4j6n" path="res://menus/fonts/Rockwell/ROCKI.TTF" id="16_3d1rq"]
+[ext_resource type="Script" uid="uid://de3rvcc4d4g47" path="res://levels/tutorial.gd" id="1_qvtyd"]
+[ext_resource type="Texture2D" uid="uid://cl6ur7r10j0js" path="res://images/Backgrounds/nature_8/origbig.png" id="2_ud5cb"]
+[ext_resource type="Texture2D" uid="uid://cmls8d7o827q4" path="res://images/Backgrounds/nature_6/origbig.png" id="3_obw5j"]
+[ext_resource type="Texture2D" uid="uid://dk38vtftlybo8" path="res://images/Backgrounds/nature_4/origbig.png" id="4_fpvtr"]
+[ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://objects/Cache.tscn" id="5_2lwca"]
+[ext_resource type="PackedScene" uid="uid://cclcos7a74oho" path="res://objects/the_memory.tscn" id="6_kewwy"]
+[ext_resource type="PackedScene" uid="uid://bpnih78j7pofm" path="res://menus/hud.tscn" id="7_f5lvq"]
+[ext_resource type="PackedScene" uid="uid://br63ueumubdwc" path="res://menus/pause_menu.tscn" id="8_hi7gy"]
+[ext_resource type="PackedScene" uid="uid://b5e85l3ryvj1w" path="res://menus/stage_passed_menu.tscn" id="9_ssn57"]
+[ext_resource type="PackedScene" uid="uid://b3qjexsdqadao" path="res://menus/game_over_menu.tscn" id="10_xwxsl"]
+[ext_resource type="PackedScene" uid="uid://dgbm0i8vhobms" path="res://menus/upgrade_menu_2.tscn" id="11_8bi7p"]
+[ext_resource type="Texture2D" uid="uid://c8vjxmkngb0v0" path="res://images/ui/progress-bar-circle2.png" id="12_we2w3"]
+[ext_resource type="FontFile" uid="uid://c1art8r6ttf36" path="res://menus/fonts/Garamond/GARA.TTF" id="13_4kisa"]
+[ext_resource type="Texture2D" uid="uid://8kdtfvqkpa2n" path="res://images/Guardian.png" id="14_rxgvf"]
+[ext_resource type="FontFile" uid="uid://bseduyqdqj51e" path="res://menus/fonts/Rockwell/ROCK.TTF" id="15_wfa2t"]
+[ext_resource type="FontFile" uid="uid://cqpjq3yfm4j6n" path="res://menus/fonts/Rockwell/ROCKI.TTF" id="16_46tuc"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_p3yn1"]
 
@@ -51,7 +51,7 @@ unicode = 32
 events = [SubResource("InputEventKey_t1n37")]
 
 [node name="Tutorial Level - Blocks & Associativity" type="Node2D"]
-script = ExtResource("1_0afkn")
+script = ExtResource("1_qvtyd")
 pathSpeed = 3.0
 color = Color(0.84, 0.80892, 0.2184, 1)
 
@@ -60,7 +60,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("2_lvtrs")
+texture = ExtResource("2_ud5cb")
 expand_mode = 3
 metadata/_edit_use_anchors_ = true
 
@@ -69,7 +69,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("3_0afkn")
+texture = ExtResource("3_obw5j")
 expand_mode = 3
 metadata/_edit_use_anchors_ = true
 
@@ -79,11 +79,11 @@ offset_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-texture = ExtResource("4_47yjf")
+texture = ExtResource("4_fpvtr")
 expand_mode = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="Cache" parent="." instance=ExtResource("1_p3yn1")]
+[node name="Cache" parent="." instance=ExtResource("5_2lwca")]
 process_mode = 3
 visible = false
 offset_left = 811.0
@@ -109,29 +109,29 @@ rotation = -0.00210429
 curve = SubResource("Curve2D_e8q2s")
 metadata/_edit_group_ = true
 
-[node name="The Memory" parent="." instance=ExtResource("6_rkuhi")]
+[node name="The Memory" parent="." instance=ExtResource("6_kewwy")]
 visible = false
 position = Vector2(359, 442)
 
-[node name="HUD" parent="." instance=ExtResource("5_hhfb3")]
+[node name="HUD" parent="." instance=ExtResource("7_f5lvq")]
 offset_right = 1920.0
 offset_bottom = 1080.0
 metadata/_edit_lock_ = true
 
-[node name="Pause Menu" parent="." instance=ExtResource("6_8i1qm")]
+[node name="Pause Menu" parent="." instance=ExtResource("8_hi7gy")]
 visible = false
 z_as_relative = false
 offset_right = 1920.0
 offset_bottom = 1080.0
 insideLevel = "Tutorial 1"
 
-[node name="Stage Passed Menu" parent="." instance=ExtResource("9_sbkxt")]
+[node name="Stage Passed Menu" parent="." instance=ExtResource("9_ssn57")]
 visible = false
 z_index = 1
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="Game Over Menu" parent="." instance=ExtResource("10_tvgy1")]
+[node name="Game Over Menu" parent="." instance=ExtResource("10_xwxsl")]
 visible = false
 z_index = 1
 offset_right = 1920.0
@@ -140,7 +140,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 metadata/_edit_lock_ = true
 
-[node name="Upgrade Menu" parent="." instance=ExtResource("11_t1n37")]
+[node name="Upgrade Menu" parent="." instance=ExtResource("11_8bi7p")]
 visible = false
 z_index = 2
 offset_right = 1920.0
@@ -167,8 +167,8 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.0
 fill_mode = 4
-texture_under = ExtResource("12_7a0bw")
-texture_progress = ExtResource("12_7a0bw")
+texture_under = ExtResource("12_we2w3")
+texture_progress = ExtResource("12_we2w3")
 tint_under = Color(0, 0, 0, 0.117647)
 tint_progress = Color(0.653105, 0.644694, 0.81381, 1)
 
@@ -208,7 +208,7 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.24
 theme_override_constants/outline_size = 10
-theme_override_fonts/normal_font = ExtResource("13_t1n37")
+theme_override_fonts/normal_font = ExtResource("13_4kisa")
 theme_override_font_sizes/normal_font_size = 40
 text = "Guardian"
 horizontal_alignment = 1
@@ -217,15 +217,15 @@ vertical_alignment = 1
 [node name="Guardian" type="TextureRect" parent="PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("13_3d1rq")
+texture = ExtResource("14_rxgvf")
 expand_mode = 3
 stretch_mode = 5
 
 [node name="DialogueBox" type="RichTextLabel" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/normal_font = ExtResource("15_7a0bw")
-theme_override_fonts/italics_font = ExtResource("16_3d1rq")
+theme_override_fonts/normal_font = ExtResource("15_wfa2t")
+theme_override_fonts/italics_font = ExtResource("16_46tuc")
 theme_override_font_sizes/italics_font_size = 25
 theme_override_font_sizes/normal_font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxEmpty_rkuhi")
@@ -246,7 +246,7 @@ offset_left = 860.0
 offset_top = 24.0
 offset_right = 1060.0
 offset_bottom = 104.0
-theme_override_fonts/font = ExtResource("15_7a0bw")
+theme_override_fonts/font = ExtResource("15_wfa2t")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxFlat_0afkn")
 shortcut = SubResource("Shortcut_7a0bw")

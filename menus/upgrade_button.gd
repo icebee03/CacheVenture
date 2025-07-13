@@ -9,9 +9,9 @@ var timer:Timer = Timer.new()
 
 signal upgrade_bought(price : int)
 
-const progressBarNotOwned:StyleBoxFlat = preload("res://menus/progressBarFillStyleboxNotOwned.tres")
-const buttonNotEnoughCoins :StyleBoxFlat = preload("res://menus/upgradeButtonNotEnoughCoins.tres")
-const buttonEnoughCoins :StyleBoxFlat = preload("res://menus/upgradeButton.tres")
+const progressBarNotOwned:StyleBoxFlat = preload("res://menus/themes/upgrade_progressBarFillStyleboxNotOwned.tres")
+const buttonNotEnoughCoins :StyleBoxFlat = preload("res://menus/themes/upgrade_ButtonNotEnoughCoins.tres")
+const buttonEnoughCoins :StyleBoxFlat = preload("res://menus/themes/upgrade_Button.tres")
 
 var too_poor:bool = false
 

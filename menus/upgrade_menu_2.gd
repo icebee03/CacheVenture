@@ -36,8 +36,8 @@ var upgrade_type : String
 @onready var blocksizeUpgrades = $"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Block Size Upgrades"
 @onready var associativityUpgrades = $"VBox/Bottom/Left Side/VBoxContainer/Upgrade Options/Associativity Upgrades"
 const UpgradeTemplate = preload("res://menus/upgrade_template.tscn")
-const UpgradeNotBoughtStylebox = preload("res://menus/upgradeNotBought.tres")
-const UpgradeBoughtStylebox = preload("res://menus/upgradeBought.tres")
+const UpgradeNotBoughtStylebox = preload("res://menus/themes/upgrade_NotBought.tres")
+const UpgradeBoughtStylebox = preload("res://menus/themes/upgrade_Bought.tres")
 
 
 

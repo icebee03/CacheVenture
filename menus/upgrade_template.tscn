@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cf5avdttd3swx"]
 
-[ext_resource type="StyleBox" uid="uid://be4koidw1ucw3" path="res://menus/upgradeBought.tres" id="1_cgu63"]
+[ext_resource type="StyleBox" uid="uid://be4koidw1ucw3" path="res://menus/themes/upgrade_Bought.tres" id="1_cgu63"]
 [ext_resource type="Script" uid="uid://cijxaucfpo3a7" path="res://menus/upgrade_template.gd" id="1_r1132"]
 [ext_resource type="Theme" uid="uid://c7twfhvgk41th" path="res://menus/themes/upgradeOption.tres" id="2_382uh"]
 

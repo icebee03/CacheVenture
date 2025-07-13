@@ -1,3 +1,6 @@
+# global.gd
+# Used in autoload, provides level statistics, upgrades, and the survey token 
+
 extends Node
 
 signal displayToken

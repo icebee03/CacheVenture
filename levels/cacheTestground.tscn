@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvemru28kibw5"]
 
-[ext_resource type="Script" uid="uid://chcmh6jxsbvpk" path="res://cache_testground.gd" id="1_cdvai"]
-[ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://Cache.tscn" id="2_4jdo0"]
+[ext_resource type="Script" uid="uid://chcmh6jxsbvpk" path="res://levels/cache_testground.gd" id="1_cdvai"]
+[ext_resource type="PackedScene" uid="uid://b6ldy6xgaj1c2" path="res://objects/Cache.tscn" id="2_4jdo0"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_cdvai")
